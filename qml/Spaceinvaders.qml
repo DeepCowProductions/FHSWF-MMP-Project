@@ -11,6 +11,7 @@ GameSceen {
     height: 480
 
     //### FOR USE TO CHECK IF TABLET OR SMARTPHONE
+    //### additional comment
     property bool isPortrait: width < height
 
     property alias leftButton: leftButton
