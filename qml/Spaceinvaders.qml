@@ -10,7 +10,7 @@ GameSceen {
     width: 640
     height: 480
 
-    //### FOR USE TO CHECK WHICH ORIENTATION THE USER USES
+    //### FOR USE TO CHECK IF TABLET OR SMARTPHONE
     property bool isPortrait: width < height
 
     property alias leftButton: leftButton
