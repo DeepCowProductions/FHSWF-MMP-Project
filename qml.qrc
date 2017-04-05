@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/Spaceinvaders.qml</file>
+        <file>qml/MoveButton.qml</file>
+        <file>qml/Glossy.qml</file>
+        <file>qml/PlayButton.qml</file>
+        <file>qml/InfoButton.qml</file>
+        <file>qml/Startpage.qml</file>
+        <file>qml/RadialGlossy.qml</file>
+        <file>qml/CloseButton.qml</file>
+        <file>qml/SettingsButton.qml</file>
+        <file>qml/SettingsPage.qml</file>
+        <file>qml/InformationPage.qml</file>
+        <file>qml/BackButton.qml</file>
+    </qresource>
+</RCC>

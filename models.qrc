@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="spaceship1">models/spaceship/spaceship.obj</file>
+        <file alias="spaceship2">models/spaceship/spaceship2.obj</file>
+    </qresource>
+</RCC>
