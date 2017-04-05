@@ -1,0 +1,14 @@
+leider nich so viel geschafft wie ich eigentlich wollte...
+einfache besegung geht zwar is aber nich so toll, 
+	is wahrscheinlich besser das ähnlich wie bei roth zu machen und das event wenn es eines gab im sync auszu werten.
+teoretisch sollten auch nicht alle vetiecies mit move bewegt werden sonder nur die mv-matrix pro zu renderdem objekt
+
+
+in qml.qrc die spaceinvaders sceen is die "neue"
+
+der alte kram is noch drin weil man weis ja nie...
+ansonsten hab ich den source code ein bischen sortiert.
+
+globjekts sind alle klassen die von glbody erben.
+glcore sind alle klassen zum rendern und so
+game ist spiellogik und unser qml widgtet bzw die sceen für das spiel

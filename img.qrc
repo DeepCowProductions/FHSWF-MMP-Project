@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="startship">qml/img/startpic.png</file>
+        <file alias="title">qml/img/title.png</file>
+        <file alias="life">qml/img/spaceshipLife.png</file>
+        <file alias="2xPnts">qml/img/powerup icons/2xPnt.png</file>
+        <file alias="2xShot">qml/img/powerup icons/2xShot.png</file>
+        <file alias="3xShot">qml/img/powerup icons/3xShot.png</file>
+        <file alias="10xPnts">qml/img/powerup icons/10xPnt.png</file>
+        <file alias="undestroyable">qml/img/powerup icons/undestroyable.png</file>
+    </qresource>
+</RCC>
