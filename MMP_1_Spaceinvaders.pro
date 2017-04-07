@@ -85,4 +85,4 @@ HEADERS += \
     src/game/gameentity.h \
     src/game/smallenemy.h \
     src/globjects/glbullet.h \
-    src/globjects/spaceship.h
+    src/game/spaceship.h
