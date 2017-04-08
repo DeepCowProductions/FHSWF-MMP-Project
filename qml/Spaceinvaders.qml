@@ -11,7 +11,7 @@ GameSceen {
     height: 480
 
     //### FOR USE TO CHECK IF TABLET OR SMARTPHONE
-    property bool isPortrait: width < height
+    property alias isTablet: mainForm.isTablet
 
     property alias leftButton: leftButton
     property alias rightButton: rightButton
@@ -26,23 +26,21 @@ GameSceen {
     }
 
     /**
-      * For checking which orientation, for Tablet
+      * For checking if Tablet or Smartphone
       */
-    function checkOrientation() {
-        isPortrait = width < height
-        if(isPortrait)
+    function checkTabletOrSmartPhone() {
+        if(!isTablet)
             state = "Portrait";
-        else if (!isPortrait)
+        else if (isTablet)
             state = "Landscape";
-        orientation = isPortrait;
     }
 
     //### WHEN WIDTH OR HEIGHT WAS CHANGED
-    //onWidthChanged: checkOrientation()
-    //onHeightChanged: checkOrientation()
+    //onWidthChanged: checkTabletOrSmartPhone()
+    //onHeightChanged: checkTabletOrSmartPhone()
 
     //### WHEN THE APP IS COMPILED AND AT THE START CHECK ORIENTATION
-    Component.onCompleted: checkOrientation()
+    Component.onCompleted: checkTabletOrSmartPhone()
 
     RowLayout {
         id: bottomRow
@@ -71,7 +69,7 @@ GameSceen {
             PropertyChanges { target: bottomRow; spacing: Screen.pixelDensity * 3 }
         },
         State {
-            name: "Landscape"
+            name: "Landscape" // set standard orientation to landscape
             PropertyChanges { target: bottomRow; spacing: Screen.pixelDensity * 20 }
         }
 

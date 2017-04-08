@@ -1,6 +1,5 @@
 #include "gamesceen.h"
-#include <QQuickWindow>
-#include <QShortcut>
+#include "iostream"
 
 /**
  * @attention A Comment is with ### after // marked and written UPPERCASE.
@@ -9,6 +8,11 @@
 GameSceen::GameSceen(QQuickItem *parent)
     :GLItem(parent)
 {
+#ifdef Q_OS_ANDROID
+    //### Check if is Tablet or Smartphone
+    isTablet();
+#endif
+
     //### SET SHADERS FOR THIS SCEEN
     m_vertexShaderFilename = ":/shaders/vshader.vsh";
     m_fragmentShaderFilename = ":/shaders/fshader.fsh";
@@ -85,6 +89,37 @@ GameSceen::~GameSceen()
     if(m_gameEngine)
         delete m_gameEngine;
 
+}
+
+bool GameSceen::isTablet() {
+    // Compute screen size
+    QDesktopWidget desk;
+    QScreen * screen = QGuiApplication::screens().at(0);
+
+    float pixelWidth  = screen->availableGeometry().width();
+    float pixelHeight = screen->availableGeometry().height();
+
+    float widthDPI = screen->physicalDotsPerInchX();
+    float heightDPI = screen->physicalDotsPerInchY();
+
+    float widthInches = pixelWidth/widthDPI;
+    float heightInches = pixelHeight/heightDPI;
+
+    double diagonalInches = qSqrt((widthInches * widthInches) + (heightInches * heightInches));
+
+    qDebug() << "Screen Size: " + QString::number(diagonalInches);
+
+    bool isTablet;
+    // Tablet devices should have a screen size greater than 6 inches
+    if(diagonalInches > 6) {
+        isTablet = true;
+        setIsTablet(true);
+    }
+    else {
+        isTablet = false;
+        setIsTablet(false);
+    }
+    return isTablet;
 }
 
 
@@ -196,15 +231,6 @@ void GameSceen::setRightKeyPressed(bool rightKeyPressed)
     emit rightKeyPressedChanged(rightKeyPressed);
 }
 
-void GameSceen::setOrientation(bool orientation)
-{
-    if (m_orientation == orientation)
-        return;
-
-    m_orientation = orientation;
-    emit orientationChanged(orientation);
-}
-
 void GameSceen::setFirstLife(bool firstLife)
 {
     if (m_firstLife == firstLife)
@@ -275,7 +301,7 @@ void GameSceen::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Left: case 0x41:
             m_leftKeyPressed = true;
             break;
-        // right and d
+            // right and d
         case Qt::Key_Right: case 0x44 :
             m_rightKeyPressed = true;
             break;

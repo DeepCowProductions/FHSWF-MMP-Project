@@ -9,6 +9,12 @@
 #include "../glcore/shaderdebugger.h"
 #include "../glcore/skyboxrenderer.h"
 #include "gameengine.h"
+#include <QDesktopWidget>
+#include <QScreen>
+#include <QGuiApplication>
+#include <QQuickWindow>
+#include <QShortcut>
+#include <QtMath>
 
 /**
  * @brief The GameSceen class
@@ -21,6 +27,7 @@ class GameSceen : public GLItem
 {
     Q_OBJECT
     //### PROPERTIES OF THE SPACEINVADERS.QML FOR INTERACTING
+    Q_PROPERTY(bool isTablet READ isTablet WRITE setIsTablet NOTIFY isTabletChanged)
     Q_PROPERTY(bool shotButtonPressed READ shotButtonPressed WRITE setShotButtonPressed NOTIFY shotButtonPressedChanged)
     Q_PROPERTY(bool firstLife READ firstLife WRITE setFirstLife NOTIFY firstLifeChanged)
     Q_PROPERTY(bool secLife READ secLife WRITE setSecLife NOTIFY secLifeChanged)
@@ -28,7 +35,6 @@ class GameSceen : public GLItem
     Q_PROPERTY(int score READ score WRITE setScore NOTIFY scoreChanged)
     Q_PROPERTY(bool leftKeyPressed READ leftKeyPressed WRITE setLeftKeyPressed NOTIFY leftKeyPressedChanged)
     Q_PROPERTY(bool rightKeyPressed READ rightKeyPressed WRITE setRightKeyPressed NOTIFY rightKeyPressedChanged)
-    Q_PROPERTY(bool orientation READ orientation WRITE setOrientation NOTIFY orientationChanged)
     Q_PROPERTY(bool runGameLoop READ runGameLoop WRITE setRunGameLoop NOTIFY runGameLoopChanged)
 
 public:
@@ -40,6 +46,13 @@ public:
      */
     GameSceen(QQuickItem *parent = 0);
     ~GameSceen();
+
+    /**
+     * @brief isTablet for use in this class to detect, if is a Tablet or Smartphone(is used for QML)
+     * @return
+     */
+    bool isTablet();
+
     int keyCounter =0;
 
     /**
@@ -61,7 +74,6 @@ public:
      *
      * @return boolean value
      */
-    bool orientation() const {   return m_orientation;    }
 
     bool firstLife() const {   return m_firstLife;    }
 
@@ -121,7 +133,6 @@ public slots:
      *
      * @param orientation bool
      */
-    void setOrientation(bool orientation);
 
     void setFirstLife(bool firstLife);
 
@@ -143,13 +154,20 @@ public slots:
         emit shotButtonPressedChanged(shotButtonPressed);
     }
 
+    void setIsTablet(bool isTablet)
+    {
+        if (m_isTablet == isTablet)
+            return;
+
+        m_isTablet = isTablet;
+        emit isTabletChanged(isTablet);
+    }
+
 signals:
 
     void leftKeyPressedChanged(bool leftKeyPressed);
 
     void rightKeyPressedChanged(bool rightKeyPressed);
-
-    void orientationChanged(bool orientation);
 
     void firstLifeChanged(bool firstLife);
 
@@ -162,6 +180,8 @@ signals:
     void runGameLoopChanged(bool runGameLoop);
 
     void shotButtonPressedChanged(bool shotButtonPressed);
+
+    void isTabletChanged(bool isTablet);
 
 protected:
 //    bool eventFilter(QObject *obj, QEvent *event);
@@ -267,7 +287,7 @@ protected:
     /**
      * @brief m_orientation flag for the orentation of the mobile phone
      */
-    bool m_orientation;
+    bool m_isTablet;
     bool m_firstLife;
     bool m_secLife;
     bool m_thirdLife;
