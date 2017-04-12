@@ -119,6 +119,23 @@ bool GameSceen::isTablet() {
         isTablet = false;
         setIsTablet(false);
     }
+
+    /*float width = screen->physicalSize().width();
+    float height = screen->physicalSize().height();
+
+    double diagonalInches = qSqrt((width*width)+(height*height));
+    qDebug() << "Screen Size: " + QString::number(diagonalInches/25.4);
+
+    bool isTablet;
+    // Tablet devices should have a screen size greater than 6 inches
+    if(diagonalInches > 6) {
+        isTablet = true;
+        setIsTablet(true);
+    }
+    else {
+        isTablet = false;
+        setIsTablet(false);
+    }*/
     return isTablet;
 }
 

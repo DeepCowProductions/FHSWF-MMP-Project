@@ -37,6 +37,47 @@ Button {
                     ctx.stroke();
 
                     ctx.globalCompositeOperation= "xor";
+
+                    ctx.lineWidth = 7;
+
+                    ctx.beginPath();
+                    ctx.arc(parent.width*0.5,parent.height*0.5, 10, 0, 2 * Math.PI, false);
+                    ctx.stroke();
+
+                    ctx.lineWidth = 2;
+
+                    ctx.beginPath();
+                    ctx.moveTo(parent.width*0.5 - 6.5,parent.height*0.5 - 11.91);
+                    ctx.lineTo(parent.width*0.5 - 5,parent.height*0.5 - 20);
+                    ctx.lineTo(parent.width*0.5 + 5,parent.height*0.5 - 20);
+                    ctx.lineTo(parent.width*0.5 + 6.5,parent.height*0.5 - 11.91);
+
+                    ctx.moveTo(parent.width*0.5 + 6.6,parent.height*0.5 - 12.01);
+                    ctx.lineTo(parent.width*0.5 + 13,parent.height*0.5 - 15.01);
+                    ctx.lineTo(parent.width*0.5 + 18.5,parent.height*0.5 - 7.01);
+                    ctx.lineTo(parent.width*0.5 + 12.8,parent.height*0.5 - 0.01);
+
+                    ctx.moveTo(parent.width*0.5 + 13.5,parent.height*0.5 - 0.01);
+                    ctx.lineTo(parent.width*0.5 + 20.5,parent.height*0.5 + 3.21);
+                    ctx.lineTo(parent.width*0.5 + 17.5,parent.height*0.5 + 11.51);
+                    ctx.lineTo(parent.width*0.5 + 7.2,parent.height*0.5 + 11.51);
+
+                    ctx.moveTo(parent.width*0.5 + 7.3,parent.height*0.5 + 11.51);
+                    ctx.lineTo(parent.width*0.5 + 6.5,parent.height*0.5 + 19.21);
+                    ctx.lineTo(parent.width*0.5 - 5,parent.height*0.5 + 19.21);
+                    ctx.lineTo(parent.width*0.5 - 6.5,parent.height*0.5 + 11.51);
+
+                    ctx.moveTo(parent.width*0.5 - 6.6,parent.height*0.5 + 11.51);
+                    ctx.lineTo(parent.width*0.5 - 17,parent.height*0.5 + 13.01);
+                    ctx.lineTo(parent.width*0.5 - 20,parent.height*0.5 + 4.51);
+                    ctx.lineTo(parent.width*0.5 - 13.2,parent.height*0.5 - 0.21);
+
+                    ctx.moveTo(parent.width*0.5 - 13.3,parent.height*0.5 - 0.21);
+                    ctx.lineTo(parent.width*0.5 - 20.5,parent.height*0.5 - 6.01);
+                    ctx.lineTo(parent.width*0.5 - 14.5,parent.height*0.5 - 14.51);
+                    ctx.lineTo(parent.width*0.5 - 6.5,parent.height*0.5 - 11.91);
+                    //ctx.fill();
+                    ctx.stroke();
                 }
             }
             RadialGlossy {

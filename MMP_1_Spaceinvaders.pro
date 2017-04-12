@@ -86,3 +86,9 @@ HEADERS += \
     src/game/smallenemy.h \
     src/globjects/glbullet.h \
     src/game/spaceship.h
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/res/values/libs.xml
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
