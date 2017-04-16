@@ -61,6 +61,11 @@ GameSceen::GameSceen(QQuickItem *parent)
 
     //### init gameEngine
     m_gameEngine = new GameEngine(this);
+
+    //### init SoundEngine
+    m_soundEngine = new SoundEngine(this);
+    m_soundEngine->loadSound(":/gameSound");
+    m_soundEngine->setEnabled(true);
     
     //### INIT TIMER
     m_timer_gameloop = new QTimer(this);
@@ -208,8 +213,10 @@ void GameSceen::gameLoopTimeout()
 #endif
 
     //### fehlt noch das controll
-    if (m_spaceKeyPressed || m_shotButtonPressed)
+    if (m_spaceKeyPressed || m_shotButtonPressed) {
         gameEngine()->shootWithPlayerShip();
+        //scoresUp(10);
+    }
 
 
     //### move all NPC entities with this call
@@ -498,6 +505,11 @@ void GameSceen::doSynchronizeThreads()
         m_lastMouseEvent->setAccepted(true);
     }
 
+}
+
+void GameSceen::scoresUp(int scorePoints)
+{
+    setScore(score() + scorePoints);
 }
 
 GameEngine *GameSceen::gameEngine() const

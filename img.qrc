@@ -8,5 +8,8 @@
         <file alias="3xShot">qml/img/powerup icons/3xShot.png</file>
         <file alias="10xPnts">qml/img/powerup icons/10xPnt.png</file>
         <file alias="undestroyable">qml/img/powerup icons/undestroyable.png</file>
+        <file alias="knobbackground">qml/img/switch/background.svg</file>
+        <file alias="knob">qml/img/switch/knob.png</file>
+        <file alias="knob2">qml/img/switch/knob.svg</file>
     </qresource>
 </RCC>

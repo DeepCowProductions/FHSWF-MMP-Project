@@ -16,5 +16,7 @@
         <file>qml/GameBar.qml</file>
         <file>qml/PauseButton.qml</file>
         <file>qml/ShotButton.qml</file>
+        <file>qml/Switch.qml</file>
+        <file>qml/Switchslide.qml</file>
     </qresource>
 </RCC>

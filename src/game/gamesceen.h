@@ -8,6 +8,7 @@
 #include "../globjects/glskybox.h"
 #include "../glcore/shaderdebugger.h"
 #include "../glcore/skyboxrenderer.h"
+#include "../sound/soundengine.h"
 #include "gameengine.h"
 #include <QDesktopWidget>
 #include <QScreen>
@@ -27,6 +28,7 @@ class GameSceen : public GLItem
 {
     Q_OBJECT
     //### PROPERTIES OF THE SPACEINVADERS.QML FOR INTERACTING
+    Q_PROPERTY(bool musicOn READ musicOn WRITE setMusicOn NOTIFY musicOnChanged)
     Q_PROPERTY(bool isTablet READ isTablet WRITE setIsTablet NOTIFY isTabletChanged)
     Q_PROPERTY(bool shotButtonPressed READ shotButtonPressed WRITE setShotButtonPressed NOTIFY shotButtonPressedChanged)
     Q_PROPERTY(bool firstLife READ firstLife WRITE setFirstLife NOTIFY firstLifeChanged)
@@ -90,6 +92,11 @@ public:
     bool shotButtonPressed() const
     {
         return m_shotButtonPressed;
+    }
+
+    bool musicOn() const
+    {
+        return m_musicOn;
     }
 
 public slots:
@@ -163,6 +170,16 @@ public slots:
         emit isTabletChanged(isTablet);
     }
 
+    void setMusicOn(bool musicOn)
+    {
+        if (m_musicOn == musicOn)
+            return;
+
+
+        m_musicOn = musicOn;
+        emit musicOnChanged(musicOn);
+    }
+
 signals:
 
     void leftKeyPressedChanged(bool leftKeyPressed);
@@ -183,8 +200,10 @@ signals:
 
     void isTabletChanged(bool isTablet);
 
+    void musicOnChanged(bool musicOn);
+
 protected:
-//    bool eventFilter(QObject *obj, QEvent *event);
+    //    bool eventFilter(QObject *obj, QEvent *event);
     /**
      * @brief mousePressEvent GUI thread mousePress handler
      *
@@ -260,7 +279,7 @@ protected:
      */
     virtual void doSynchronizeThreads();
 
-
+    void scoresUp(int scorePoints);
 
     bool m_runGameLoop;
 
@@ -293,6 +312,7 @@ protected:
     bool m_thirdLife;
     int m_score;
     bool m_shotButtonPressed;
+    bool m_musicOn;
 
     //### GLOBAL ROTATION ANGLE
     QMatrix4x4 m_guiThreadCameraMatrix;
@@ -330,6 +350,8 @@ protected:
     //### extra rnderers
     SkyBoxRenderer * m_SkyBoxRenderer = nullptr;
 
+    //Sound
+    SoundEngine * m_soundEngine;
 
     //### lighting ?
     bool m_pointLightEnabled = false;
