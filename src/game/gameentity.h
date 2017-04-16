@@ -6,6 +6,10 @@
 #include "definesandconstants.h"
 
 
+/*
+ * defines which collision detection should be used by GameEntity's collision.
+ */
+enum class CollisionType {AABB, SPHERE, AABB_SPHERE};
 //### forward decleration for class GameEngine to avoid circle inclusion.
 class GameEngine;
 /**

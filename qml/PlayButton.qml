@@ -14,6 +14,7 @@ Button {
     //### SET STYLE OF BUTTON
     style: ButtonStyle {
         background: Rectangle {
+            id: buttonRect
             implicitHeight: 65
             implicitWidth: 65
             radius: 50

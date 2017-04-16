@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
+<<<<<<< HEAD
 <!-- Written by QtCreator 4.2.1, 2017-04-16T15:39:12. -->
+=======
+<!-- Written by QtCreator 4.1.0, 2017-04-16T15:32:30. -->
+>>>>>>> 192887b571a37852c62c7d52b1b3795333aade93
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -306,7 +310,11 @@
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">MMP_1_Spaceinvaders</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+<<<<<<< HEAD
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/student/Development/workspace/MMP_1_Spaceinvaders/FHSWF-MMP-Project/MMP_1_Spaceinvaders.pro</value>
+=======
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/student/FHSWF-MMP-Project/MMP_1_Spaceinvaders.pro</value>
+>>>>>>> 192887b571a37852c62c7d52b1b3795333aade93
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">MMP_1_Spaceinvaders.pro</value>

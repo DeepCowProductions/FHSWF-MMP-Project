@@ -1,6 +1,5 @@
 #include "gamesceen.h"
-#include <QQuickWindow>
-#include <QShortcut>
+#include "iostream"
 
 /**
  * @attention A Comment is with ### after // marked and written UPPERCASE.
@@ -9,6 +8,11 @@
 GameSceen::GameSceen(QQuickItem *parent)
     :GLItem(parent)
 {
+#ifdef Q_OS_ANDROID
+    //### Check if is Tablet or Smartphone
+    isTablet();
+#endif
+
     //### SET SHADERS FOR THIS SCEEN
     m_vertexShaderFilename = ":/shaders/vshader.vsh";
     m_fragmentShaderFilename = ":/shaders/fshader.fsh";
@@ -50,13 +54,14 @@ GameSceen::GameSceen(QQuickItem *parent)
     m_skybox->setTextureFile(":/starfield");
 #endif
     m_lastMouseEvent = NULL;
-    
-    //### INIT SPACESHIP
-    m_spaceship = new GLSpaceShip("3D Spaceship");
-    m_spaceship->setTextureFile(":/spaceshipTex"); // use alias
 
     //### init gameEngine
     m_gameEngine = new GameEngine(this);
+
+    //### init SoundEngine
+    m_soundEngine = new SoundEngine(this);
+    m_soundEngine->loadSound(":/gamesound");
+    //m_soundEngine->setEnabled(true);
     
     //### INIT TIMERS
     m_timer_gameloop = new QTimer(this);
@@ -82,6 +87,54 @@ GameSceen::~GameSceen()
     if(m_gameEngine)
         delete m_gameEngine;
 
+}
+
+bool GameSceen::isTablet() {
+    // Compute screen size
+    QDesktopWidget desk;
+    QScreen * screen = QGuiApplication::screens().at(0);
+
+    float pixelWidth  = screen->availableGeometry().width();
+    float pixelHeight = screen->availableGeometry().height();
+
+    float widthDPI = screen->physicalDotsPerInchX();
+    float heightDPI = screen->physicalDotsPerInchY();
+
+    float widthInches = pixelWidth/widthDPI;
+    float heightInches = pixelHeight/heightDPI;
+
+    double diagonalInches = qSqrt((widthInches * widthInches) + (heightInches * heightInches));
+
+    qDebug() << "Screen Size: " + QString::number(diagonalInches);
+
+    bool isTablet;
+    // Tablet devices should have a screen size greater than 6 inches
+    if(diagonalInches > 6) {
+        isTablet = true;
+        setIsTablet(true);
+    }
+    else {
+        isTablet = false;
+        setIsTablet(false);
+    }
+
+    /*float width = screen->physicalSize().width();
+    float height = screen->physicalSize().height();
+
+    double diagonalInches = qSqrt((width*width)+(height*height));
+    qDebug() << "Screen Size: " + QString::number(diagonalInches/25.4);
+
+    bool isTablet;
+    // Tablet devices should have a screen size greater than 6 inches
+    if(diagonalInches > 6) {
+        isTablet = true;
+        setIsTablet(true);
+    }
+    else {
+        isTablet = false;
+        setIsTablet(false);
+    }*/
+    return isTablet;
 }
 
 
@@ -153,8 +206,10 @@ void GameSceen::gameLoopTimeout()
 #endif
 
     //### fehlt noch das controll
-    if (m_spaceKeyPressed || m_shotButtonPressed)
+    if (m_spaceKeyPressed || m_shotButtonPressed) {
         gameEngine()->shootWithPlayerShip();
+        //scoresUp(10);
+    }
 
 
     //### move all NPC entities with this call
@@ -191,15 +246,6 @@ void GameSceen::setRightKeyPressed(bool rightKeyPressed)
 
     m_rightKeyPressed = rightKeyPressed;
     emit rightKeyPressedChanged(rightKeyPressed);
-}
-
-void GameSceen::setOrientation(bool orientation)
-{
-    if (m_orientation == orientation)
-        return;
-
-    m_orientation = orientation;
-    emit orientationChanged(orientation);
 }
 
 void GameSceen::setFirstLife(bool firstLife)
@@ -272,7 +318,7 @@ void GameSceen::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Left: case 0x41:
             m_leftKeyPressed = true;
             break;
-        // right and d
+            // right and d
         case Qt::Key_Right: case 0x44 :
             m_rightKeyPressed = true;
             break;
@@ -452,6 +498,11 @@ void GameSceen::doSynchronizeThreads()
         m_lastMouseEvent->setAccepted(true);
     }
 
+}
+
+void GameSceen::scoresUp(int scorePoints)
+{
+    setScore(score() + scorePoints);
 }
 
 GameEngine *GameSceen::gameEngine() const

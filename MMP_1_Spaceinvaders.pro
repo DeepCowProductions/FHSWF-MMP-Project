@@ -29,6 +29,7 @@ SOURCES += src/main.cpp \
     src/globjects/glbullet.cpp \
     src/game/spaceship.cpp \
     src/game/collisionbox.cpp
+    src/sound/qgamemusicengine.cpp
 
 RESOURCES += qml.qrc \
     shaders.qrc \
@@ -89,3 +90,10 @@ HEADERS += \
     src/game/spaceship.h \
     src/game/collisionbox.h \
     src/game/definesandconstants.h
+    src/sound/qgamemusicengine.h
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/res/values/libs.xml
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
