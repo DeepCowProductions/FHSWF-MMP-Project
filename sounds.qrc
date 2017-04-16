@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="gamesound">sounds/knock22050.wav</file>
-        <file>sounds/Jamie Nord - Sigma Draconis.mp3</file>
+        <file>sounds/knock22050.wav</file>
+        <file alias="gamesound">sounds/GameSound.mp3</file>
     </qresource>
 </RCC>

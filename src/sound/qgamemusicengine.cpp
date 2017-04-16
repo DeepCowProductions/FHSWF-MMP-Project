@@ -1,4 +1,7 @@
 #include "qgamemusicengine.h"
+#include "QUrl"
+#include "QMediaContent"
+#include "QFileInfo"
 
 QGameMusicEngine::QGameMusicEngine(QObject *parent) : QObject(parent)
 {
@@ -16,12 +19,13 @@ bool QGameMusicEngine::loadGameMusic(const QString &fileName)
     qDebug() << "QGameMusicEngine::loadGameMusic loading sound: " << fileName;
 #endif
     playlist = new QMediaPlaylist();
-    playlist->addMedia(QUrl(fileName));
+    playlist->addMedia(QMediaContent(QUrl::fromLocalFile(QFileInfo(fileName).absoluteFilePath())));
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
 
     if(playlist->playbackMode() != QMediaPlaylist::Loop) {
         qDebug() << "QGameMusicEngine::loadGameMusic something went wrong by setting the PlayBackMode";
     }
+    enabled = true;
     return true;
 }
 
@@ -32,10 +36,12 @@ void QGameMusicEngine::playGameMusic()
             qDebug() << "QGameMusicEngine::playGameMusic: " << playlist->errorString();
         }
         else {
-            player = new QMediaPlayer();
+            player = new QMediaPlayer(this);
             player->setPlaylist(playlist);
-            if(player->playlist() != null)
+            if(player->playlist() != NULL)
                 player->play();
+            player->setVolume(100);
+            qDebug() << player->errorString();
         }
     }
 }
@@ -44,8 +50,6 @@ void QGameMusicEngine::stopGameMusic()
 {
     if(player->state() == QMediaPlayer::PlayingState) {
         player->stop();
-        qDebug() << "Clear playlist: " << playlist->clear();
-        qDebug() << "Media in playlist: " << playlist->mediaCount();
     }
 }
 
@@ -64,4 +68,10 @@ bool QGameMusicEngine::isPlaying()
     if(player->mediaStatus() == QMediaPlayer::NoMedia)
         return false;
     return true;
+}
+
+void QGameMusicEngine::clearPlayList()
+{
+    qDebug() << "Clear playlist: " << playlist->clear();
+    qDebug() << "Media in playlist: " << playlist->mediaCount();
 }

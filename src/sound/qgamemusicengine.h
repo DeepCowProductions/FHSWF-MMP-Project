@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
+#include <QFile>
 
 /**
  * @brief The QGameMusicEngine class for the gamemusic in Space Invaders
@@ -47,6 +48,8 @@ public slots:
      * @return True, if the gamemusic is playing
      */
     bool isPlaying();
+
+    void clearPlayList();
 
 private:
     bool enabled;

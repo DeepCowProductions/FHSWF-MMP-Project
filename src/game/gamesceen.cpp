@@ -59,9 +59,14 @@ GameSceen::GameSceen(QQuickItem *parent)
     m_gameEngine = new GameEngine(this);
 
     //### init SoundEngine
-    m_soundEngine = new SoundEngine(this);
-    m_soundEngine->loadSound(":/gamesound");
+    //m_soundEngine = new SoundEngine(this);
+    //m_soundEngine->loadSound(":/gamesound");
     //m_soundEngine->setEnabled(true);
+
+    //### init GameMusicEngine
+    m_gameMusicEngine = new QGameMusicEngine();
+    m_gameMusicEngine->loadGameMusic(":/gamesound");
+    m_gameMusicEngine->playGameMusic();
     
     //### INIT TIMERS
     m_timer_gameloop = new QTimer(this);
