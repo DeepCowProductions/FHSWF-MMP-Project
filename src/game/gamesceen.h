@@ -148,6 +148,12 @@ public slots:
      */
     void onPlayershipHit(int value);
 
+    void setShotButtonPressed(bool shotButtonPressed);
+
+    void setIsTablet(bool isTablet);
+
+    void setMusicOn(bool musicOn);
+
 signals:
 
     void leftKeyPressedChanged(bool leftKeyPressed);

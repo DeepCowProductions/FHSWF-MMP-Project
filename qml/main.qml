@@ -23,6 +23,7 @@ ApplicationWindow {
         leftKeyPressed: leftButton.pressed
         rightKeyPressed: rightButton.pressed
         shotButtonPressed: shotButton.pressed
+        musicOn: settingsPage.musicOn
     }
 
 //    SignalSpy {

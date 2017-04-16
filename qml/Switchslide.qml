@@ -4,18 +4,19 @@ Rectangle {
     color: "grey"
     width: 130; height: 60
     radius: 25
+    property alias musicOn: s.on
 
     Switch {
         id: s
         anchors.centerIn: parent
-        on: true
+        on: false
     }
     Text {
         id: isOn
-        text: s.musicOn ? qsTr("On") : qsTr("Off")
+        text: s.on ? qsTr("On") : qsTr("Off")
         anchors.top: s.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        color: s.musicOn ? "green" : "red"
+        color: s.on ? "green" : "red"
         font.pointSize: 12
     }
 }

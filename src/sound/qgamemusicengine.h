@@ -55,7 +55,6 @@ private:
     bool enabled;
     QMediaPlaylist *playlist;
     QMediaPlayer *player;
-
 };
 
 #endif // QGAMEMUSICENGINE_H

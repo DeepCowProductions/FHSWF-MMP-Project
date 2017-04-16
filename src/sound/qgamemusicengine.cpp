@@ -19,13 +19,12 @@ bool QGameMusicEngine::loadGameMusic(const QString &fileName)
     qDebug() << "QGameMusicEngine::loadGameMusic loading sound: " << fileName;
 #endif
     playlist = new QMediaPlaylist();
-    playlist->addMedia(QMediaContent(QUrl::fromLocalFile(QFileInfo(fileName).absoluteFilePath())));
+    playlist->addMedia(QUrl::fromLocalFile(QFileInfo(fileName).absoluteFilePath()));
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
 
     if(playlist->playbackMode() != QMediaPlaylist::Loop) {
         qDebug() << "QGameMusicEngine::loadGameMusic something went wrong by setting the PlayBackMode";
     }
-    enabled = true;
     return true;
 }
 
@@ -40,7 +39,7 @@ void QGameMusicEngine::playGameMusic()
             player->setPlaylist(playlist);
             if(player->playlist() != NULL)
                 player->play();
-            player->setVolume(100);
+            player->setVolume(50);
             qDebug() << player->errorString();
         }
     }
@@ -48,7 +47,7 @@ void QGameMusicEngine::playGameMusic()
 
 void QGameMusicEngine::stopGameMusic()
 {
-    if(player->state() == QMediaPlayer::PlayingState) {
+    if(player->state() == QMediaPlayer::PlayingState && enabled) {
         player->stop();
     }
 }
