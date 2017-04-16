@@ -67,4 +67,14 @@ void GLBullet::makeSurface(QVector<GLPoint> *pointContainer, QVector<GLuint> *in
     findMinMaxCoordinates();
 }
 
+double GLBullet::length() const
+{
+    return m_length;
+}
+
+double GLBullet::diamenter() const
+{
+    return m_diamenter;
+}
+
 

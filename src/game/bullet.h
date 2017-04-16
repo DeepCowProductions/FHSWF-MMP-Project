@@ -8,7 +8,7 @@ class Bullet : public GameEntity
 {
 public:
     Bullet(GameEngine * engine, GLBullet * model);
-    Bullet(GameEngine * engine, GLBullet * model, double v, QVector3D direction, QVector3D location);
+    Bullet(GameEngine * engine, GLBullet * model, double v, QVector3D direction, QVector3D location,TAABB * bb);
 //    ~Bullet();
 
     double velocity() const;

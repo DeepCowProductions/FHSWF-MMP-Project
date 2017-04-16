@@ -29,7 +29,7 @@ GameSceen::GameSceen(QQuickItem *parent)
     m_drawAxes = false;
     m_lightingEnabled = false;
     m_colorArrayEnabled = true;
-    m_lightDirection = QVector3D(1.0, 1.0, 1.0);
+    m_lightDirection = Spaceinvaders::staticLightDirection;
     
     //### RESET THE VIEW
     resetView();
@@ -41,12 +41,12 @@ GameSceen::GameSceen(QQuickItem *parent)
     setFocus(true);
     //ShaderDebugger::setEnabled(true);
     
-    //### SET UP TESTOBJECTS... [...]
+    //### OPTIONAL IF THE OS IS ANDROID OR SOMETHING ELSE
 #ifdef Q_OS_ANDROID
-    m_skybox = new GLSkyBox("MySkyBox",120.0, GLColorRgba::clWhite);
+    m_skybox = new GLSkyBox("MySkyBox",Spaceinvaders::AndroidSkyBoxRadius, GLColorRgba::clWhite);
     m_skybox->setTextureFile(":/starfield");
 #else
-    m_skybox = new GLSkyBox("MySkyBox",60.0, GLColorRgba::clWhite);
+    m_skybox = new GLSkyBox("MySkyBox",Spaceinvaders::DesktopSkyBoxRadius, GLColorRgba::clWhite);
     m_skybox->setTextureFile(":/starfield");
 #endif
     m_lastMouseEvent = NULL;
@@ -58,15 +58,12 @@ GameSceen::GameSceen(QQuickItem *parent)
     //### init gameEngine
     m_gameEngine = new GameEngine(this);
     
-    //### INIT TIMER
+    //### INIT TIMERS
     m_timer_gameloop = new QTimer(this);
-    
-    //### OPTIONAL IF THE OS IS ANDROID OR SOMETHING ELSE
-    qDebug() << "d1";
-    m_timer_gameloop->setInterval(50); // set game to run at 20 ticks per second
+    m_timer_gameloop->setInterval(Spaceinvaders::GameTicksPerSecond); // set game to run at x ticks per second -> one loop every x seconds
     connect(m_timer_gameloop, &QTimer::timeout,
             this, &GameSceen::onTimer_GameLoopTimeout, Qt::DirectConnection);
-    qDebug() << "d1.1";
+    m_timer->setInterval(Spaceinvaders::RenderTicksPerSecond); // draw a frame every x ms with timer in base class
 }
 
 GameSceen::~GameSceen()
@@ -92,13 +89,13 @@ void GameSceen::resetView()
 {
     m_guiThreadCameraMatrix.setToIdentity();
 #ifdef Q_OS_ANDROID
-    m_eye = 80.0 * -QVector3D(0.0,-0.5,1.0);
-    m_near = 10.0;
-    m_far = 400.0;
+    m_eye = Spaceinvaders::AndroidViewVector.x() * Spaceinvaders::ViewDirection;
+    m_near = Spaceinvaders::AndroidViewVector.y();
+    m_far = Spaceinvaders::AndroidViewVector.z();
 #else
-    m_eye = 40.0 * -QVector3D(0.0,-0.5,1.0);
-    m_near = 10.0;
-    m_far = 200.0;
+    m_eye = Spaceinvaders::DesktopViewVector.x() * Spaceinvaders::ViewDirection;
+    m_near = Spaceinvaders::DesktopViewVector.y();
+    m_far = Spaceinvaders::DesktopViewVector.z();
 #endif
     m_spaceKeyPressed = false;
     m_leftKeyPressed = false;

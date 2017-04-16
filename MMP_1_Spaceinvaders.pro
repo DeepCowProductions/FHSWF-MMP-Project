@@ -27,7 +27,8 @@ SOURCES += src/main.cpp \
     src/game/gameentity.cpp \
     src/game/smallenemy.cpp \
     src/globjects/glbullet.cpp \
-    src/game/spaceship.cpp
+    src/game/spaceship.cpp \
+    src/game/collisionbox.cpp
 
 RESOURCES += qml.qrc \
     shaders.qrc \
@@ -85,4 +86,6 @@ HEADERS += \
     src/game/gameentity.h \
     src/game/smallenemy.h \
     src/globjects/glbullet.h \
-    src/globjects/spaceship.h
+    src/game/spaceship.h \
+    src/game/collisionbox.h \
+    src/game/definesandconstants.h

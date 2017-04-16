@@ -2,18 +2,15 @@
 #define GAMEENTITY_H
 
 #include "../glcore/glbody.h"
+#include <QtMath>
+#include "definesandconstants.h"
 
 
-/*
- * defines wich collision detection should be used by GameEntity's collision.
- */
-enum class CollisionType {AABB, SPHERE, AABB_SPHERE};
 //### forward decleration for class GameEngine to avoid circle inclusion.
 class GameEngine;
-
 /**
  * @brief The GameEntity class
- * Base class for storing Game Objects with a GLBody as OpenGL Object Model.
+ * Base class for storing Game Objects with a GLBody reference as VAO Object Model.
  *
  * Class holds a pointer reference to a GLBody Object wich is used for rendering,
  * as well as a specific transformation matrix wich gets applied to the model before rendering.
@@ -44,7 +41,7 @@ class GameEngine;
  *  GameEntity* ent = new GameEntity(myModel);
  * //### setup rendering for frame
  *  ent->snyForRendering();
- *  renderer->bind();     // renderer subclasses or is of type GLESRenderer
+ *  renderer->bind();     // renderer is type GLESRenderer
  *  ent->draw(renderer);
  *  renderer->release();
  * //### finish rendering for frame
@@ -77,9 +74,9 @@ public:
      * @param other GameEnitity, right hand side in regarts to funktion definition.
      * @return true if colliding
      */
-    bool performCollDetection_AABBvsAABB(GameEntity * other);
-    bool performCollDetection_SPHEREvsAABB(GameEntity * other);
-    bool performCollDetection_SPHEREvsSPHERE(GameEntity * other);
+    virtual bool performCollDetection_AABBvsAABB(GameEntity * other);
+    virtual bool performCollDetection_SPHEREvsAABB(GameEntity * other);
+    virtual bool performCollDetection_SPHEREvsSPHERE(GameEntity * other);
 
     CollisionType getCollisionType() const;
     void setCollisionType(const CollisionType &collisionType);
@@ -103,6 +100,9 @@ public:
     //### no setter on purpose!
     GameEngine *engine() const;
 
+    TAABB *getBoundingBox() const;
+    void setBoundingBox(TAABB *boundingBox);
+
 private:
     GameEngine * m_engine;
     GLBody * m_glModel;
@@ -110,6 +110,8 @@ private:
 
     QMatrix4x4 m_guiTransformation; // owned by gui thread
     QMatrix4x4 m_renderTransformation; // owned by render thred to draw the element
+
+    TAABB *m_boundingBox;
 };
 
 #endif // GAMEENTITY_H

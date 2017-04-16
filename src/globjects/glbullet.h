@@ -2,6 +2,7 @@
 #define GLBULLET_H
 
 #include "../glcore/glbody.h"
+#include "../game/definesandconstants.h"
 
 class GLBullet : public GLBody
 {
@@ -20,7 +21,8 @@ public:
     */
     virtual void makeSurface(QVector<GLPoint> * pointContainer, QVector<GLuint> *indexContainer);
 
-
+    double length() const;
+    double diamenter() const;
 
 private:
     double m_length;

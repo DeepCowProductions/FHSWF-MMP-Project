@@ -69,7 +69,7 @@ GLItem::GLItem(QQuickItem *parent,
             this, SLOT(handleWindowChanged(QQuickWindow*)));
     m_geometryIsValid = false; //invalidate geometry, we may need to set it up for the new window
     m_timer = new QTimer(this);
-    m_timer->setInterval(16);
+    m_timer->setInterval(50);
     connect(m_timer, &QTimer::timeout,
             this, &GLItem::onTimerTimeout, Qt::DirectConnection);
     m_guiThreadRotation = 0.0;

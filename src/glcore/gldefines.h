@@ -17,7 +17,6 @@
 #define GLDEFINES_H
 
 #include <QVector3D>
-#include "glcolorrgba.h"
 
 //Predefined vectors
 

@@ -8,6 +8,7 @@
 
 /**
  * @brief The SkySphereRenderer class
+ * NOT IN USE!
  *
  * Renderer for the SkySphere.
  */

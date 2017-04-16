@@ -3,7 +3,7 @@
 
 #include "gameentity.h"
 
-class SmallEnemy : GameEntity
+class SmallEnemy : public GameEntity
 {
 public:
     SmallEnemy(GameEngine * engine, GLBody * model);

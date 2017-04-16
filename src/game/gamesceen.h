@@ -9,6 +9,7 @@
 #include "../glcore/shaderdebugger.h"
 #include "../glcore/skyboxrenderer.h"
 #include "gameengine.h"
+#include "definesandconstants.h"
 
 /**
  * @brief The GameSceen class
