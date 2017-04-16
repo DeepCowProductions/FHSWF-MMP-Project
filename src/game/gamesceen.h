@@ -20,14 +20,14 @@
 /**
  * @brief The GameSceen class
  *
- * @attention A Comment is with ### after // marked and written UPPERCASE.
+ * @attention A Comment is with ### after // marked.
  *
  * @author Kuhmichel(1004128) and Grabelus(10044563)
  */
 class GameSceen : public GLItem
 {
     Q_OBJECT
-    //### PROPERTIES OF THE SPACEINVADERS.QML FOR INTERACTING
+    //### PROPERTIES OF THE SPACEINVADERS. QML FOR INTERACTING
     Q_PROPERTY(bool musicOn READ musicOn WRITE setMusicOn NOTIFY musicOnChanged)
     Q_PROPERTY(bool isTablet READ isTablet WRITE setIsTablet NOTIFY isTabletChanged)
     Q_PROPERTY(bool shotButtonPressed READ shotButtonPressed WRITE setShotButtonPressed NOTIFY shotButtonPressedChanged)
@@ -336,10 +336,7 @@ protected:
 
     //### GameEngine for spaceinvaders
     GameEngine * m_gameEngine = nullptr;
-    /**
-     * @brief m_spaceship the spaceship of the player
-     */
-    GLSpaceShip * m_spaceship = nullptr;
+
     bool etes = true;
 
     //### file locations for shaders

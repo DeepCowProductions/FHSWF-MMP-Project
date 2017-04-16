@@ -54,18 +54,14 @@ GameSceen::GameSceen(QQuickItem *parent)
     m_skybox->setTextureFile(":/starfield");
 #endif
     m_lastMouseEvent = NULL;
-    
-    //### INIT SPACESHIP
-    m_spaceship = new GLSpaceShip("3D Spaceship");
-    m_spaceship->setTextureFile(":/spaceshipTex"); // use alias
 
     //### init gameEngine
     m_gameEngine = new GameEngine(this);
 
     //### init SoundEngine
     m_soundEngine = new SoundEngine(this);
-    m_soundEngine->loadSound(":/gameSound");
-    m_soundEngine->setEnabled(true);
+    m_soundEngine->loadSound(":/gamesound");
+    //m_soundEngine->setEnabled(true);
     
     //### INIT TIMER
     m_timer_gameloop = new QTimer(this);

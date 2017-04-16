@@ -9,28 +9,38 @@ Item {
     width: 640
     height: 480
 
-
-
-    Rectangle {
-        id: rect
+    Image {
+        height: parent.height
+        width: parent.width
+        source: "qrc:/starfield"
+    }
+    ColumnLayout {
+        id: columnLayout
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
+        anchors.bottomMargin: 40
         Text {
-            id: name
-            text: qsTr("Hier ensteht eine Seite mit Einstellungen zum Spiel")
+            id: musicText
+            text: qsTr("Musik: ")
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
+            color: "red"
+            font.pointSize: 24
         }
-        RowLayout {
-            id: buttonRow
-            height: parent.height
-            anchors.horizontalCenter: parent.horizontalCenter
-            BackButton {
-                id: backButton
-                anchors.bottom: parent.bottom
-
-            }
+        Switchslide{
+            id: switchSlide
+            anchors.left: musicText.right
+            anchors.verticalCenter: parent.verticalCenter
+        }
+    }
+    RowLayout {
+        id: buttonRow
+        height: parent.height
+        anchors.horizontalCenter: parent.horizontalCenter
+        BackButton {
+            id: backButton
+            anchors.bottom: parent.bottom
         }
     }
 }
