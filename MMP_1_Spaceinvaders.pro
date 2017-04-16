@@ -27,7 +27,8 @@ SOURCES += src/main.cpp \
     src/game/gameentity.cpp \
     src/game/smallenemy.cpp \
     src/globjects/glbullet.cpp \
-    src/game/spaceship.cpp
+    src/game/spaceship.cpp \
+    src/sound/qgamemusicengine.cpp
 
 RESOURCES += qml.qrc \
     shaders.qrc \
@@ -85,7 +86,8 @@ HEADERS += \
     src/game/gameentity.h \
     src/game/smallenemy.h \
     src/globjects/glbullet.h \
-    src/game/spaceship.h
+    src/game/spaceship.h \
+    src/sound/qgamemusicengine.h
 
 DISTFILES += \
     android/AndroidManifest.xml \

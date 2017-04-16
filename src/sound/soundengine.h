@@ -41,7 +41,7 @@ public slots:
      * @return True, if one of the sounds is playing
      */
     bool isPlaying();
-
+<
 private:
     QMap<QString, QSoundEffect *> m_sounds;
     bool enabled;
