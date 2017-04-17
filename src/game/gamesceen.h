@@ -20,10 +20,15 @@
 
 /**
  * @brief The GameSceen class
+ *  QQuickItem used to display our Spaceinvaders game, to be used within qml.
+ *
+ * This class takes care of some initialisation and primarly the controlls for the game (i.e. user input).
+ *
  *
  * @attention A Comment is with ### after // marked.
  *
- * @author Kuhmichel(1004128) and Grabelus(10044563)
+ * @author Kuhmichel(1004128)
+ * @author Grabelus(10044563)
  */
 class GameSceen : public GLItem
 {
@@ -43,9 +48,7 @@ class GameSceen : public GLItem
 public:
     /**
      * @brief GameSceen
-     * The Constructor where we set all at the beginning of the Game.
-     *
-     * @param parent
+     * Constructor, initialises gamesceen and connects signals.
      */
     GameSceen(QQuickItem *parent = 0);
     ~GameSceen();
@@ -72,49 +75,28 @@ public:
      */
     bool rightKeyPressed() const {   return m_rightKeyPressed;    }
 
-    /**
-     * @brief orientation returns if the smartphone is in portrait or landscape mode
-     *
-     * @return boolean value
-     */
-
     bool firstLife() const {   return m_firstLife;    }
-
     bool secLife() const {   return m_secLife;    }
-
     bool thirdLife() const {   return m_thirdLife;    }
-
     int score() const {   return m_score;    }
-
     bool runGameLoop() const {  return m_runGameLoop;   }
-
     GameEngine *gameEngine() const;
-
-    bool shotButtonPressed() const
-    {
-        return m_shotButtonPressed;
-    }
-
-    bool musicOn() const
-    {
-        return m_musicOn;
-    }
+    bool shotButtonPressed() const;
+    bool musicOn() const    {   return m_musicOn;   }
 
 public slots:
     /**
      * @brief resetView slot for reseting the view.
-     *        Which is only at begin in use, at moment.
-     *        Other moments for use, maybe implemented later.
+     *        Currently only called when setting up the first frame.
+     *        Other moments for use may be implemented later.
      */
     void resetView();
 
     /**
      * @brief gameloopTimeout controlls timedependend operations, seperate from updateWindow().
-     * unused.
      */
     void onTimer_GameLoopTimeout();
     virtual void gameLoopTimeout();
-
     virtual void timerTimeout();
 
     /**
@@ -135,72 +117,40 @@ public slots:
      */
     void setRightKeyPressed(bool rightKeyPressed);
 
-    /**
-     * @brief setOrientation checks if the orientation has changed,
-     *        if yes emit a signal.
-     *
-     * @param orientation bool
-     */
-
     void setFirstLife(bool firstLife);
-
     void setSecLife(bool secLife);
-
     void setThirdLife(bool thirdLife);
-
     void setScore(int score);
-
     void setRunGameLoop(bool runGameLoop);
+    void setShotButtonPressed(bool shotButtonPressed);
+    void setIsTablet(bool isTablet);
+    void setMusicOn(bool musicOn);
 
-
-    void setShotButtonPressed(bool shotButtonPressed)
-    {
-        if (m_shotButtonPressed == shotButtonPressed)
-            return;
-
-        m_shotButtonPressed = shotButtonPressed;
-        emit shotButtonPressedChanged(shotButtonPressed);
-    }
-
-    void setIsTablet(bool isTablet)
-    {
-        if (m_isTablet == isTablet)
-            return;
-
-        m_isTablet = isTablet;
-        emit isTabletChanged(isTablet);
-    }
-
-    void setMusicOn(bool musicOn)
-    {
-        if (m_musicOn == musicOn)
-            return;
-
-
-        m_musicOn = musicOn;
-        emit musicOnChanged(musicOn);
-    }
+    /**
+     * @brief scoresUp adds scorePoints to score property.
+     * uses set score in the process.
+     * @param scorePoints
+     */
+    void scoresUp(int scorePoints);
+    /**
+     * @brief onSmallEnemyKilled supposed to be called when a smallEnemy is killed by the player,
+     *  adds value to score property.
+     * @param value the value of the unit wich was killed.
+     * @param location location of kill (currently unused).
+     */
+    void onSmallEnemyKilled (int value, QVector3D location);
 
 signals:
 
     void leftKeyPressedChanged(bool leftKeyPressed);
-
     void rightKeyPressedChanged(bool rightKeyPressed);
-
     void firstLifeChanged(bool firstLife);
-
     void secLifeChanged(bool secLife);
-
     void thirdLifeChanged(bool thirdLife);
-
     void scoreChanged(int score);
-
     void runGameLoopChanged(bool runGameLoop);
-
     void shotButtonPressedChanged(bool shotButtonPressed);
-
     void isTabletChanged(bool isTablet);
-
     void musicOnChanged(bool musicOn);
 
 protected:
@@ -280,8 +230,8 @@ protected:
      */
     virtual void doSynchronizeThreads();
 
-    void scoresUp(int scorePoints);
 
+private:
     bool m_runGameLoop;
 
     /**

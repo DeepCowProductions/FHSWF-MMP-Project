@@ -51,6 +51,8 @@ public:
     QList<SmallEnemy> enemyConatiner();
 
 signals:
+    void smallEnemyKilled (int value, QVector3D location);
+    void bigEnemyKilled (int value, QVector3D location);
 
 public slots:
 
@@ -78,6 +80,9 @@ private:
     GLBullet * m_glbulletred;
     GLSpaceShip * m_glsppaceship;
     GLSphere * m_glsphere;
+
+    // simple not very good objects for effects
+    GLSphere * m_explosionSphere;
 
     //### boundingBoxes of variusObjects
     TAABB * m_bulletBounding;

@@ -8,6 +8,8 @@ GameEngine::GameEngine(QObject *parent) : QObject(parent)
     m_glsphere = new GLSphere("placeHolder",3.0);
     m_glsppaceship = new GLSpaceShip("3D Spaceship / PlayersShip");
     m_glsppaceship->setTextureFile(":/spaceshipTex"); // use alias
+    m_explosionSphere = new GLSphere("redSphere",3.0,GLColorRgba::clRed);
+
 
     m_bulletBounding = new TAABB(QVector3D(-m_glbulletred->diamenter(),-m_glbulletred->length(),-m_glbulletred->diamenter()),
                                  QVector3D(m_glbulletred->diamenter(),m_glbulletred->length(),m_glbulletred->diamenter()));
@@ -131,7 +133,7 @@ void GameEngine::processEntities()
             if (m_enemyConatiner[i].checkCollision(&m_bulletContainerRed[j])) {
                 enDelMarks.append(&m_enemyConatiner[i]);
                 rbDelMarks.append(&m_bulletContainerRed[j]);
-                // TBI
+                emit smallEnemyKilled(1,m_enemyConatiner[i].getVirtualCenter());
             }
         }
     }
@@ -141,7 +143,7 @@ void GameEngine::processEntities()
     //### delete marked entities
     //### =====================================
     //### SIDE NOTE:
-    /* Cetter way of deleting items would be to only save indicies for deleting
+    /* Better way of deleting items would be to only save indicies for deleting
      * within an ordered list and then remove items at indicies with respect of how many items are to be deleted
      * (because the size of the list changes ....)
      *

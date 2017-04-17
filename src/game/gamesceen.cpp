@@ -69,6 +69,8 @@ GameSceen::GameSceen(QQuickItem *parent)
     connect(m_timer_gameloop, &QTimer::timeout,
             this, &GameSceen::onTimer_GameLoopTimeout, Qt::DirectConnection);
     m_timer->setInterval(Spaceinvaders::RenderTicksPerSecond); // draw a frame every x ms with timer in base class
+    connect(m_gameEngine, &GameEngine::smallEnemyKilled,this,&GameSceen::onSmallEnemyKilled);
+
 }
 
 GameSceen::~GameSceen()
@@ -300,6 +302,34 @@ void GameSceen::setRunGameLoop(bool runGameLoop)
     qDebug() << m_timer_gameloop->isActive();
 }
 
+void GameSceen::setShotButtonPressed(bool shotButtonPressed)
+{
+    if (m_shotButtonPressed == shotButtonPressed)
+        return;
+
+    m_shotButtonPressed = shotButtonPressed;
+    emit shotButtonPressedChanged(shotButtonPressed);
+}
+
+void GameSceen::setIsTablet(bool isTablet)
+{
+    if (m_isTablet == isTablet)
+        return;
+
+    m_isTablet = isTablet;
+    emit isTabletChanged(isTablet);
+}
+
+void GameSceen::setMusicOn(bool musicOn)
+{
+    if (m_musicOn == musicOn)
+        return;
+
+
+    m_musicOn = musicOn;
+    emit musicOnChanged(musicOn);
+}
+
 
 void GameSceen::mousePressEvent(QMouseEvent *event)
 {
@@ -505,7 +535,17 @@ void GameSceen::scoresUp(int scorePoints)
     setScore(score() + scorePoints);
 }
 
+void GameSceen::onSmallEnemyKilled(int value, QVector3D location)
+{
+    scoresUp(value);
+}
+
 GameEngine *GameSceen::gameEngine() const
 {
     return m_gameEngine;
+}
+
+bool GameSceen::shotButtonPressed() const
+{
+    return m_shotButtonPressed;
 }
