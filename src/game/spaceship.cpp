@@ -9,9 +9,9 @@ Spaceship::Spaceship(GameEngine *engine, GLSpaceShip * model) : GameEntity(engin
     //backplane
     //middlestrip
     //front       boundings
-    m_subBoundingBox1 = new TAABB(QVector3D(5.8,0.0,-12.0), QVector3D(-5.8,0.7,-7.0));
-    m_subBoundingBox2 = new TAABB(QVector3D(1.5,-1.0,-10.78), QVector3D(-1.5,1.5,7.8));
-    m_subBoundingBox3 = new TAABB(QVector3D(3.0,0.25,0.5), QVector3D(-3,1.2,6.2));
+    m_subBoundingBox1 = new TAABB(QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
+    m_subBoundingBox2 = new TAABB(QVector3D(1.5,2.0,7.8), QVector3D(-1.5,-1.0,-10.78));
+    m_subBoundingBox3 = new TAABB(QVector3D(3.0,1.8,6.2), QVector3D(-3,0.0,0.5));
 //    setBoundingBox( m_subBoundingBox2 ); // only to avoid some hopefully not occuring problems where the Box is not initialised
     setWeaponCooldown(400);
     setCollisionType(CollisionType::AABB);
@@ -58,11 +58,11 @@ bool Spaceship::performCollDetection_AABBvsAABB(GameEntity *other)
         qDebug() << b1max << b1min;
         qDebug() << b0max << b0min;
         int a =(( b1max.x() > b0min.x() && b1min.x() < b0max.x() && b1max.y() > b0min.y() &&
-                  b1min.y() < b0max.y() && b1max.z() > b0min.z() && b1min.z() < b0max.z()     )/*  ||
+                  b1min.y() < b0max.y() && b1max.z() > b0min.z() && b1min.z() < b0max.z()     )  ||
                 ( b2max.x() > b0min.x() && b2min.x() < b0max.x() && b2max.y() > b0min.y() &&
                   b2min.y() < b0max.y() && b2max.z() > b0min.z() && b2min.z() < b0max.z()     )  ||
                 ( b3max.x() > b0min.x() && b3min.x() < b0max.x() && b3max.y() > b0min.y() &&
-                  b3min.y() < b0max.y() && b3max.z() > b0min.z() && b3min.z() < b0max.z()     )*/
+                  b3min.y() < b0max.y() && b3max.z() > b0min.z() && b3min.z() < b0max.z()     )
                );
         qDebug() << "AABB AABB coll res:  " << a;
         return a;
