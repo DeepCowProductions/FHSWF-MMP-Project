@@ -550,17 +550,7 @@ void GameSceen::doSynchronizeThreads()
     }
 }
 
-
-
-void GameSceen::setMusicOn(bool musicOn)
-{
-    if (m_musicOn == musicOn)
-        return;
-
-    m_gameMusicEngine->startGameMusic(musicOn);
-    m_musicOn = musicOn;
-    emit musicOnChanged(musicOn);
-}void GameSceen::scoresUp(int scorePoints)
+void GameSceen::scoresUp(int scorePoints)
 {
     setScore(score() + scorePoints);
 }
@@ -573,24 +563,6 @@ void GameSceen::onSmallEnemyKilled(int value, QVector3D location)
 void GameSceen::onPlayershipHit(int value)
 {
     qDebug() << "playership hit!";
-}
-
-void GameSceen::setShotButtonPressed(bool shotButtonPressed)
-{
-    if (m_shotButtonPressed == shotButtonPressed)
-        return;
-
-    m_shotButtonPressed = shotButtonPressed;
-    emit shotButtonPressedChanged(shotButtonPressed);
-}
-
-void GameSceen::setIsTablet(bool isTablet)
-{
-    if (m_isTablet == isTablet)
-        return;
-
-    m_isTablet = isTablet;
-    emit isTabletChanged(isTablet);
 }
 
 GameEngine *GameSceen::gameEngine() const
