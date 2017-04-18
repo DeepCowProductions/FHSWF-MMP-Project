@@ -1,4 +1,4 @@
-QT += qml quick widgets opengl multimedia
+QT += qml quick widgets opengl multimedia svg
 
 CONFIG += c++11
 
@@ -93,7 +93,6 @@ HEADERS += \
     src/sound/qgamemusicengine.h
 
 DISTFILES += \
-    android/AndroidManifest.xml \
-    android/res/values/libs.xml
+    android/AndroidManifest.xml
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
