@@ -9,6 +9,7 @@ GameSceen {
     id: mainForm
     width: 640
     height: 480
+    musicOn: false
 
     //### FOR USE TO CHECK IF TABLET OR SMARTPHONE
     property alias isTablet: mainForm.isTablet

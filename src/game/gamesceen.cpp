@@ -59,11 +59,17 @@ GameSceen::GameSceen(QQuickItem *parent)
     m_gameEngine = new GameEngine(this);
 
     //### init SoundEngine
-    m_soundEngine = new SoundEngine(this);
-    m_soundEngine->loadSound(":/gamesound");
+    //m_soundEngine = new SoundEngine(this);
+    //m_soundEngine->loadSound(":/gamesound");
     //m_soundEngine->setEnabled(true);
+
+    //### init GameMusicEngine
+    m_gameMusicEngine = new QGameMusicEngine();
     
-    //### INIT TIMERS
+    m_gameMusicEngine->loadGameMusic("../FHSWF-MMP-Project/sounds/GameSound.mp3");
+
+    //### INIT TIMER
+
     m_timer_gameloop = new QTimer(this);
     m_timer_gameloop->setInterval(Spaceinvaders::GameTicksPerSecond); // set game to run at x ticks per second -> one loop every x seconds
     connect(m_timer_gameloop, &QTimer::timeout,
@@ -93,6 +99,8 @@ GameSceen::~GameSceen()
         delete m_mouseRay;
     if(m_gameEngine)
         delete m_gameEngine;
+    if(m_gameMusicEngine)
+        delete m_gameMusicEngine;
 
 }
 
@@ -160,6 +168,7 @@ void GameSceen::resetView()
     m_spaceKeyPressed = false;
     m_leftKeyPressed = false;
     m_rightKeyPressed = false;
+    m_musicOn = musicOn();
 }
 
 void GameSceen::onTimer_GameLoopTimeout()
@@ -210,6 +219,15 @@ void GameSceen::gameLoopTimeout()
         gameEngine()->playership()->translate(QVector3D(-0.8,0.0,0.0));
     }
 #endif
+
+    if(musicOn()){
+        m_musicOn = true;
+        m_gameMusicEngine->playGameMusic();
+    }
+    else {
+        m_musicOn = false;
+        //m_gameMusicEngine->stopGameMusic();
+    }
 
     //### fehlt noch das controll
     if (m_spaceKeyPressed || m_shotButtonPressed) {
@@ -440,8 +458,6 @@ void GameSceen::paintUnderQmlScene()
 
 void GameSceen::paintOnTopOfQmlScene()
 {
-
-
 }
 
 void GameSceen::setupGeometry()
@@ -458,7 +474,6 @@ void GameSceen::setupView(bool clearBuffers)
     // erstmal nur provisorisch hier
     if(!m_SkyBoxRenderer)
         initializeSkyBoxRenderer();
-
     if(!setupSkyBoxRenderer())
         return;
     GLItem::setupView(clearBuffers);
@@ -518,7 +533,6 @@ void GameSceen::doSynchronizeThreads()
     m_cameraTransform = m_guiThreadCameraMatrix;
     gameEngine()->snycEntities();
     
-    
     if(m_lastMouseEvent && !m_lastMouseEvent->isAccepted()) //last mouse event still pending
     {
         switch (m_lastMouseEvent->type()){
@@ -534,7 +548,6 @@ void GameSceen::doSynchronizeThreads()
         }
         m_lastMouseEvent->setAccepted(true);
     }
-
 }
 
 void GameSceen::scoresUp(int scorePoints)

@@ -32,7 +32,7 @@ Item {
 
      Image {
          id: knob
-         x: 2; y: 3
+         x: musicOn ? 74 : 2; y: 3
          source: "qrc:/knob"
          width:  background.width/2.2 - 5
          height: background.height-5

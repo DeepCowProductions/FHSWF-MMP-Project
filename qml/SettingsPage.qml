@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 
 Item {
     property alias backButton: backButton
+    property alias musicOn: switchSlide.musicOn
 
     id: settingsPage
     anchors.fill: parent

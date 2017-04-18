@@ -10,6 +10,7 @@
 #include "../glcore/skyboxrenderer.h"
 #include "../globjects/glcube.h"
 #include "../sound/soundengine.h"
+#include "../sound/qgamemusicengine.h"
 #include "gameengine.h"
 #include "definesandconstants.h"
 #include <QDesktopWidget>
@@ -309,6 +310,9 @@ private:
 
     //Sound
     SoundEngine * m_soundEngine;
+
+    //Gamemusic
+    QGameMusicEngine * m_gameMusicEngine;
 
     //### lighting ?
     bool m_pointLightEnabled = false;
