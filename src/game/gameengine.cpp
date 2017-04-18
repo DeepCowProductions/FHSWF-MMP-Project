@@ -10,8 +10,8 @@ GameEngine::GameEngine(QObject *parent) : QObject(parent)
     m_glsppaceship->setTextureFile(":/spaceshipTex"); // use alias
     m_explosionSphere = new GLSphere("redSphere",3.0,GLColorRgba::clRed);
 
-    m_bulletBounding = new TAABB(QVector3D(-m_glbulletred->diamenter(),-m_glbulletred->length(),-m_glbulletred->diamenter()),
-                                 QVector3D(m_glbulletred->diamenter(),m_glbulletred->length(),m_glbulletred->diamenter()));
+    m_bulletBounding = new TAABB(QVector3D(m_glbulletred->diamenter(),m_glbulletred->length(),m_glbulletred->diamenter()),
+                                 QVector3D(-m_glbulletred->diamenter(),-m_glbulletred->length(),-m_glbulletred->diamenter()));
 
     // init starting Entities
     m_playership = new Spaceship(this, m_glsppaceship);
