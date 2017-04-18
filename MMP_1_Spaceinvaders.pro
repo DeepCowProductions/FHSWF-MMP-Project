@@ -1,5 +1,12 @@
 QT += qml quick widgets opengl multimedia svg
 
+android
+{
+sound.path = /assets
+sound.files += GameMusic.mp3
+INSTALLS += sound
+}
+
 CONFIG += c++11
 
 SOURCES += src/main.cpp \

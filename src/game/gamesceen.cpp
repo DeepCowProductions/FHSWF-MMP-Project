@@ -65,8 +65,11 @@ GameSceen::GameSceen(QQuickItem *parent)
 
     //### init GameMusicEngine
     m_gameMusicEngine = new QGameMusicEngine();
+#ifdef Q_OS_ANDROID
+    m_gameMusicEngine->loadGameMusic("assets:/GameMusik.mp3");
+#else
     m_gameMusicEngine->loadGameMusic("../FHSWF-MMP-Project/sounds/GameSound.mp3");
-
+#endif
     //### INIT TIMER
 
     m_timer_gameloop = new QTimer(this);
