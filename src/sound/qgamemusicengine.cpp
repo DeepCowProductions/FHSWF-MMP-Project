@@ -46,7 +46,7 @@ void QGameMusicEngine::playGameMusic()
 
 void QGameMusicEngine::stopGameMusic()
 {
-    if(player->state() == QMediaPlayer::PlayingState && enabled) {
+    if(player->state() == QMediaPlayer::PlayingState) {
         player->stop();
     }
 }

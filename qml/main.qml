@@ -18,7 +18,7 @@ ApplicationWindow {
         anchors.fill: parent
 
         movementActivated: true
-        runGameLoop : true
+        runGameLoop : false
 
         leftKeyPressed: leftButton.pressed
         rightKeyPressed: rightButton.pressed
@@ -46,6 +46,7 @@ ApplicationWindow {
         playButton.onClicked:  {
             game.visible = true;
             startPage.visible = false;
+            game.runGameLoop = true
         }
 
         infoButton.onClicked: {

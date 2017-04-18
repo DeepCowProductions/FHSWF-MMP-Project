@@ -193,7 +193,7 @@ void GameEngine::shootWithAutomaticEntities()
     for (int i = 0; i < m_enemyConatiner.size(); i++) {
         if (qrand()%10 > 8){
 //            qDebug() << "// shoot now";
-            spawnGreenBullet(m_enemyConatiner[i].getVirtualCenter()-d,-v_Z,1.1);
+            spawnGreenBullet(m_enemyConatiner[i].getVirtualCenter()-d,-v_Z,0.5);
         }
     }
 

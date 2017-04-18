@@ -65,7 +65,6 @@ GameSceen::GameSceen(QQuickItem *parent)
 
     //### init GameMusicEngine
     m_gameMusicEngine = new QGameMusicEngine();
-    
     m_gameMusicEngine->loadGameMusic("../FHSWF-MMP-Project/sounds/GameSound.mp3");
 
     //### INIT TIMER
@@ -181,10 +180,6 @@ void GameSceen::gameLoopTimeout()
 {
     //### CHECK IF IS LANDSCAPE OR PORTRAIT(Tablet or Smartphone) AND MOVEMENT IF KEY PRESSED
 #ifdef Q_OS_ANDROID
-    if(!orientation())
-        m_eye = 35.0 * -QVector3D(0.0,-0.5,1.0);
-    else if(orientation())
-        m_eye = 80.0 * -QVector3D(0.0,-0.5,1.0);
     if (m_leftKeyPressed) {
         gameEngine()->playership()->translate(QVector3D(1.0,0.0,0.0));
     }
@@ -197,8 +192,6 @@ void GameSceen::gameLoopTimeout()
         gameEngine()->shootWithPlayerShip();
         etes = false;
     }*/
-
-
 #else
     //qDebug() << m_leftKeyPressed;
 
@@ -211,30 +204,20 @@ void GameSceen::gameLoopTimeout()
 
     if (m_leftKeyPressed) {
         //### nur zum umschaune  und debuggen
-//                m_guiThreadCameraMatrix.rotate(1.0, v_X);
+        //                m_guiThreadCameraMatrix.rotate(1.0, v_X);
         gameEngine()->playership()->translate(QVector3D(0.8,0.0,0.0));
     }
     if (m_rightKeyPressed) {
-//                m_guiThreadCameraMatrix.rotate(1.0, v_Y);
+        //                m_guiThreadCameraMatrix.rotate(1.0, v_Y);
         gameEngine()->playership()->translate(QVector3D(-0.8,0.0,0.0));
     }
 #endif
-
-    if(musicOn()){
-        m_musicOn = true;
-        m_gameMusicEngine->playGameMusic();
-    }
-    else {
-        m_musicOn = false;
-        //m_gameMusicEngine->stopGameMusic();
-    }
 
     //### fehlt noch das controll
     if (m_spaceKeyPressed || m_shotButtonPressed) {
         gameEngine()->shootWithPlayerShip();
         //scoresUp(10);
     }
-
 
     //### move all NPC entities with this call
     gameEngine()->processEntities();
@@ -349,6 +332,11 @@ void GameSceen::setMusicOn(bool musicOn)
 
 
     m_musicOn = musicOn;
+    m_gameMusicEngine->startGameMusic(musicOn);
+    if(musicOn)
+        m_gameMusicEngine->playGameMusic();
+    else
+        m_gameMusicEngine->stopGameMusic();
     emit musicOnChanged(musicOn);
 }
 
