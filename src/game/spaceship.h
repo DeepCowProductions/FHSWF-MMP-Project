@@ -9,14 +9,14 @@ class Spaceship : public GameEntity
 {
 public:
     Spaceship(GameEngine * engine,GLSpaceShip * model);
-//    ~Spaceship();
+    ~Spaceship();
 
     int getWeaponCooldown() const;
     void setWeaponCooldown(int msec);
     bool isReadyToShoot() const;
 
-//    virtual bool performCollDetection_AABBvsAABB(GameEntity *other);
-//    virtual bool performCollDetection_SPHEREvsAABB(GameEntity *other);
+    virtual bool performCollDetection_AABBvsAABB(GameEntity *other);
+    virtual bool performCollDetection_AABBvsSPHERE(GameEntity *other);
 
     /**
      * @brief shoot only calls cooldown timer.
@@ -27,9 +27,9 @@ private:
     //### cooldown between shots in milli seconds
     QTimer m_cooldonwTimer;
 
-    TAABB m_subBoundingBox1;
-    TAABB m_subBoundingBox2;
-    TAABB m_subBoundingBox3;
+    TAABB * m_subBoundingBox1;
+    TAABB * m_subBoundingBox2;
+    TAABB * m_subBoundingBox3;
 };
 
 #endif // SPACESHIP_H

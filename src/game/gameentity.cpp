@@ -55,7 +55,7 @@ bool GameEntity::checkCollision(GameEntity *other)
     if (getCollisionType() == CollisionType::SPHERE && other->getCollisionType() == CollisionType::AABB)
         return performCollDetection_SPHEREvsAABB(other);
     if (getCollisionType() == CollisionType::AABB && other->getCollisionType() == CollisionType::SPHERE)
-        return other->performCollDetection_SPHEREvsAABB(this);
+        return performCollDetection_AABBvsSPHERE(other);
     if (getCollisionType() == CollisionType::AABB && other->getCollisionType() == CollisionType::AABB)
         return performCollDetection_SPHEREvsSPHERE(other);
     qDebug() << "GameEntity::checkCollision : unable to determine collision case! returning false...";
@@ -104,6 +104,20 @@ bool GameEntity::performCollDetection_SPHEREvsAABB(GameEntity * other)
     for(int i = 0; i < 3; i++ ) {
       if( getVirtualCenter()[i] < b2min[i] )        dmin += Spaceinvaders::sqr( getVirtualCenter()[i] - b2min[i] );
       else if( getVirtualCenter()[i] > b2max[i] )   dmin += Spaceinvaders::sqr( getVirtualCenter()[i] - b2max[i] );
+    }
+    return dmin <= r2;
+}
+
+bool GameEntity::performCollDetection_AABBvsSPHERE(GameEntity *other)
+{
+    QVector3D b2max = getBoundingBox()->max + getVirtualCenter();
+    QVector3D b2min = getBoundingBox()->min + getVirtualCenter();
+
+    float r2 = other->glModel()->getRadius() * other->glModel()->getRadius();
+    float dmin = 0;
+    for(int i = 0; i < 3; i++ ) {
+      if( other->getVirtualCenter()[i] < b2min[i] )        dmin += Spaceinvaders::sqr( other->getVirtualCenter()[i] - b2min[i] );
+      else if( other->getVirtualCenter()[i] > b2max[i] )   dmin += Spaceinvaders::sqr( other->getVirtualCenter()[i] - b2max[i] );
     }
     return dmin <= r2;
 }

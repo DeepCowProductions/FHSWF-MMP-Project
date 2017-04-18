@@ -70,7 +70,12 @@ GameSceen::GameSceen(QQuickItem *parent)
             this, &GameSceen::onTimer_GameLoopTimeout, Qt::DirectConnection);
     m_timer->setInterval(Spaceinvaders::RenderTicksPerSecond); // draw a frame every x ms with timer in base class
     connect(m_gameEngine, &GameEngine::smallEnemyKilled,this,&GameSceen::onSmallEnemyKilled);
+    connect(m_gameEngine, &GameEngine::playershipHit, this, &GameSceen::onPlayershipHit);
 
+
+    m_cube1 = new GLCube("c1",QVector3D(5.8,0.0,-12.0), QVector3D(-5.8,0.7,-7.0));
+    m_cube2 = new GLCube("c1",QVector3D(1.5,-1.0,-10.78), QVector3D(-1.5,1.5,7.8));
+    m_cube3 = new GLCube("c1",QVector3D(3.0,0.25,0.5), QVector3D(-3,1.2,6.2));
 }
 
 GameSceen::~GameSceen()
@@ -159,7 +164,7 @@ void GameSceen::resetView()
 
 void GameSceen::onTimer_GameLoopTimeout()
 {
-    qDebug() << "timer game loop timer time out";
+    //    qDebug() << "timer game loop timer time out";
     gameLoopTimeout();
 }
 
@@ -199,10 +204,9 @@ void GameSceen::gameLoopTimeout()
         //### nur zum umschaune  und debuggen
         //        m_guiThreadCameraMatrix.rotate(1.0, v_X);
         gameEngine()->playership()->translate(QVector3D(0.8,0.0,0.0));
-        //        m_spaceship->moveVirtual(QVector3D(0.8,0.0,0.0));
     }
     if (m_rightKeyPressed) {
-        //        m_spaceship->moveVirtual(QVector3D(-0.8,0.0,0.0));
+        //        m_guiThreadCameraMatrix.rotate(1.0, v_Y);
         gameEngine()->playership()->translate(QVector3D(-0.8,0.0,0.0));
     }
 #endif
@@ -426,6 +430,9 @@ void GameSceen::paintUnderQmlScene()
 
     //    m_spaceship->draw(renderer());
     m_gameEngine->drawEntities(renderer());
+//    m_cube1->draw(renderer());
+//    m_cube2->draw(renderer());
+//    m_cube3->draw(renderer());
 
     m_renderer->release();
 
@@ -538,6 +545,11 @@ void GameSceen::scoresUp(int scorePoints)
 void GameSceen::onSmallEnemyKilled(int value, QVector3D location)
 {
     scoresUp(value);
+}
+
+void GameSceen::onPlayershipHit(int value)
+{
+    qDebug() << "playership hit!";
 }
 
 GameEngine *GameSceen::gameEngine() const

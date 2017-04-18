@@ -79,6 +79,7 @@ public:
      */
     virtual bool performCollDetection_AABBvsAABB(GameEntity * other);
     virtual bool performCollDetection_SPHEREvsAABB(GameEntity * other);
+    virtual bool performCollDetection_AABBvsSPHERE(GameEntity * other);
     virtual bool performCollDetection_SPHEREvsSPHERE(GameEntity * other);
 
     CollisionType getCollisionType() const;
@@ -114,7 +115,7 @@ private:
     QMatrix4x4 m_guiTransformation; // owned by gui thread
     QMatrix4x4 m_renderTransformation; // owned by render thred to draw the element
 
-    TAABB *m_boundingBox;
+    TAABB * m_boundingBox;
 };
 
 #endif // GAMEENTITY_H

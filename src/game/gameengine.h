@@ -28,9 +28,16 @@ public:
     explicit GameEngine(QObject *parent = 0);
     virtual ~GameEngine();
 
-    virtual void drawEntities(GLESRenderer *renderer);
-    virtual void processEntities();
-    virtual void snycEntities();
+    void drawEntities(GLESRenderer *renderer);
+    void processEntities();
+
+    void spawnRandomEnemies ();
+    void staticCollisionDetection();
+    void moveAutomaticEntities();
+    void deleteMarkedEntities();
+    void shootWithAutomaticEntities();
+
+    void snycEntities();
 
     void addRedBullet(Bullet bullet);
     bool deleteRedBullet(Bullet bullet);
@@ -53,12 +60,14 @@ public:
 signals:
     void smallEnemyKilled (int value, QVector3D location);
     void bigEnemyKilled (int value, QVector3D location);
+    void playershipHit(int value);
 
 public slots:
 
     void shootWithPlayerShip();
 
     void spawnRedBullet(QVector3D location , QVector3D direction, double velocity);
+    void spawnGreenBullet (QVector3D location , QVector3D direction,  double velocity);
     void spawnEnemy(QVector3D location);
 
     //    void onObjectDestroyed(QObject* obj = 0);
@@ -87,9 +96,6 @@ private:
     //### boundingBoxes of variusObjects
     TAABB * m_bulletBounding;
     TAABB * m_smallEnemyBounding;
-//    TAABB * m_spaceshipBounding1;
-//    TAABB * m_spaceshipBounding2;
-//    TAABB * m_spaceshipBounding3;
 
 
 };

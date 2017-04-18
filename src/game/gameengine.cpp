@@ -10,7 +10,6 @@ GameEngine::GameEngine(QObject *parent) : QObject(parent)
     m_glsppaceship->setTextureFile(":/spaceshipTex"); // use alias
     m_explosionSphere = new GLSphere("redSphere",3.0,GLColorRgba::clRed);
 
-
     m_bulletBounding = new TAABB(QVector3D(-m_glbulletred->diamenter(),-m_glbulletred->length(),-m_glbulletred->diamenter()),
                                  QVector3D(m_glbulletred->diamenter(),m_glbulletred->length(),m_glbulletred->diamenter()));
 
@@ -50,20 +49,54 @@ void GameEngine::drawEntities(GLESRenderer *renderer)
 
 void GameEngine::processEntities()
 {
-    qDebug() << "GameEngine::processEntities() started";
-    qDebug() << "==========================================";
-    //### =====================================
-    //### SPAWN NEW ENEMIES AT RANDOM PATTERN
-    //### =====================================
+//    qDebug() << "GameEngine::processEntities() started";
+//    qDebug() << "==========================================";
+
+    spawnRandomEnemies();
+    moveAutomaticEntities();
+    staticCollisionDetection();
+    shootWithAutomaticEntities();
+    deleteMarkedEntities();
+
+//    qDebug() << "==========================================";
+//    qDebug() << "GameEngine::processEntities() finished";
+}
+
+
+void GameEngine::spawnRandomEnemies()
+{
     if (qrand()%1000 < 20){
         int r = qrand()%100 - 50;
-        qDebug() << "spawning enemy!";
+//        qDebug() << "spawning enemy!";
         spawnEnemy(QVector3D(r,0.0,50.0));
     }
 
-    //### =====================================
-    //### MOVEMENT OF ENTITIES
-    //### =====================================
+}
+
+void GameEngine::staticCollisionDetection()
+{
+    // playership with enemy bullets (green):
+    for (int i = 0; i < m_bulletContainerGreen.size(); i++) {
+        if (playership()->checkCollision(&m_bulletContainerGreen[i])) {
+            gbDelMarks.append(&m_bulletContainerGreen[i]);
+            emit playershipHit(1);
+        }
+    }
+
+    // enemyships with player bullets (red):
+    for (int i = 0; i < m_enemyConatiner.size(); i++) {
+        for (int j = 0; j < m_bulletContainerRed.size(); j++) {
+            if (m_enemyConatiner[i].checkCollision(&m_bulletContainerRed[j])) {
+                enDelMarks.append(&m_enemyConatiner[i]);
+                rbDelMarks.append(&m_bulletContainerRed[j]);
+                emit smallEnemyKilled(1,m_enemyConatiner[i].getVirtualCenter());
+            }
+        }
+    }
+}
+
+void GameEngine::moveAutomaticEntities()
+{
     for (int i = 0; i < m_bulletContainerRed.size(); i++){
         //        Bullet& b = m_bulletContainerRed[i];
         //### diese berechnung is falsch weil Koordinatensystem ist anders nach dem call von setRotationDirection
@@ -108,40 +141,18 @@ void GameEngine::processEntities()
     }
 
     for (int i = 0; i < m_enemyConatiner.size(); i++){
-//        SmallEnemy& e = m_enemyConatiner[i];
         // TBI check if outer bounds
-//        if (qrand()%100 > 30)
-//            e.translate(QVector3D(-2.0,0.0,-0.1));
-//        else
-//            e.translate(QVector3D(1.0,0.0,-0.1));
-//        //        qDebug() <<b.transformation();
+        if (qrand()%100 < 8)
+             m_enemyConatiner[i].translate(QVector3D(-0.04,0.0,-0.01));
+        if (qrand()%100 > 98)
+             m_enemyConatiner[i].translate(QVector3D(0.16,0.0,-0.01));
+        //        qDebug() <<b.transformation();
     }
 
-    //### =====================================
-    //### PERFORM STATIC COLLISION DETECTION
-    //### =====================================
-    // playership with enemy bullets (green):
-    for (int i = 0; i < m_bulletContainerGreen.size(); i++) {
-//        if (playership()->checkCollision(&m_bulletContainerGreen[i])) {
-//            // TBI
-//        }
-    }
+}
 
-    // enemyships with player bullets (red):
-    for (int i = 0; i < m_enemyConatiner.size(); i++) {
-        for (int j = 0; j < m_bulletContainerRed.size(); j++) {
-            if (m_enemyConatiner[i].checkCollision(&m_bulletContainerRed[j])) {
-                enDelMarks.append(&m_enemyConatiner[i]);
-                rbDelMarks.append(&m_bulletContainerRed[j]);
-                emit smallEnemyKilled(1,m_enemyConatiner[i].getVirtualCenter());
-            }
-        }
-    }
-
-
-    //### =====================================
-    //### delete marked entities
-    //### =====================================
+void GameEngine::deleteMarkedEntities()
+{
     //### SIDE NOTE:
     /* Better way of deleting items would be to only save indicies for deleting
      * within an ordered list and then remove items at indicies with respect of how many items are to be deleted
@@ -162,7 +173,7 @@ void GameEngine::processEntities()
     for (int i = 0; i < gbDelMarks.size(); i++){
         //        if(!deleteGreenBullet(m_bulletContainerGreen[gbDelMarks.at(i)-i])) // only works if the array is an orderd list
         //            qDebug() << "somthing went wrong woth deletion";
-        deleteGreenBullet(*rbDelMarks.at(i));
+        deleteGreenBullet(*gbDelMarks.at(i));
     }
 
     for (int i = 0; i < enDelMarks.size(); i++){
@@ -173,9 +184,18 @@ void GameEngine::processEntities()
     rbDelMarks.clear();
     gbDelMarks.clear();
     enDelMarks.clear();
+}
 
-    qDebug() << "==========================================";
-    qDebug() << "GameEngine::processEntities() finished";
+void GameEngine::shootWithAutomaticEntities()
+{
+    QVector3D d(0.0,0.0,3.0);
+//    qDebug() << "shoooting ai at random";
+    for (int i = 0; i < m_enemyConatiner.size(); i++) {
+        if (qrand()%10 > 8){
+//            qDebug() << "// shoot now";
+            spawnGreenBullet(m_enemyConatiner[i].getVirtualCenter()-d,-v_Z,1.1);
+        }
+    }
 
 }
 
@@ -199,13 +219,13 @@ void GameEngine::snycEntities()
 void GameEngine::addRedBullet(Bullet bullet)
 {
     m_bulletContainerRed.append(bullet);
-    qDebug() << "item appended to m_bulletContainerRed";
+//    qDebug() << "item appended to m_bulletContainerRed";
 }
 
 bool GameEngine::deleteRedBullet(Bullet bullet)
 {
     if (m_bulletContainerRed.removeOne(bullet)) {
-        qDebug() << "item removed from m_bulletContainerRed";
+//        qDebug() << "item removed from m_bulletContainerRed";
         return true;
     }
     qDebug() << "can not remove item from m_bulletContainerRed";
@@ -215,13 +235,13 @@ bool GameEngine::deleteRedBullet(Bullet bullet)
 void GameEngine::addGreenBullet(Bullet bullet)
 {
     m_bulletContainerGreen.append(bullet);
-    qDebug() << "item appended to m_bulletContainerGreen";
+//    qDebug() << "item appended to m_bulletContainerGreen";
 }
 
 bool GameEngine::deleteGreenBullet(Bullet bullet)
 {
     if (m_bulletContainerGreen.removeOne(bullet)){
-        qDebug() << "item removed from m_bulletContainerGreen";
+//        qDebug() << "item removed from m_bulletContainerGreen";
         return true;
     }
     qDebug() << "can not remove item from m_bulletContainerGreen";
@@ -231,13 +251,13 @@ bool GameEngine::deleteGreenBullet(Bullet bullet)
 void GameEngine::addEnemy(SmallEnemy e)
 {
     m_enemyConatiner.append(e);
-    qDebug() << "item appended to m_enemyConatiner";
+//    qDebug() << "item appended to m_enemyConatiner";
 }
 
 bool GameEngine::deleteEnemy(SmallEnemy e)
 {
     if (m_enemyConatiner.removeOne(e)){
-        qDebug() << "item removed from m_enemyConatiner";
+//        qDebug() << "item removed from m_enemyConatiner";
         return true;
     }
     qDebug() << "can not remove item from m_enemyConatiner";
@@ -298,15 +318,23 @@ void GameEngine::shootWithPlayerShip()
 
 void GameEngine::spawnRedBullet(QVector3D location, QVector3D direction, double velocity)
 {
-    qDebug() << "appending bullet";
+//    qDebug() << "appending red bullet";
     Bullet b = Bullet(this,glbulletred(),velocity,direction,location,m_bulletBounding);
     b.setRotationDirection(direction);
     addRedBullet(b);
 }
 
+void GameEngine::spawnGreenBullet(QVector3D location, QVector3D direction, double velocity)
+{
+//    qDebug() << "appending green bullet";
+    Bullet b = Bullet(this,glbulletgreen(),velocity,direction,location,m_bulletBounding);
+    b.setRotationDirection(direction);
+    addGreenBullet(b);
+}
+
 void GameEngine::spawnEnemy(QVector3D location)
 {
-    qDebug() << "appending SmallEnemy";
+//    qDebug() << "appending SmallEnemy";
     SmallEnemy e = SmallEnemy(this,m_glsphere);
     e.setVirtualCenter(location);
     addEnemy(e);

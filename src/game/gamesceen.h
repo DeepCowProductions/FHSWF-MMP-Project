@@ -8,6 +8,7 @@
 #include "../globjects/glskybox.h"
 #include "../glcore/shaderdebugger.h"
 #include "../glcore/skyboxrenderer.h"
+#include "../globjects/glcube.h"
 #include "../sound/soundengine.h"
 #include "gameengine.h"
 #include "definesandconstants.h"
@@ -139,6 +140,12 @@ public slots:
      * @param location location of kill (currently unused).
      */
     void onSmallEnemyKilled (int value, QVector3D location);
+
+    /**
+     * @brief onPlayershipHit supposed to be called when playership gets hit.
+     * @param value
+     */
+    void onPlayershipHit(int value);
 
 signals:
 
@@ -284,7 +291,9 @@ private:
     GLSkyBox * m_skybox = nullptr;
     GLFrustum * m_frustum = nullptr;
     GLMouseRay * m_mouseRay = nullptr;
-
+    GLCube * m_cube1 = nullptr;
+    GLCube * m_cube2 = nullptr;
+    GLCube * m_cube3 = nullptr;
     //### GameEngine for spaceinvaders
     GameEngine * m_gameEngine = nullptr;
 
