@@ -11,6 +11,7 @@
 #include "bullet.h"
 #include "spaceship.h"
 #include "smallenemy.h"
+#include "singleshottimer.h"
 
 /**
  * @brief The GameEngine class
@@ -31,6 +32,7 @@ public:
     void drawEntities(GLESRenderer *renderer);
     void processEntities();
 
+    void processGameTickCooldowns();
     void spawnRandomEnemies ();
     void staticCollisionDetection();
     void moveAutomaticEntities();
@@ -38,6 +40,8 @@ public:
     void shootWithAutomaticEntities();
 
     void snycEntities();
+
+    void toggleEnemyMovementDirection();
 
     void addRedBullet(Bullet bullet);
     bool deleteRedBullet(Bullet bullet);
@@ -63,7 +67,6 @@ signals:
     void playershipHit(int value);
 
 public slots:
-
     void shootWithPlayerShip();
 
     void spawnRedBullet(QVector3D location , QVector3D direction, double velocity);
@@ -78,6 +81,12 @@ private:
     QList<Bullet> m_bulletContainerRed;
     QList<Bullet> m_bulletContainerGreen;
     QList<SmallEnemy> m_enemyConatiner;
+
+    //### enemy lanes
+    int m_numberOfLanes = 0;
+    QMap<int,SingleShotTimer*> m_laneSpawningCooldowns;
+    SingleShotTimer m_enemyMovementStateTimer;
+    bool m_enemyMovementState; // 0 for left, 1 for right
 
     //### holds indicies wich should be deleted in the next frame
     QList<Bullet*> rbDelMarks;

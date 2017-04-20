@@ -3,29 +3,19 @@
 
 #include "../globjects/glspaceship.h"
 #include "gameentity.h"
+#include "singleshottimer.h"
 #include <QTimer>
 
-class Spaceship : public GameEntity
+class Spaceship : public GameEntity, public SingleShotTimer
 {
 public:
     Spaceship(GameEngine * engine,GLSpaceShip * model);
     ~Spaceship();
 
-    int getWeaponCooldown() const;
-    void setWeaponCooldown(int msec);
-    bool isReadyToShoot() const;
-
     virtual bool performCollDetection_AABBvsAABB(GameEntity *other);
     virtual bool performCollDetection_AABBvsSPHERE(GameEntity *other);
 
-    /**
-     * @brief shoot only calls cooldown timer.
-     */
-    void shoot();
-
 private:
-    //### cooldown between shots in milli seconds
-    QTimer m_cooldonwTimer;
 
     TAABB * m_subBoundingBox1;
     TAABB * m_subBoundingBox2;

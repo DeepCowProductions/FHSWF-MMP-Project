@@ -1,25 +1,7 @@
 #ifndef DEFINESANDCONSTANTS_H
 #define DEFINESANDCONSTANTS_H
 
-
 #include <QVector3D>
-
-/**
- * @brief defines wich collision detection should be used by GameEntity's collision.
- */
-enum class CollisionType {AABB, SPHERE, AABB_SPHERE};
-
-/**
- * @brief Struct to hold information about a single boundingBox.
- */
-class  TAABB {
-public:
-    TAABB() {}
-    TAABB(QVector3D max, QVector3D min) : max(max), min(min) {}
-
-    QVector3D max;
-    QVector3D min;
-};
 
 /**
  * @brief collection of random util functions and
@@ -35,9 +17,24 @@ const static int DesktopSkyBoxRadius = 60;
 const static QVector3D AndroidViewVector = QVector3D(80, 10, 400); // (eyeDistance,near,far)
 const static QVector3D DesktopViewVector = QVector3D(40, 10, 200); // (eyeDistance,near,far)
 const static QVector3D ViewDirection = -QVector3D(0.0,-0.5,1.0);   // eyePos
-const static int GameTicksPerSecond = 50;
-const static int RenderTicksPerSecond = 50;
+const static int GameTickCooldownInMillSec = 50;
+const static int RenderTickCooldownInMillSec = 33;
 const static QVector3D staticLightDirection = QVector3D(1.0, 1.0, 1.0);
+
+const static float playFieldLength = 110.0;
+const static float playFieldBounds = 30.0;
+const static float playFieldBuffer = 22.0;
+const static float laneWidth = 9;
+const static int   chanceOfEnemySpawningPerLane = 20;
+const static int   enemySpawnCooldownPerLane = 100;
+const static int   enemyShootingCooldownInGameTicks = 100;
+const static int   playerShootingCooldownInGameTicks = 20;
+const static float enemyBulletSpeed = 2.0;
+const static float playerBulletSpeed = 2.0;
+const static float playerShipMovementSpeed = 1.0;
+const static int   enemyTicksBeforeChangingDirection = 100;
+const static float enemyMovmentSpeedinX = 0.2;
+const static float enemyMovmentSpeedinZ = 0.2;
 
 /**
  * @brief clamp clamps a value between a and b.

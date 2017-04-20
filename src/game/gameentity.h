@@ -6,11 +6,28 @@
 #include "definesandconstants.h"
 
 
-/*
- * defines which collision detection should be used by GameEntity's collision.
+
+/**
+ * @brief defines wich collision detection should be used by GameEntity's collision.
  */
+enum class CollisionType {AABB, SPHERE, AABB_SPHERE};
+
+/**
+ * @brief Struct to hold information about a single boundingBox.
+ */
+class  TAABB {
+public:
+    TAABB() {}
+    TAABB(QVector3D max, QVector3D min) : max(max), min(min) {}
+
+    QVector3D max;
+    QVector3D min;
+};
+
 //### forward decleration for class GameEngine to avoid circle inclusion.
 class GameEngine;
+
+
 /**
  * @brief The GameEntity class
  * Base class for storing Game Objects with a GLBody reference as VAO Object Model.
@@ -64,7 +81,7 @@ public:
 
     /**
      * @brief tryMove calls GameEntity::translate after checking if movement is possible.
-     * To be overwritten by subclass, this Base class function has nothing to check against.
+     * To be overwritten by subclass, this Base class function has nothing to check against except the playing field bounderies.
      * [...]
      * @param direction direction and distance to move the object along this vector
      * @return wether moving was succesfull
@@ -115,7 +132,7 @@ private:
     QMatrix4x4 m_guiTransformation; // owned by gui thread
     QMatrix4x4 m_renderTransformation; // owned by render thred to draw the element
 
-    TAABB * m_boundingBox;
+    TAABB * m_boundingBox = nullptr;
 };
 
 #endif // GAMEENTITY_H

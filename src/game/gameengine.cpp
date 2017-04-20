@@ -16,13 +16,24 @@ GameEngine::GameEngine(QObject *parent) : QObject(parent)
     // init starting Entities
     m_playership = new Spaceship(this, m_glsppaceship);
 
-    //    connect(this, &QObject::destroyed, this, &MyObject::onObjectDestroyed);
-
+    m_numberOfLanes = ((int)( Spaceinvaders::playFieldBounds * 2 ))/((int)Spaceinvaders::laneWidth);
+    for (int i=0; i<m_numberOfLanes; i++){
+        SingleShotTimer* timer = new SingleShotTimer();
+        timer->setCooldown(Spaceinvaders::enemySpawnCooldownPerLane);
+        m_laneSpawningCooldowns.insert(i,timer);
+    }
+    m_enemyMovementStateTimer.setCooldown(Spaceinvaders::enemyTicksBeforeChangingDirection);
 }
 
 GameEngine::~GameEngine()
 {
     m_bulletContainerRed.clear();
+
+    for (int i=0; i<m_numberOfLanes; i++){
+        SingleShotTimer* t = m_laneSpawningCooldowns.value(i);
+        delete t;
+    }
+    m_laneSpawningCooldowns.clear();
 
     if (m_glbulletgreen)
         delete m_glbulletgreen;
@@ -49,26 +60,30 @@ void GameEngine::drawEntities(GLESRenderer *renderer)
 
 void GameEngine::processEntities()
 {
-//    qDebug() << "GameEngine::processEntities() started";
-//    qDebug() << "==========================================";
-
+    //    qDebug() << "GameEngine::processEntities() started";
+    //    qDebug() << "==========================================";
+    processGameTickCooldowns();
     spawnRandomEnemies();
     moveAutomaticEntities();
     staticCollisionDetection();
     shootWithAutomaticEntities();
     deleteMarkedEntities();
 
-//    qDebug() << "==========================================";
-//    qDebug() << "GameEngine::processEntities() finished";
+    //    qDebug() << "==========================================";
+    //    qDebug() << "GameEngine::processEntities() finished";
 }
 
 
 void GameEngine::spawnRandomEnemies()
 {
-    if (qrand()%1000 < 20){
-        int r = qrand()%100 - 50;
-//        qDebug() << "spawning enemy!";
-        spawnEnemy(QVector3D(r,0.0,50.0));
+
+    for (int i = 0; i < m_numberOfLanes; i++) {
+        if (m_laneSpawningCooldowns.value(i)->isReadyToShoot())
+            if (qrand()%100 < Spaceinvaders::chanceOfEnemySpawningPerLane){
+                int r = (-Spaceinvaders::playFieldBounds) + i * (((int)(Spaceinvaders::playFieldBounds*2))/m_numberOfLanes);
+                spawnEnemy(QVector3D(r,0.0,Spaceinvaders::playFieldLength));
+                m_laneSpawningCooldowns.value(i)->shoot();
+            }
     }
 
 }
@@ -113,13 +128,13 @@ void GameEngine::moveAutomaticEntities()
 
         //### check if bullets is out of bounds
 #ifdef Q_OS_ANDROID
-        if (m_bulletContainerRed[i].getVirtualCenter().z() > Spaceinvaders::AndroidSkyBoxRadius ) {
+        if (m_bulletContainerRed[i].getVirtualCenter().z() > Spaceinvaders::playFieldLength + Spaceinvaders::playFieldBuffer) {
             //            deleteRedBullet(b); // deleting directly confuses the QList, but still works with some minor errors
             //            rbDelMarks.append(i);
             rbDelMarks.append(&m_bulletContainerRed[i]);
         }
 #else
-        if (m_bulletContainerRed[i].getVirtualCenter().z() > Spaceinvaders::DesktopSkyBoxRadius ) {
+        if (m_bulletContainerRed[i].getVirtualCenter().z() > Spaceinvaders::playFieldLength + Spaceinvaders::playFieldBuffer ) {
             //            deleteRedBullet(b); // deleting directly confuses the QList, but still works with some minor errors
             //            rbDelMarks.append(i);
             rbDelMarks.append(&m_bulletContainerRed[i]);
@@ -130,23 +145,25 @@ void GameEngine::moveAutomaticEntities()
     for (int i = 0; i < m_bulletContainerGreen.size(); i++){
         m_bulletContainerGreen[i].translate(v_Y * m_bulletContainerGreen[i].velocity());
 #ifdef Q_OS_ANDROID
-        if (m_bulletContainerGreen[i].getVirtualCenter().z() < -Spaceinvaders::AndroidSkyBoxRadius ) {
+        if (m_bulletContainerGreen[i].getVirtualCenter().z() < -Spaceinvaders::playFieldBuffer ) {
             gbDelMarks.append(&m_bulletContainerRed[i]);
         }
 #else
-        if (m_bulletContainerGreen[i].getVirtualCenter().z() < -Spaceinvaders::DesktopSkyBoxRadius ) {
+        if (m_bulletContainerGreen[i].getVirtualCenter().z() < -Spaceinvaders::playFieldBuffer) {
             gbDelMarks.append(&m_bulletContainerGreen[i]);
         }
 #endif
     }
 
+    if (m_enemyMovementStateTimer.isReadyToShoot()){
+        m_enemyMovementStateTimer.shoot();
+        toggleEnemyMovementDirection();
+    }
     for (int i = 0; i < m_enemyConatiner.size(); i++){
-        // TBI check if outer bounds
-        if (qrand()%100 < 8)
-             m_enemyConatiner[i].translate(QVector3D(-0.04,0.0,-0.01));
-        if (qrand()%100 > 98)
-             m_enemyConatiner[i].translate(QVector3D(0.16,0.0,-0.01));
-        //        qDebug() <<b.transformation();
+        if (m_enemyMovementState)
+            m_enemyConatiner[i].translate(QVector3D(-Spaceinvaders::enemyMovmentSpeedinX,0.0,-Spaceinvaders::enemyMovmentSpeedinZ));
+        else
+            m_enemyConatiner[i].translate(QVector3D(+Spaceinvaders::enemyMovmentSpeedinX,0.0,-Spaceinvaders::enemyMovmentSpeedinZ));
     }
 
 }
@@ -189,43 +206,63 @@ void GameEngine::deleteMarkedEntities()
 void GameEngine::shootWithAutomaticEntities()
 {
     QVector3D d(0.0,0.0,3.0);
-//    qDebug() << "shoooting ai at random";
+    //    qDebug() << "shoooting ai at random";
     for (int i = 0; i < m_enemyConatiner.size(); i++) {
-        if (qrand()%10 > 8){
-//            qDebug() << "// shoot now";
-            spawnGreenBullet(m_enemyConatiner[i].getVirtualCenter()-d,-v_Z,0.5);
+        if (m_enemyConatiner[i].isReadyToShoot()){
+            if (qrand()%10 > 8){
+                m_enemyConatiner[i].shoot();
+                spawnGreenBullet(m_enemyConatiner[i].getVirtualCenter()-d,-v_Z,Spaceinvaders::enemyBulletSpeed);
+            }
         }
     }
+}
 
+void GameEngine::processGameTickCooldowns()
+{
+    playership()->doCooldownTick();
+    for (int i = 0; i < m_enemyConatiner.size(); i++){
+        m_enemyConatiner[i].doCooldownTick();
+    }
+
+    for (int i=0; i<m_numberOfLanes; i++){
+        m_laneSpawningCooldowns.value(i)->doCooldownTick();
+    }
+
+    m_enemyMovementStateTimer.doCooldownTick();
 }
 
 void GameEngine::snycEntities()
 {
     for (int i = 0; i < m_bulletContainerRed.size(); i++){
-        Bullet& b = m_bulletContainerRed[i];
-        b.snycForRendering();
+        m_bulletContainerRed[i].snycForRendering();
     }
     for (int i = 0; i < m_bulletContainerGreen.size(); i++){
-        Bullet& b = m_bulletContainerGreen[i];
-        b.snycForRendering();
+        m_bulletContainerGreen[i].snycForRendering();
     }
     for (int i = 0; i < m_enemyConatiner.size(); i++){
-        SmallEnemy& e = m_enemyConatiner[i];
-        e.snycForRendering();
+        m_enemyConatiner[i].snycForRendering();
     }
     m_playership->snycForRendering();
+}
+
+void GameEngine::toggleEnemyMovementDirection()
+{
+    if (m_enemyMovementState)
+        m_enemyMovementState = false;
+    else
+        m_enemyMovementState = true;
 }
 
 void GameEngine::addRedBullet(Bullet bullet)
 {
     m_bulletContainerRed.append(bullet);
-//    qDebug() << "item appended to m_bulletContainerRed";
+    //    qDebug() << "item appended to m_bulletContainerRed";
 }
 
 bool GameEngine::deleteRedBullet(Bullet bullet)
 {
     if (m_bulletContainerRed.removeOne(bullet)) {
-//        qDebug() << "item removed from m_bulletContainerRed";
+        //        qDebug() << "item removed from m_bulletContainerRed";
         return true;
     }
     qDebug() << "can not remove item from m_bulletContainerRed";
@@ -235,13 +272,13 @@ bool GameEngine::deleteRedBullet(Bullet bullet)
 void GameEngine::addGreenBullet(Bullet bullet)
 {
     m_bulletContainerGreen.append(bullet);
-//    qDebug() << "item appended to m_bulletContainerGreen";
+    //    qDebug() << "item appended to m_bulletContainerGreen";
 }
 
 bool GameEngine::deleteGreenBullet(Bullet bullet)
 {
     if (m_bulletContainerGreen.removeOne(bullet)){
-//        qDebug() << "item removed from m_bulletContainerGreen";
+        //        qDebug() << "item removed from m_bulletContainerGreen";
         return true;
     }
     qDebug() << "can not remove item from m_bulletContainerGreen";
@@ -251,13 +288,13 @@ bool GameEngine::deleteGreenBullet(Bullet bullet)
 void GameEngine::addEnemy(SmallEnemy e)
 {
     m_enemyConatiner.append(e);
-//    qDebug() << "item appended to m_enemyConatiner";
+    //    qDebug() << "item appended to m_enemyConatiner";
 }
 
 bool GameEngine::deleteEnemy(SmallEnemy e)
 {
     if (m_enemyConatiner.removeOne(e)){
-//        qDebug() << "item removed from m_enemyConatiner";
+        //        qDebug() << "item removed from m_enemyConatiner";
         return true;
     }
     qDebug() << "can not remove item from m_enemyConatiner";
@@ -308,8 +345,8 @@ void GameEngine::shootWithPlayerShip()
 {
     if (playership()->isReadyToShoot()){
         QVector3D v = playership()->getVirtualCenter();
-        spawnRedBullet(v + QVector3D(2.0,1.0,0.5) , QVector3D(0.0,0.0,1.0), 1.1);
-        spawnRedBullet(v + QVector3D(-2.0,1.0,0.5) , QVector3D(0.0,0.0,1.0), 1.1);
+        spawnRedBullet(v + QVector3D(2.0,1.0,0.5) , QVector3D(0.0,0.0,1.0), Spaceinvaders::playerBulletSpeed);
+        spawnRedBullet(v + QVector3D(-2.0,1.0,0.5) , QVector3D(0.0,0.0,1.0), Spaceinvaders::playerBulletSpeed);
         playership()->shoot();
     }else{
         qDebug() << "cant shoot yet with with , Weapons are on cooldown";
@@ -318,7 +355,7 @@ void GameEngine::shootWithPlayerShip()
 
 void GameEngine::spawnRedBullet(QVector3D location, QVector3D direction, double velocity)
 {
-//    qDebug() << "appending red bullet";
+    //    qDebug() << "appending red bullet";
     Bullet b = Bullet(this,glbulletred(),velocity,direction,location,m_bulletBounding);
     b.setRotationDirection(direction);
     addRedBullet(b);
@@ -326,7 +363,7 @@ void GameEngine::spawnRedBullet(QVector3D location, QVector3D direction, double 
 
 void GameEngine::spawnGreenBullet(QVector3D location, QVector3D direction, double velocity)
 {
-//    qDebug() << "appending green bullet";
+    //    qDebug() << "appending green bullet";
     Bullet b = Bullet(this,glbulletgreen(),velocity,direction,location,m_bulletBounding);
     b.setRotationDirection(direction);
     addGreenBullet(b);
@@ -334,8 +371,9 @@ void GameEngine::spawnGreenBullet(QVector3D location, QVector3D direction, doubl
 
 void GameEngine::spawnEnemy(QVector3D location)
 {
-//    qDebug() << "appending SmallEnemy";
+    //    qDebug() << "appending SmallEnemy";
     SmallEnemy e = SmallEnemy(this,m_glsphere);
+    e.setCurrentCooldownTick(Spaceinvaders::enemyShootingCooldownInGameTicks);
     e.setVirtualCenter(location);
     addEnemy(e);
 }

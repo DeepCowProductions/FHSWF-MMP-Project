@@ -3,18 +3,15 @@
 
 Spaceship::Spaceship(GameEngine *engine, GLSpaceShip * model) : GameEntity(engine, model)
 {
-    m_cooldonwTimer.setSingleShot(true);
-    //    m_cooldonwTimer.connect(&m_cooldonwTimer, &QTimer::timeout, &m_cooldonwTimer, &QTimer::stop);
-
     //backplane
     //middlestrip
     //front       boundings
     m_subBoundingBox1 = new TAABB(QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
     m_subBoundingBox2 = new TAABB(QVector3D(1.5,2.0,7.8), QVector3D(-1.5,-1.0,-10.78));
     m_subBoundingBox3 = new TAABB(QVector3D(3.0,1.8,6.2), QVector3D(-3,0.0,0.5));
-//    setBoundingBox( m_subBoundingBox2 ); // only to avoid some hopefully not occuring problems where the Box is not initialised
-    setWeaponCooldown(400);
+
     setCollisionType(CollisionType::AABB);
+    setCooldown(Spaceinvaders::playerShootingCooldownInGameTicks);
 }
 
 Spaceship::~Spaceship()
@@ -28,20 +25,6 @@ Spaceship::~Spaceship()
 
 }
 
-int Spaceship::getWeaponCooldown() const
-{
-    return m_cooldonwTimer.interval();
-}
-
-void Spaceship::setWeaponCooldown(int msec)
-{
-    m_cooldonwTimer.setInterval(msec);
-}
-
-bool Spaceship::isReadyToShoot() const
-{
-    return !(m_cooldonwTimer.isActive());
-}
 
 bool Spaceship::performCollDetection_AABBvsAABB(GameEntity *other)
 {
@@ -103,10 +86,4 @@ bool Spaceship::performCollDetection_AABBvsSPHERE(GameEntity *other)
             return false;
     }
     return false;
-}
-
-void Spaceship::shoot()
-{
-    qDebug() << "shooting with ship occoured";
-    m_cooldonwTimer.start();
 }

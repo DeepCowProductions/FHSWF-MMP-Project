@@ -73,13 +73,14 @@ GameSceen::GameSceen(QQuickItem *parent)
     //### INIT TIMER
 
     m_timer_gameloop = new QTimer(this);
-    m_timer_gameloop->setInterval(Spaceinvaders::GameTicksPerSecond); // set game to run at x ticks per second -> one loop every x seconds
+    m_timer_gameloop->setInterval(Spaceinvaders::GameTickCooldownInMillSec); // set game to run at x ticks per second -> one loop every x seconds
     connect(m_timer_gameloop, &QTimer::timeout,
             this, &GameSceen::onTimer_GameLoopTimeout, Qt::DirectConnection);
-    m_timer->setInterval(Spaceinvaders::RenderTicksPerSecond); // draw a frame every x ms with timer in base class
+    m_timer->setInterval(Spaceinvaders::RenderTickCooldownInMillSec); // draw a frame every x ms with timer in base class
     connect(m_gameEngine, &GameEngine::smallEnemyKilled,this,&GameSceen::onSmallEnemyKilled);
     connect(m_gameEngine, &GameEngine::playershipHit, this, &GameSceen::onPlayershipHit);
 
+    //### dislay ship hitbox
     m_cube1 = new GLCube("c1",QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
     m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
     m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
@@ -207,12 +208,12 @@ void GameSceen::gameLoopTimeout()
 
     if (m_leftKeyPressed) {
         //### nur zum umschaune  und debuggen
-        //                m_guiThreadCameraMatrix.rotate(1.0, v_X);
-        gameEngine()->playership()->translate(QVector3D(0.8,0.0,0.0));
+                        m_guiThreadCameraMatrix.rotate(1.0, v_X);
+//        gameEngine()->playership()->tryMove(QVector3D(Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
     if (m_rightKeyPressed) {
-        //                m_guiThreadCameraMatrix.rotate(1.0, v_Y);
-        gameEngine()->playership()->translate(QVector3D(-0.8,0.0,0.0));
+                        m_guiThreadCameraMatrix.rotate(1.0, v_Y);
+//        gameEngine()->playership()->tryMove(QVector3D(-Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
 #endif
 
@@ -402,26 +403,6 @@ void GameSceen::keyReleaseEvent(QKeyEvent *event)
         
     }
 }
-
-//bool GameSceen::eventFilter(QObject *obj, QEvent *event)
-//{
-//    if (event->type() == QEvent::KeyPress)
-//    {
-//        this->keyPressEvent(dynamic_cast<QKeyEvent*>(event));
-//        return true;
-//    }
-//    else if (event->type() == QEvent::KeyRelease)
-//    {
-//        this->keyReleaseEvent(dynamic_cast<QKeyEvent*>(event));
-//        return  true;
-//    }
-//    else
-//    {
-//        return QObject::eventFilter(obj, event);
-//    }
-//}
-
-
 
 void GameSceen::paintUnderQmlScene()
 {

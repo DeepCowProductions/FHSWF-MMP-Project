@@ -36,6 +36,8 @@ bool QGameMusicEngine::loadGameMusic(const QString &fileName)
 
 void QGameMusicEngine::playGameMusic()
 {
+    if(!player)
+        return;
     if(enabled) {
             if(player->playlist() != NULL)
                 player->play();
@@ -46,6 +48,9 @@ void QGameMusicEngine::playGameMusic()
 
 void QGameMusicEngine::stopGameMusic()
 {
+
+    if(!player)
+        return;
     if(player->state() == QMediaPlayer::PlayingState) {
         player->stop();
     }
@@ -53,6 +58,9 @@ void QGameMusicEngine::stopGameMusic()
 
 bool QGameMusicEngine::pauseGameMusic()
 {
+
+    if(!player)
+        return false;
     if(player->state() == QMediaPlayer::PlayingState) {
         player->pause();
     }
@@ -63,6 +71,9 @@ bool QGameMusicEngine::pauseGameMusic()
 
 bool QGameMusicEngine::isPlaying()
 {
+
+    if(!player)
+        return false;
     if(player->mediaStatus() == QMediaPlayer::NoMedia)
         return false;
     return true;

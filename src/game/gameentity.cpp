@@ -35,7 +35,9 @@ void GameEntity::snycForRendering()
 
 bool GameEntity::tryMove(QVector3D direction)
 {
-    translate(direction);
+    QVector3D d = getVirtualCenter() + direction;
+    if ( d.x() < Spaceinvaders::playFieldBounds  && d.x() > -Spaceinvaders::playFieldBounds )
+        translate(direction);
     return true;
 }
 

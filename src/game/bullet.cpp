@@ -17,7 +17,6 @@ Bullet::Bullet(GameEngine *engine, GLBullet *model, double v, QVector3D directio
     setBoundingBox(bb) ;
 }
 
-
 double Bullet::velocity() const
 {
     return m_velocity;

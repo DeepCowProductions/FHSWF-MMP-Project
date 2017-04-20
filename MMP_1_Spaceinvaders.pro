@@ -36,7 +36,8 @@ SOURCES += src/main.cpp \
     src/globjects/glbullet.cpp \
     src/game/spaceship.cpp \
     src/game/collisionbox.cpp \
-    src/sound/qgamemusicengine.cpp
+    src/sound/qgamemusicengine.cpp \
+    src/game/singleshottimer.cpp
 
 RESOURCES += qml.qrc \
     shaders.qrc \
@@ -97,7 +98,8 @@ HEADERS += \
     src/game/spaceship.h \
     src/game/collisionbox.h \
     src/game/definesandconstants.h \
-    src/sound/qgamemusicengine.h
+    src/sound/qgamemusicengine.h \
+    src/game/singleshottimer.h
 
 DISTFILES += \
     android/AndroidManifest.xml
