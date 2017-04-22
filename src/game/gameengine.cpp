@@ -104,7 +104,8 @@ void GameEngine::staticCollisionDetection()
             if (m_enemyConatiner[i].checkCollision(&m_bulletContainerRed[j])) {
                 enDelMarks.append(&m_enemyConatiner[i]);
                 rbDelMarks.append(&m_bulletContainerRed[j]);
-                emit smallEnemyKilled(1,m_enemyConatiner[i].getVirtualCenter());
+                j++;
+                emit smallEnemyKilled(10,m_enemyConatiner[i].getVirtualCenter());
             }
         }
     }

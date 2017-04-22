@@ -64,9 +64,9 @@ GameSceen::GameSceen(QQuickItem *parent)
     //m_soundEngine->setEnabled(true);
 
     //### init GameMusicEngine
-    m_gameMusicEngine = new QGameMusicEngine();
+    m_gameMusicEngine = new QGameMusicEngine(this);
 #ifdef Q_OS_ANDROID
-    m_gameMusicEngine->loadGameMusic("assets:/GameMusik.mp3");
+    m_gameMusicEngine->loadGameMusic("assets:/sounds/GameSound.mp3");
 #else
     m_gameMusicEngine->loadGameMusic("../FHSWF-MMP-Project/sounds/GameSound.mp3");
 #endif

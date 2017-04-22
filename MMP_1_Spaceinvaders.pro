@@ -1,12 +1,5 @@
 QT += qml quick widgets opengl multimedia svg
 
-android
-{
-sound.path = /assets
-sound.files += GameMusic.mp3
-INSTALLS += sound
-}
-
 CONFIG += c++11
 
 SOURCES += src/main.cpp \
@@ -105,3 +98,46 @@ DISTFILES += \
     android/AndroidManifest.xml
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+linux-gcc:{
+SPACEINVADERSDIR = $$_PRO_FILE_PWD_
+RESOURCEDIR = $$SPACEINVADERSDIR
+
+target.path = $$SPACEINVADERSDIR
+}
+
+linux-g++:{
+SPACEINVADERSDIR = $$_PRO_FILE_PWD_
+RESOURCEDIR = $$SPACEINVADERSDIR
+
+target.path = $$SPACEINVADERSDIR
+}
+
+android
+{
+DEFINES += GLES
+RESOURCEDIR = /assets
+}
+
+imagefiles.path = $$RESOURCEDIR/img
+imagefiles.files= img/*
+
+texturefiles.path = $$RESOURCEDIR/texture
+texturefiles.files = texture/*
+
+soundfiles.path = $$RESOURCEDIR/sounds
+soundfiles.files = sounds/*
+
+modelfiles.path = $$RESOURCEDIR/models
+modelfiles.files = models/*
+
+fontfiles.path = $$RESOURCEDIR/fonts
+fontfiles.files = fonts/*
+
+
+INSTALLS += \
+imagefiles \
+texturefiles \
+soundfiles \
+modelfiles \
+fontfiles

@@ -1,15 +1,15 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="startship">qml/img/startpic.png</file>
-        <file alias="title">qml/img/title.png</file>
-        <file alias="life">qml/img/spaceshipLife.png</file>
-        <file alias="2xPnts">qml/img/powerup icons/2xPnt.png</file>
-        <file alias="2xShot">qml/img/powerup icons/2xShot.png</file>
-        <file alias="3xShot">qml/img/powerup icons/3xShot.png</file>
-        <file alias="10xPnts">qml/img/powerup icons/10xPnt.png</file>
-        <file alias="undestroyable">qml/img/powerup icons/undestroyable.png</file>
-        <file alias="knobbackground">qml/img/switch/background.svg</file>
-        <file alias="knob">qml/img/switch/knob.png</file>
-        <file alias="knob2">qml/img/switch/knob.svg</file>
+        <file alias="life">img/spaceshipLife.png</file>
+        <file alias="startship">img/startpic.png</file>
+        <file alias="title">img/title.png</file>
+        <file alias="2xPnts">img/powerup icons/2xPnt.png</file>
+        <file alias="2xShot">img/powerup icons/2xShot.png</file>
+        <file alias="3xShot">img/powerup icons/3xShot.png</file>
+        <file alias="10xPnts">img/powerup icons/10xPnt.png</file>
+        <file alias="undestroyable">img/powerup icons/undestroyable.png</file>
+        <file alias="knobbackground">img/switch/background.svg</file>
+        <file alias="knob">img/switch/knob.png</file>
+        <file alias="knob2">img/switch/knob.svg</file>
     </qresource>
 </RCC>
