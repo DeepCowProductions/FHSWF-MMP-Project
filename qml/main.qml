@@ -52,6 +52,7 @@ ApplicationWindow {
             game.visible = true;
             startPage.visible = false;
             game.runGameLoop = true
+            game.newGame = false;
         }
 
         infoButton.onClicked: {
@@ -101,12 +102,15 @@ ApplicationWindow {
             pausePage.visible = false;
         }
         neustartButton.onClicked: {
-
+            game.newGame = true;
+            pausePage.visible = false;
+            game.runGameLoop = true;
         }
         menuButton.onClicked: {
             game.visible = false;
             startPage.visible = true;
             pausePage.visible = false;
+            game.newGame = true;
         }
     }
 }

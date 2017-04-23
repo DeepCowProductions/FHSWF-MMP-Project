@@ -36,6 +36,7 @@ class GameSceen : public GLItem
 {
     Q_OBJECT
     //### PROPERTIES OF THE SPACEINVADERS. QML FOR INTERACTING
+    Q_PROPERTY(bool newGame READ newGame WRITE setNewGame NOTIFY newGameChanged)
     Q_PROPERTY(bool effectsOn READ EffectsOn WRITE setEffectsOn NOTIFY EffectsOnChanged)
     Q_PROPERTY(bool musicOn READ musicOn WRITE setMusicOn NOTIFY musicOnChanged)
     Q_PROPERTY(bool isTablet READ isTablet WRITE setIsTablet NOTIFY isTabletChanged)
@@ -89,6 +90,9 @@ public:
     bool EffectsOn() const
     {
         return m_effectsOn;
+    }
+    bool newGame() {
+        return m_newGame;
     }
 
 public slots:
@@ -162,6 +166,17 @@ public slots:
         emit EffectsOnChanged(EffectsOn);
     }
 
+    void setNewGame(bool newGame)
+    {
+        if (m_newGame == newGame)
+            return;
+
+        m_newGame = newGame;
+        if(newGame)
+            startNewGame();
+        emit newGameChanged(newGame);
+    }
+
 signals:
 
     void leftKeyPressedChanged(bool leftKeyPressed);
@@ -175,6 +190,7 @@ signals:
     void isTabletChanged(bool isTablet);
     void musicOnChanged(bool musicOn);
     void EffectsOnChanged(bool EffectsOn);
+    void newGameChanged(bool newGame);
 
 protected:
     //    bool eventFilter(QObject *obj, QEvent *event);
@@ -255,6 +271,7 @@ protected:
 
 
 private:
+    void startNewGame();
     /**
      * @brief m_timer_gameloop the timer of the game
      */
@@ -288,6 +305,7 @@ private:
     bool m_musicOn;
     bool m_effectsOn;
     bool m_runGameLoop;
+    bool m_newGame;
 
     //### GLOBAL ROTATION ANGLE
     QMatrix4x4 m_guiThreadCameraMatrix;

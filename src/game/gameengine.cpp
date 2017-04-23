@@ -75,7 +75,6 @@ void GameEngine::processEntities()
     //    qDebug() << "GameEngine::processEntities() finished";
 }
 
-
 void GameEngine::spawnRandomEnemies()
 {
 

@@ -24,6 +24,7 @@ GameSceen::GameSceen(QQuickItem *parent)
     setSecLife(true);
     setThirdLife(true);
     setShotButtonPressed(false);
+    setNewGame(false);
 
     setScore(0);
 
@@ -81,9 +82,9 @@ GameSceen::GameSceen(QQuickItem *parent)
     connect(m_gameEngine, &GameEngine::playershipHit, this, &GameSceen::onPlayershipHit);
 
     //### dislay ship hitbox
-    m_cube1 = new GLCube("c1",QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
-    m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
-    m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
+    //m_cube1 = new GLCube("c1",QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
+    //m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
+    //m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
 
 }
 
@@ -419,9 +420,9 @@ void GameSceen::paintUnderQmlScene()
 
     //    m_spaceship->draw(renderer());
     m_gameEngine->drawEntities(renderer());
-    m_cube1->draw(renderer());
-    m_cube2->draw(renderer());
-    m_cube3->draw(renderer());
+    //m_cube1->draw(renderer());
+    //m_cube2->draw(renderer());
+    //m_cube3->draw(renderer());
 
     m_renderer->release();
 
@@ -519,6 +520,58 @@ void GameSceen::doSynchronizeThreads()
         }
         m_lastMouseEvent->setAccepted(true);
     }
+}
+
+void GameSceen::startNewGame()
+{
+#ifdef Q_OS_ANDROID
+    //### Check if is Tablet or Smartphone
+    isTablet();
+#endif
+    m_gameEngine = new GameEngine(this);
+    setFirstLife(true);
+    setSecLife(true);
+    setThirdLife(true);
+    setShotButtonPressed(false);
+    setNewGame(false);
+
+    setScore(0);
+
+    //### RESET THE VIEW
+    resetView();
+
+    //### SET ALL BUTTONS
+    setAcceptedMouseButtons(Qt::AllButtons);
+
+    //### SET THE FOCUS ON THIS SCENE
+    setFocus(true);
+    m_lastMouseEvent = NULL;
+
+    m_timer_gameloop = new QTimer(this);
+    m_timer_gameloop->setInterval(Spaceinvaders::GameTickCooldownInMillSec); // set game to run at x ticks per second -> one loop every x seconds
+    connect(m_timer_gameloop, &QTimer::timeout,
+            this, &GameSceen::onTimer_GameLoopTimeout, Qt::DirectConnection);
+    m_timer->setInterval(Spaceinvaders::RenderTickCooldownInMillSec); // draw a frame every x ms with timer in base class
+    connect(m_gameEngine, &GameEngine::smallEnemyKilled,this,&GameSceen::onSmallEnemyKilled);
+    connect(m_gameEngine, &GameEngine::playershipHit, this, &GameSceen::onPlayershipHit);
+
+    //### dislay ship hitbox
+    //m_cube1 = new GLCube("c1",QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
+    //m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
+    //m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
+
+    setupGeometry();
+
+    //### entities
+    m_renderer->bind();
+
+    //    m_spaceship->draw(renderer());
+    m_gameEngine->drawEntities(renderer());
+    //m_cube1->draw(renderer());
+    //m_cube2->draw(renderer());
+    //m_cube3->draw(renderer());
+
+    m_renderer->release();
 }
 
 void GameSceen::scoresUp(int scorePoints)
