@@ -147,7 +147,7 @@ void GameEngine::moveAutomaticEntities()
         m_bulletContainerGreen[i].translate(v_Y * m_bulletContainerGreen[i].velocity());
 #ifdef Q_OS_ANDROID
         if (m_bulletContainerGreen[i].getVirtualCenter().z() < -Spaceinvaders::playFieldBuffer ) {
-            gbDelMarks.append(&m_bulletContainerRed[i]);
+            gbDelMarks.append(&m_bulletContainerGreen[i]);
         }
 #else
         if (m_bulletContainerGreen[i].getVirtualCenter().z() < -Spaceinvaders::playFieldBuffer) {

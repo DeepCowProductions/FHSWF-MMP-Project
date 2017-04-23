@@ -7,6 +7,7 @@
 #include "../globjects/glbullet.h"
 #include "../globjects/glspaceship.h"
 #include "../globjects/glsphere.h"
+#include "../sound/soundengine.h"
 #include "definesandconstants.h"
 #include "bullet.h"
 #include "spaceship.h"

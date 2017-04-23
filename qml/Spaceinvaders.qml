@@ -52,14 +52,14 @@ GameSceen {
         anchors.bottomMargin: 0
         MoveButton {
             id: leftButton
-            text: "Move Left"
+            text: "Left "
         }
         ShotButton {
             id: shotButton
         }
         MoveButton {
             id: rightButton
-            text: "Move Right"
+            text: "Right"
         }
     }
 
