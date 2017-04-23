@@ -7,17 +7,23 @@ Rectangle {
     anchors.top: parent.top
     color: "#3067EAF9"
 
+    //### LOAD ANDROID FONT
+    FontLoader { id: fixedFont; name: "Roboto light" }
+    FontLoader { id: localFont; source: "qrc:/fonts/Roboto-Light.ttf" }
+
     //property alias powerUPSource: powerUPSource
     //property string powerUPSource
     property alias score: scoreText
     property alias firstLife: firstLife
     property alias secLife: secLife
     property alias thirdLife: thirdLife
+    property alias pause: pauseButton
 
     Text {
         id: scoreText
         text: "ERROR"
         color: "red"
+        font.family: "Roboto light"
         font.pixelSize: 20
         anchors.left: gameBarRect.left
         anchors.verticalCenter: gameBarRect.verticalCenter

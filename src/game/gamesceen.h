@@ -85,7 +85,7 @@ public:
     bool runGameLoop() const {  return m_runGameLoop;   }
     GameEngine *gameEngine() const;
     bool shotButtonPressed() const;
-    bool musicOn() const    {   return m_musicOn;   }    
+    bool musicOn() const    {   return m_musicOn;   }
     bool EffectsOn() const
     {
         return m_effectsOn;
@@ -174,7 +174,6 @@ signals:
     void shotButtonPressedChanged(bool shotButtonPressed);
     void isTabletChanged(bool isTablet);
     void musicOnChanged(bool musicOn);
-
     void EffectsOnChanged(bool EffectsOn);
 
 protected:

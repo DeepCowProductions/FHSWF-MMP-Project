@@ -7,6 +7,10 @@ Rectangle {
     property alias on: s.on
     property alias onText: isOn
 
+    //### LOAD ANDROID FONT
+    FontLoader { id: fixedFont; name: "Roboto light" }
+    FontLoader { id: localFont; source: "qrc:/fonts/Roboto-Light.ttf" }
+
     Switch {
         id: s
         anchors.centerIn: parent
@@ -16,6 +20,7 @@ Rectangle {
         id: isOn
         text: s.on ? qsTr("On") : qsTr("Off")
         anchors.top: s.bottom
+        font.family: "Roboto light"
         anchors.horizontalCenter: parent.horizontalCenter
         color: s.on ? "green" : "red"
         font.pointSize: 12

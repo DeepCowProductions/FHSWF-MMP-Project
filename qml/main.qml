@@ -25,21 +25,25 @@ ApplicationWindow {
         shotButtonPressed: shotButton.pressed
         musicOn: settingsPage.musicOn
         effectsOn: settingsPage.effectsOn
+        pause.onClicked: {
+            pausePage.visible = true;
+            runGameLoop = false;
+        }
     }
 
-//    SignalSpy {
-//        id: spy
-//        target: game
-//        signalName: ""
-//    }
-//    TestCase {
-//        name: "ButtonClick"
-//        function test_click() {
-//            compare(spy.count, 0)
-//            button.clicked();
-//            compare(spy.count, 1)
-//        }
-//    }
+    //    SignalSpy {
+    //        id: spy
+    //        target: game
+    //        signalName: ""
+    //    }
+    //    TestCase {
+    //        name: "ButtonClick"
+    //        function test_click() {
+    //            compare(spy.count, 0)
+    //            button.clicked();
+    //            compare(spy.count, 1)
+    //        }
+    //    }
 
     Startpage {
         id: startPage
@@ -64,8 +68,15 @@ ApplicationWindow {
         anchors.fill: parent
         visible: startPage.settingsButton.pressed ? true : false
         backButton.onClicked: {
-            startPage.visible = true;
-            settingsPage.visible = false;
+            if(!game.runGameLoop) {
+                startPage.visible = false;
+                settingsPage.visible = false;
+                pausePage.visible = true;
+            }
+            else {
+                startPage.visible = true;
+                settingsPage.visible = false;
+            }
         }
     }
 
@@ -76,6 +87,26 @@ ApplicationWindow {
         backButton.onClicked: {
             startPage.visible = true;
             infoPage.visible = false;
+        }
+    }
+    PausePage {
+        id: pausePage
+        visible: false
+        backButton.onClicked: {
+            pausePage.visible = false;
+            game.runGameLoop = true;
+        }
+        pauseSettingsButton.onClicked: {
+            settingsPage.visible = true;
+            pausePage.visible = false;
+        }
+        neustartButton.onClicked: {
+
+        }
+        menuButton.onClicked: {
+            game.visible = false;
+            startPage.visible = true;
+            pausePage.visible = false;
         }
     }
 }

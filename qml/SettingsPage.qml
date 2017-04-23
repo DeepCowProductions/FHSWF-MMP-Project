@@ -6,6 +6,10 @@ Item {
     property alias musicOn: switchSlide.on
     property alias effectsOn: effectSlide.on
 
+    //### LOAD ANDROID FONT
+    FontLoader { id: fixedFont; name: "Roboto light" }
+    FontLoader { id: localFont; source: "qrc:/fonts/Roboto-Light.ttf" }
+
     id: settingsPage
     anchors.fill: parent
     width: 640
@@ -27,6 +31,7 @@ Item {
             Layout.alignment: Qt.AlignCenter
             color: "red"
             font.pointSize: 24
+            font.family: "Roboto light"
             Switchslide{
                 id: switchSlide
                 anchors.left: musicText.right
@@ -41,6 +46,7 @@ Item {
             anchors.topMargin: 50
             color: "red"
             font.pointSize: 24
+            font.family: "Roboto light"
             Switchslide{
                 id: effectSlide
                 on: true

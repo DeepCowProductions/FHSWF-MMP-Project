@@ -17,6 +17,7 @@ GameSceen {
     property alias leftButton: leftButton
     property alias rightButton: rightButton
     property alias shotButton: shotButton
+    property alias pause: gameBar.pause
 
     GameBar {
         id: gameBar

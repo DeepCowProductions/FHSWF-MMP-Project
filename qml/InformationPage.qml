@@ -4,6 +4,10 @@ import QtQuick.Layouts 1.1
 Item {
     property alias backButton: backButton
 
+    //### LOAD ANDROID FONT
+    FontLoader { id: fixedFont; name: "Roboto light" }
+    FontLoader { id: localFont; source: "qrc:/fonts/Roboto-Light.ttf" }
+
     id: infoPage
     anchors.fill: parent
     width: 640
@@ -49,6 +53,7 @@ Item {
             text: qsTr("Starting Game: ")
             color: "red"
             font.pointSize: 24
+            font.family: "Roboto light"
             PlayButton {
                 enabled: false
                 anchors.left: startGameText.right
@@ -60,6 +65,7 @@ Item {
             text: qsTr("Pause the Game: ")
             color: "red"
             font.pointSize: 24
+            font.family: "Roboto light"
             PauseButton {
                 enabled: false
                 height: 65
@@ -73,6 +79,7 @@ Item {
             text: qsTr("Close the Game: ")
             color: "red"
             font.pointSize: 24
+            font.family: "Roboto light"
             CloseButton {
                 enabled: false
                 anchors.left: quitText.right
@@ -84,6 +91,7 @@ Item {
             text: Qt.platform.os == "android" ? qsTr("Move by pressing: ") : qsTr("Moving the Player's Spaceship by pressing: LEFT/RIGHT or 'a'/'d'")
             color: "red"
             font.pointSize: 24
+            font.family: "Roboto light"
             MoveButton {
                 enabled: false
                 visible: Qt.platform.os == "android"
@@ -97,6 +105,7 @@ Item {
             text: Qt.platform.os == "android" ? qsTr("Fire by pressing: ") : qsTr("Fire by pressing Spacebar")
             color: "red"
             font.pointSize: 24
+            font.family: "Roboto light"
             ShotButton {
                 enabled: false
                 visible: Qt.platform.os == "android"
@@ -109,6 +118,7 @@ Item {
             text: Qt.platform.os == "android" ? qsTr("Points for enemey: 10") : qsTr("Getting Points by shooting a enemy: 10 Points")
             color: "red"
             font.pointSize: 24
+            font.family: "Roboto light"
         }
         Text {
             id: pointBossText

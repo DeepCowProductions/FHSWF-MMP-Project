@@ -18,5 +18,7 @@
         <file>qml/ShotButton.qml</file>
         <file>qml/Switch.qml</file>
         <file>qml/Switchslide.qml</file>
+        <file>qml/PausePage.qml</file>
+        <file>qml/Button.qml</file>
     </qresource>
 </RCC>
