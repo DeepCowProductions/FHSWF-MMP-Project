@@ -62,6 +62,8 @@ public:
     QList<Bullet> bulletContainerGreen();
     QList<SmallEnemy> enemyConatiner();
 
+    void setEffectsOn(bool on);
+
 signals:
     void smallEnemyKilled (int value, QVector3D location);
     void bigEnemyKilled (int value, QVector3D location);
@@ -107,7 +109,8 @@ private:
     TAABB * m_bulletBounding;
     TAABB * m_smallEnemyBounding;
 
-
+    SoundEngine * m_soundEngine;
+    bool m_effectsOn;
 };
 
 #endif // GAMEENGINE_H

@@ -2,6 +2,7 @@
 #include "QUrl"
 #include "QMediaContent"
 #include "QFileInfo"
+#include "QDir"
 
 QGameMusicEngine::QGameMusicEngine(QObject *parent) : QObject(parent)
 {
@@ -21,7 +22,13 @@ bool QGameMusicEngine::loadGameMusic(const QString &fileName)
 #ifdef DEBUG_QGAMEMUSICENGINE
     qDebug() << "QGameMusicEngine::loadGameMusic loading sound: " << fileName;
 #endif
+#ifdef Q_OS_ANDROID
     playlist->addMedia(QUrl(fileName));
+#else
+    playlist->addMedia(QUrl::fromLocalFile(QFileInfo(fileName).absoluteFilePath()));
+    //QDir dir;
+    //qDebug() << dir.absolutePath();
+#endif
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
     if(playlist->isEmpty()) {
         qDebug() << "QGameMusicEngine::playGameMusic: " << playlist->errorString();

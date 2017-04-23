@@ -10,6 +10,8 @@ GameEngine::GameEngine(QObject *parent) : QObject(parent)
     m_glsppaceship->setTextureFile(":/spaceshipTex"); // use alias
     m_explosionSphere = new GLSphere("redSphere",3.0,GLColorRgba::clRed);
 
+    m_soundEngine = new SoundEngine(this);
+
     m_bulletBounding = new TAABB(QVector3D(m_glbulletred->diamenter(),m_glbulletred->length(),m_glbulletred->diamenter()),
                                  QVector3D(-m_glbulletred->diamenter(),-m_glbulletred->length(),-m_glbulletred->diamenter()));
 
@@ -105,6 +107,7 @@ void GameEngine::staticCollisionDetection()
                 enDelMarks.append(&m_enemyConatiner[i]);
                 rbDelMarks.append(&m_bulletContainerRed[j]);
                 j++;
+                m_soundEngine->playSound(":/smallEnemyExplosion");
                 emit smallEnemyKilled(10,m_enemyConatiner[i].getVirtualCenter());
             }
         }
@@ -330,6 +333,11 @@ QList<Bullet> GameEngine::bulletContainerRed()
 QList<SmallEnemy> GameEngine::enemyConatiner()
 {
     return m_enemyConatiner;
+}
+
+void GameEngine::setEffectsOn(bool on)
+{
+    m_soundEngine->setEnabled(on);
 }
 
 QList<Bullet> GameEngine::bulletContainerGreen()

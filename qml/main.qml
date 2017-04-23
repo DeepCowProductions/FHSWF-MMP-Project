@@ -24,6 +24,7 @@ ApplicationWindow {
         rightKeyPressed: rightButton.pressed
         shotButtonPressed: shotButton.pressed
         musicOn: settingsPage.musicOn
+        effectsOn: settingsPage.effectsOn
     }
 
 //    SignalSpy {

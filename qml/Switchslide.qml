@@ -4,7 +4,8 @@ Rectangle {
     color: "grey"
     width: 130; height: 60
     radius: 25
-    property alias musicOn: s.on
+    property alias on: s.on
+    property alias onText: isOn
 
     Switch {
         id: s

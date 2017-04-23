@@ -36,6 +36,7 @@ class GameSceen : public GLItem
 {
     Q_OBJECT
     //### PROPERTIES OF THE SPACEINVADERS. QML FOR INTERACTING
+    Q_PROPERTY(bool effectsOn READ EffectsOn WRITE setEffectsOn NOTIFY EffectsOnChanged)
     Q_PROPERTY(bool musicOn READ musicOn WRITE setMusicOn NOTIFY musicOnChanged)
     Q_PROPERTY(bool isTablet READ isTablet WRITE setIsTablet NOTIFY isTabletChanged)
     Q_PROPERTY(bool shotButtonPressed READ shotButtonPressed WRITE setShotButtonPressed NOTIFY shotButtonPressedChanged)
@@ -84,7 +85,11 @@ public:
     bool runGameLoop() const {  return m_runGameLoop;   }
     GameEngine *gameEngine() const;
     bool shotButtonPressed() const;
-    bool musicOn() const    {   return m_musicOn;   }
+    bool musicOn() const    {   return m_musicOn;   }    
+    bool EffectsOn() const
+    {
+        return m_effectsOn;
+    }
 
 public slots:
     /**
@@ -118,7 +123,6 @@ public slots:
      * @param rightKeyPressed bool
      */
     void setRightKeyPressed(bool rightKeyPressed);
-
     void setFirstLife(bool firstLife);
     void setSecLife(bool secLife);
     void setThirdLife(bool thirdLife);
@@ -148,6 +152,16 @@ public slots:
      */
     void onPlayershipHit(int value);
 
+    void setEffectsOn(bool EffectsOn)
+    {
+        if (m_effectsOn == EffectsOn)
+            return;
+
+        m_effectsOn = EffectsOn;
+        m_gameEngine->setEffectsOn(EffectsOn);
+        emit EffectsOnChanged(EffectsOn);
+    }
+
 signals:
 
     void leftKeyPressedChanged(bool leftKeyPressed);
@@ -160,6 +174,8 @@ signals:
     void shotButtonPressedChanged(bool shotButtonPressed);
     void isTabletChanged(bool isTablet);
     void musicOnChanged(bool musicOn);
+
+    void EffectsOnChanged(bool EffectsOn);
 
 protected:
     //    bool eventFilter(QObject *obj, QEvent *event);
@@ -272,6 +288,7 @@ private:
     int m_score;
     bool m_shotButtonPressed;
     bool m_musicOn;
+    bool m_effectsOn;
 
     //### GLOBAL ROTATION ANGLE
     QMatrix4x4 m_guiThreadCameraMatrix;
@@ -318,7 +335,6 @@ private:
     bool m_pointLightEnabled = false;
     QVector3D m_lightDirection = QVector3D(1.0, 1.0, 1.0);
     QVector4D m_lightPos = QVector4D(0.0, 10.0, 0.0, 0.0);
-
 };
 
 #endif // GAMESCEEN_H

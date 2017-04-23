@@ -21,13 +21,13 @@ Item {
             //pointBossText.anchors.left = columnLayout.left;
         }
         else {
-            columnLayout.anchors.horizontalCenter = parent.horizontalCenter;
-            startGameText.anchors.horizontalCenter = parent.horizontalCenter;
-            pauseText.anchors.horizontalCenter = parent.horizontalCenter;
-            moveText.anchors.horizontalCenter = parent.horizontalCenter;
-            quitText.anchors.horizontalCenter = parent.horizontalCenter;
-            pointText.anchors.horizontalCenter = parent.horizontalCenter;
-            shootText.anchors.horizontalCenter = parent.horizontalCenter;
+            columnLayout.anchors.horizontalCenter = infoPage.horizontalCenter;
+            startGameText.anchors.horizontalCenter = columnLayout.horizontalCenter;
+            pauseText.anchors.horizontalCenter = columnLayout.horizontalCenter;
+            moveText.anchors.horizontalCenter = columnLayout.horizontalCenter;
+            quitText.anchors.horizontalCenter = columnLayout.horizontalCenter;
+            pointText.anchors.horizontalCenter = columnLayout.horizontalCenter;
+            shootText.anchors.horizontalCenter = columnLayout.horizontalCenter;
             //pointBossText.anchors.horizontalCenter = parent.horizontalCenter;
         }
     }
