@@ -51,6 +51,8 @@ public:
     void addEnemy(SmallEnemy e);
     bool deleteEnemy(SmallEnemy e);
 
+    void setSoundEngineEnabled(bool on);
+
     GLBullet *glbulletgreen() const;
     void setGlbulletgreen(GLBullet *glbulletgreen);
 

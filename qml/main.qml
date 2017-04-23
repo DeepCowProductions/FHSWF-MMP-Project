@@ -12,6 +12,8 @@ ApplicationWindow {
     title: qsTr("Space Invaders 3D")
     color: "transparent"
 
+    property bool runingGame: false
+
     Spaceinvaders {
         id: game
         visible: false
@@ -53,6 +55,7 @@ ApplicationWindow {
             startPage.visible = false;
             game.runGameLoop = true
             game.newGame = false;
+            runingGame = true;
         }
 
         infoButton.onClicked: {
@@ -69,7 +72,7 @@ ApplicationWindow {
         anchors.fill: parent
         visible: startPage.settingsButton.pressed ? true : false
         backButton.onClicked: {
-            if(!game.runGameLoop) {
+            if(runingGame) {
                 startPage.visible = false;
                 settingsPage.visible = false;
                 pausePage.visible = true;
@@ -77,6 +80,7 @@ ApplicationWindow {
             else {
                 startPage.visible = true;
                 settingsPage.visible = false;
+                pausePage.visible = false;
             }
         }
     }
@@ -88,8 +92,10 @@ ApplicationWindow {
         backButton.onClicked: {
             startPage.visible = true;
             infoPage.visible = false;
+            pausePage.visible = false;
         }
     }
+
     PausePage {
         id: pausePage
         visible: false
@@ -111,6 +117,7 @@ ApplicationWindow {
             startPage.visible = true;
             pausePage.visible = false;
             game.newGame = true;
+            runingGame = false;
         }
     }
 }

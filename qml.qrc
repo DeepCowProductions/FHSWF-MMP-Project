@@ -20,5 +20,6 @@
         <file>qml/Switchslide.qml</file>
         <file>qml/PausePage.qml</file>
         <file>qml/Button.qml</file>
+        <file>qml/GameOverPage.qml</file>
     </qresource>
 </RCC>

@@ -305,6 +305,11 @@ bool GameEngine::deleteEnemy(SmallEnemy e)
     return false;
 }
 
+void GameEngine::setSoundEngineEnabled(bool on)
+{
+    m_soundEngine->setEnabled(on);
+}
+
 GLBullet *GameEngine::glbulletgreen() const
 {
     return m_glbulletgreen;

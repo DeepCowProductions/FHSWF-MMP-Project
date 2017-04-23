@@ -572,6 +572,8 @@ void GameSceen::startNewGame()
     //m_cube3->draw(renderer());
 
     m_renderer->release();
+
+    m_gameEngine->setSoundEngineEnabled(m_effectsOn);
 }
 
 void GameSceen::scoresUp(int scorePoints)
