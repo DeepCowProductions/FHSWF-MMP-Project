@@ -46,6 +46,11 @@ GameEngine::~GameEngine()
 
 }
 
+void GameEngine::gameOver()
+{
+    m_soundEngine->playSound(":/gameover",1.0);
+}
+
 void GameEngine::drawEntities(GLESRenderer *renderer)
 {
     for (int i=0; i < m_bulletContainerRed.size();i++){
@@ -95,7 +100,7 @@ void GameEngine::staticCollisionDetection()
     for (int i = 0; i < m_bulletContainerGreen.size(); i++) {
         if (playership()->checkCollision(&m_bulletContainerGreen[i])) {
             gbDelMarks.append(&m_bulletContainerGreen[i]);
-            m_soundEngine->playSound(":/knock");
+            m_soundEngine->playSound(":/knock",1.0);
             emit playershipHit(1);
         }
     }
@@ -107,7 +112,7 @@ void GameEngine::staticCollisionDetection()
                 enDelMarks.append(&m_enemyConatiner[i]);
                 rbDelMarks.append(&m_bulletContainerRed[j]);
                 j++;
-                m_soundEngine->playSound(":/smallEnemyExplosion");
+                m_soundEngine->playSound(":/smallEnemyExplosion",1.0);
                 emit smallEnemyKilled(10,m_enemyConatiner[i].getVirtualCenter());
             }
         }
@@ -362,6 +367,7 @@ void GameEngine::shootWithPlayerShip()
         spawnRedBullet(v + QVector3D(2.0,1.0,0.5) , QVector3D(0.0,0.0,1.0), Spaceinvaders::playerBulletSpeed);
         spawnRedBullet(v + QVector3D(-2.0,1.0,0.5) , QVector3D(0.0,0.0,1.0), Spaceinvaders::playerBulletSpeed);
         playership()->shoot();
+        m_soundEngine->playSound(":/laser_blast",0.5);
     }else{
         qDebug() << "cant shoot yet with with , Weapons are on cooldown";
     }

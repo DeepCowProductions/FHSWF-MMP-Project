@@ -601,6 +601,7 @@ void GameSceen::onPlayershipHit(int value)
         m_gameOver = true;
         qDebug() << "GameSceen::onPlayershipHit: GAMEOVER";
         setRunGameLoop(false);
+        m_gameEngine->gameOver();
     }
     qDebug() << "playership hit!";
 }

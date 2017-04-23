@@ -30,6 +30,8 @@ public:
     explicit GameEngine(QObject *parent = 0);
     virtual ~GameEngine();
 
+    void gameOver();
+
     void drawEntities(GLESRenderer *renderer);
     void processEntities();
 

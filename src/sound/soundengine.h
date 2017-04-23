@@ -35,7 +35,7 @@ public slots:
     /**
       * Load and play soundfile or resource.
       */
-    void playSound(const QString & fileName);
+    void playSound(const QString & fileName,qreal volume);
     /**
      * @brief isPlaying
      * @return True, if one of the sounds is playing
