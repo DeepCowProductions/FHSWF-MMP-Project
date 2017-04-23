@@ -96,6 +96,7 @@ void GameEngine::staticCollisionDetection()
     for (int i = 0; i < m_bulletContainerGreen.size(); i++) {
         if (playership()->checkCollision(&m_bulletContainerGreen[i])) {
             gbDelMarks.append(&m_bulletContainerGreen[i]);
+            m_soundEngine->playSound(":/knock");
             emit playershipHit(1);
         }
     }
@@ -386,5 +387,3 @@ void GameEngine::spawnEnemy(QVector3D location)
     e.setVirtualCenter(location);
     addEnemy(e);
 }
-
-

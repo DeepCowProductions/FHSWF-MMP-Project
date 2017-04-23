@@ -256,8 +256,6 @@ protected:
 
 
 private:
-    bool m_runGameLoop;
-
     /**
      * @brief m_timer_gameloop the timer of the game
      */
@@ -285,10 +283,12 @@ private:
     bool m_firstLife;
     bool m_secLife;
     bool m_thirdLife;
+    bool m_gameOver;
     int m_score;
     bool m_shotButtonPressed;
     bool m_musicOn;
     bool m_effectsOn;
+    bool m_runGameLoop;
 
     //### GLOBAL ROTATION ANGLE
     QMatrix4x4 m_guiThreadCameraMatrix;

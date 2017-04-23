@@ -208,12 +208,12 @@ void GameSceen::gameLoopTimeout()
 
     if (m_leftKeyPressed) {
         //### nur zum umschaune  und debuggen
-                        m_guiThreadCameraMatrix.rotate(1.0, v_X);
-//        gameEngine()->playership()->tryMove(QVector3D(Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
+        m_guiThreadCameraMatrix.rotate(1.0, v_X);
+        //        gameEngine()->playership()->tryMove(QVector3D(Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
     if (m_rightKeyPressed) {
-                        m_guiThreadCameraMatrix.rotate(1.0, v_Y);
-//        gameEngine()->playership()->tryMove(QVector3D(-Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
+        m_guiThreadCameraMatrix.rotate(1.0, v_Y);
+        //        gameEngine()->playership()->tryMove(QVector3D(-Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
 #endif
 
@@ -333,7 +333,6 @@ void GameSceen::setMusicOn(bool musicOn)
 {
     if (m_musicOn == musicOn)
         return;
-
 
     m_musicOn = musicOn;
     m_gameMusicEngine->startGameMusic(musicOn);
@@ -534,6 +533,20 @@ void GameSceen::onSmallEnemyKilled(int value, QVector3D location)
 
 void GameSceen::onPlayershipHit(int value)
 {
+    if(m_firstLife == true) {
+        setFirstLife(false);
+        qDebug() << "GameSceen::onPlayershipHit: Only 2 lifes left";
+    }
+    else if(m_secLife == true) {
+        setSecLife(false);
+        qDebug() << "GameSceen::onPlayershipHit: Only 1 life left";
+    }
+    else if(m_thirdLife == true) {
+        setThirdLife(false);
+        m_gameOver = true;
+        qDebug() << "GameSceen::onPlayershipHit: GAMEOVER";
+        setRunGameLoop(false);
+    }
     qDebug() << "playership hit!";
 }
 
