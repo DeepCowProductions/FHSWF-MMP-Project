@@ -208,12 +208,12 @@ void GameSceen::gameLoopTimeout()
 
     if (m_leftKeyPressed) {
         //### nur zum umschaune  und debuggen
-                        m_guiThreadCameraMatrix.rotate(1.0, v_X);
-//        gameEngine()->playership()->tryMove(QVector3D(Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
+//                        m_guiThreadCameraMatrix.rotate(1.0, v_X);
+        gameEngine()->playership()->tryMove(QVector3D(Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
     if (m_rightKeyPressed) {
-                        m_guiThreadCameraMatrix.rotate(1.0, v_Y);
-//        gameEngine()->playership()->tryMove(QVector3D(-Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
+//                        m_guiThreadCameraMatrix.rotate(1.0, v_Y);
+        gameEngine()->playership()->tryMove(QVector3D(-Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
 #endif
 
@@ -420,9 +420,9 @@ void GameSceen::paintUnderQmlScene()
 
     //    m_spaceship->draw(renderer());
     m_gameEngine->drawEntities(renderer());
-    m_cube1->draw(renderer());
-    m_cube2->draw(renderer());
-    m_cube3->draw(renderer());
+//    m_cube1->draw(renderer());
+//    m_cube2->draw(renderer());
+//    m_cube3->draw(renderer());
 
     m_renderer->release();
 
@@ -505,21 +505,21 @@ void GameSceen::doSynchronizeThreads()
     m_cameraTransform = m_guiThreadCameraMatrix;
     gameEngine()->snycEntities();
     
-    if(m_lastMouseEvent && !m_lastMouseEvent->isAccepted()) //last mouse event still pending
-    {
-        switch (m_lastMouseEvent->type()){
-        case QEvent::MouseButtonPress:
-            m_frustum->invalidateSurface();
-            m_mouseRay->setMousePosition(m_lastMouseEvent->pos());
-            break;
-        case QEvent::MouseMove:
-            break;
-        case QEvent::MouseButtonRelease:
-            break;
-        default: qDebug() << "MyGLItem::doSynchronizeThreads(): Unknown mouse event";
-        }
-        m_lastMouseEvent->setAccepted(true);
-    }
+//    if(m_lastMouseEvent && !m_lastMouseEvent->isAccepted()) //last mouse event still pending
+//    {
+//        switch (m_lastMouseEvent->type()){
+//        case QEvent::MouseButtonPress:
+//            m_frustum->invalidateSurface();
+//            m_mouseRay->setMousePosition(m_lastMouseEvent->pos());
+//            break;
+//        case QEvent::MouseMove:
+//            break;
+//        case QEvent::MouseButtonRelease:
+//            break;
+//        default: qDebug() << "MyGLItem::doSynchronizeThreads(): Unknown mouse event";
+//        }
+//        m_lastMouseEvent->setAccepted(true);
+//    }
 }
 
 void GameSceen::scoresUp(int scorePoints)
@@ -534,7 +534,20 @@ void GameSceen::onSmallEnemyKilled(int value, QVector3D location)
 
 void GameSceen::onPlayershipHit(int value)
 {
-    qDebug() << "playership hit!";
+    if (firstLife())        {
+        setFirstLife(false);
+        return;
+    } else if (secLife())   {
+        setSecLife(false);
+        return;
+    } else if (thirdLife()) {
+        setThirdLife(false);
+        return;
+    } else {
+//        setRunGameLoop(false);
+        qDebug() << "all lifes lost. YOU LOSE!\nbetter luck next time";
+    }
+    return;
 }
 
 GameEngine *GameSceen::gameEngine() const

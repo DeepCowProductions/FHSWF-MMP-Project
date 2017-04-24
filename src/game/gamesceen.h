@@ -266,10 +266,10 @@ private:
      * @brief m_orientation flag for the orentation of the mobile phone
      */
     bool m_isTablet;
-    bool m_firstLife;
-    bool m_secLife;
-    bool m_thirdLife;
-    int m_score;
+    bool m_firstLife = true;
+    bool m_secLife = true;
+    bool m_thirdLife = true;
+    int m_score = 0;
     bool m_shotButtonPressed;
     bool m_musicOn;
 
