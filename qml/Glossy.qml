@@ -3,6 +3,7 @@ import QtQuick 2.0
  * Author: Grabelus
  */
 Rectangle {
+    id: glossyRect
     anchors.centerIn: parent // center in parent
     width: parent.width - parent.border.width
     height: parent.height - parent.border.width

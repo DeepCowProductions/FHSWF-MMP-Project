@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file alias="knock">sounds/knock22050.wav</file>
         <file alias="gamesound">sounds/GameSound.mp3</file>
+        <file alias="bossExplosion">sounds/bossExpl.wav</file>
+        <file alias="laser_blast">sounds/Laser Blasts.wav</file>
+        <file alias="smallEnemyExplosion">sounds/smallEnExp.wav</file>
+        <file alias="gameover">sounds/game_over.wav</file>
     </qresource>
 </RCC>

@@ -3,7 +3,12 @@ import QtQuick.Layouts 1.1
 
 Item {
     property alias backButton: backButton
-    property alias musicOn: switchSlide.musicOn
+    property alias musicOn: switchSlide.on
+    property alias effectsOn: effectSlide.on
+
+    //### LOAD ANDROID FONT
+    FontLoader { id: fixedFont; name: "Roboto light" }
+    FontLoader { id: localFont; source: "qrc:/fonts/Roboto-Light.ttf" }
 
     id: settingsPage
     anchors.fill: parent
@@ -19,20 +24,35 @@ Item {
         id: columnLayout
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
         anchors.bottomMargin: 40
         Text {
             id: musicText
-            text: qsTr("Musik: ")
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
+            text: qsTr("Music: ")
+            Layout.alignment: Qt.AlignCenter
             color: "red"
             font.pointSize: 24
+            font.family: "Roboto light"
+            Switchslide{
+                id: switchSlide
+                anchors.left: musicText.right
+                anchors.verticalCenter: musicText.verticalCenter
+            }
         }
-        Switchslide{
-            id: switchSlide
-            anchors.left: musicText.right
-            anchors.verticalCenter: parent.verticalCenter
+        Text {
+            id: effectText
+            text: qsTr("Effects: ")
+            Layout.alignment: Qt.AlignCenter
+            anchors.top: musicText.bottom
+            anchors.topMargin: 50
+            color: "red"
+            font.pointSize: 24
+            font.family: "Roboto light"
+            Switchslide{
+                id: effectSlide
+                on: true
+                anchors.left: effectText.right
+                anchors.verticalCenter: effectText.verticalCenter
+                }
         }
     }
     RowLayout {

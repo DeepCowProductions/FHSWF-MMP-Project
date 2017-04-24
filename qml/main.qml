@@ -12,6 +12,8 @@ ApplicationWindow {
     title: qsTr("Space Invaders 3D")
     color: "transparent"
 
+    property bool runingGame: false
+
     Spaceinvaders {
         id: game
         visible: false
@@ -24,21 +26,26 @@ ApplicationWindow {
         rightKeyPressed: rightButton.pressed
         shotButtonPressed: shotButton.pressed
         musicOn: settingsPage.musicOn
+        effectsOn: settingsPage.effectsOn
+        pause.onClicked: {
+            pausePage.visible = true;
+            runGameLoop = false;
+        }
     }
 
-//    SignalSpy {
-//        id: spy
-//        target: game
-//        signalName: ""
-//    }
-//    TestCase {
-//        name: "ButtonClick"
-//        function test_click() {
-//            compare(spy.count, 0)
-//            button.clicked();
-//            compare(spy.count, 1)
-//        }
-//    }
+    //    SignalSpy {
+    //        id: spy
+    //        target: game
+    //        signalName: ""
+    //    }
+    //    TestCase {
+    //        name: "ButtonClick"
+    //        function test_click() {
+    //            compare(spy.count, 0)
+    //            button.clicked();
+    //            compare(spy.count, 1)
+    //        }
+    //    }
 
     Startpage {
         id: startPage
@@ -47,6 +54,8 @@ ApplicationWindow {
             game.visible = true;
             startPage.visible = false;
             game.runGameLoop = true
+            game.newGame = false;
+            runingGame = true;
         }
 
         infoButton.onClicked: {
@@ -63,8 +72,16 @@ ApplicationWindow {
         anchors.fill: parent
         visible: startPage.settingsButton.pressed ? true : false
         backButton.onClicked: {
-            startPage.visible = true;
-            settingsPage.visible = false;
+            if(runingGame) {
+                startPage.visible = false;
+                settingsPage.visible = false;
+                pausePage.visible = true;
+            }
+            else {
+                startPage.visible = true;
+                settingsPage.visible = false;
+                pausePage.visible = false;
+            }
         }
     }
 
@@ -75,6 +92,32 @@ ApplicationWindow {
         backButton.onClicked: {
             startPage.visible = true;
             infoPage.visible = false;
+            pausePage.visible = false;
+        }
+    }
+
+    PausePage {
+        id: pausePage
+        visible: false
+        backButton.onClicked: {
+            pausePage.visible = false;
+            game.runGameLoop = true;
+        }
+        pauseSettingsButton.onClicked: {
+            settingsPage.visible = true;
+            pausePage.visible = false;
+        }
+        neustartButton.onClicked: {
+            game.newGame = true;
+            pausePage.visible = false;
+            game.runGameLoop = true;
+        }
+        menuButton.onClicked: {
+            game.visible = false;
+            startPage.visible = true;
+            pausePage.visible = false;
+            game.newGame = true;
+            runingGame = false;
         }
     }
 }

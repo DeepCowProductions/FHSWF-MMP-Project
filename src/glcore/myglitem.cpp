@@ -390,7 +390,7 @@ void MyGLItem::timerTimeout()
     if(m_rotateX || m_rotateY || m_rotateZ){
         m_soundEngine->setEnabled(true);
         if(!m_soundEngine->isPlaying())
-            m_soundEngine->playSound(":/sound/knock22050.wav");
+            m_soundEngine->playSound(":/sound/knock22050.wav",1.0);
     }
     else m_soundEngine->setEnabled(false);
     GLItem::timerTimeout();

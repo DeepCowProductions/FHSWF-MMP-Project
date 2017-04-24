@@ -36,6 +36,8 @@ class GameSceen : public GLItem
 {
     Q_OBJECT
     //### PROPERTIES OF THE SPACEINVADERS. QML FOR INTERACTING
+    Q_PROPERTY(bool newGame READ newGame WRITE setNewGame NOTIFY newGameChanged)
+    Q_PROPERTY(bool effectsOn READ EffectsOn WRITE setEffectsOn NOTIFY EffectsOnChanged)
     Q_PROPERTY(bool musicOn READ musicOn WRITE setMusicOn NOTIFY musicOnChanged)
     Q_PROPERTY(bool isTablet READ isTablet WRITE setIsTablet NOTIFY isTabletChanged)
     Q_PROPERTY(bool shotButtonPressed READ shotButtonPressed WRITE setShotButtonPressed NOTIFY shotButtonPressedChanged)
@@ -85,6 +87,13 @@ public:
     GameEngine *gameEngine() const;
     bool shotButtonPressed() const;
     bool musicOn() const    {   return m_musicOn;   }
+    bool EffectsOn() const
+    {
+        return m_effectsOn;
+    }
+    bool newGame() {
+        return m_newGame;
+    }
 
 public slots:
     /**
@@ -118,7 +127,6 @@ public slots:
      * @param rightKeyPressed bool
      */
     void setRightKeyPressed(bool rightKeyPressed);
-
     void setFirstLife(bool firstLife);
     void setSecLife(bool secLife);
     void setThirdLife(bool thirdLife);
@@ -148,6 +156,27 @@ public slots:
      */
     void onPlayershipHit(int value);
 
+    void setEffectsOn(bool EffectsOn)
+    {
+        if (m_effectsOn == EffectsOn)
+            return;
+
+        m_effectsOn = EffectsOn;
+        m_gameEngine->setEffectsOn(EffectsOn);
+        emit EffectsOnChanged(EffectsOn);
+    }
+
+    void setNewGame(bool newGame)
+    {
+        if (m_newGame == newGame)
+            return;
+
+        m_newGame = newGame;
+        if(newGame)
+            startNewGame();
+        emit newGameChanged(newGame);
+    }
+
 signals:
 
     void leftKeyPressedChanged(bool leftKeyPressed);
@@ -160,6 +189,8 @@ signals:
     void shotButtonPressedChanged(bool shotButtonPressed);
     void isTabletChanged(bool isTablet);
     void musicOnChanged(bool musicOn);
+    void EffectsOnChanged(bool EffectsOn);
+    void newGameChanged(bool newGame);
 
 protected:
     //    bool eventFilter(QObject *obj, QEvent *event);
@@ -240,8 +271,7 @@ protected:
 
 
 private:
-    bool m_runGameLoop;
-
+    void startNewGame();
     /**
      * @brief m_timer_gameloop the timer of the game
      */
@@ -269,9 +299,13 @@ private:
     bool m_firstLife = true;
     bool m_secLife = true;
     bool m_thirdLife = true;
+    bool m_gameOver = false;
     int m_score = 0;
     bool m_shotButtonPressed;
     bool m_musicOn;
+    bool m_effectsOn;
+    bool m_runGameLoop;
+    bool m_newGame;
 
     //### GLOBAL ROTATION ANGLE
     QMatrix4x4 m_guiThreadCameraMatrix;
@@ -318,7 +352,6 @@ private:
     bool m_pointLightEnabled = false;
     QVector3D m_lightDirection = QVector3D(1.0, 1.0, 1.0);
     QVector4D m_lightPos = QVector4D(0.0, 10.0, 0.0, 0.0);
-
 };
 
 #endif // GAMESCEEN_H

@@ -24,6 +24,7 @@ GameSceen::GameSceen(QQuickItem *parent)
     setSecLife(true);
     setThirdLife(true);
     setShotButtonPressed(false);
+    setNewGame(false);
 
     setScore(0);
 
@@ -64,9 +65,9 @@ GameSceen::GameSceen(QQuickItem *parent)
     //m_soundEngine->setEnabled(true);
 
     //### init GameMusicEngine
-    m_gameMusicEngine = new QGameMusicEngine();
+    m_gameMusicEngine = new QGameMusicEngine(this);
 #ifdef Q_OS_ANDROID
-    m_gameMusicEngine->loadGameMusic("assets:/GameMusik.mp3");
+    m_gameMusicEngine->loadGameMusic("assets:/sounds/GameSound.mp3");
 #else
     m_gameMusicEngine->loadGameMusic("../FHSWF-MMP-Project/sounds/GameSound.mp3");
 #endif
@@ -81,9 +82,9 @@ GameSceen::GameSceen(QQuickItem *parent)
     connect(m_gameEngine, &GameEngine::playershipHit, this, &GameSceen::onPlayershipHit);
 
     //### dislay ship hitbox
-    m_cube1 = new GLCube("c1",QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
-    m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
-    m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
+    //m_cube1 = new GLCube("c1",QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
+    //m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
+    //m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
 
 }
 
@@ -334,7 +335,6 @@ void GameSceen::setMusicOn(bool musicOn)
     if (m_musicOn == musicOn)
         return;
 
-
     m_musicOn = musicOn;
     m_gameMusicEngine->startGameMusic(musicOn);
     if(musicOn)
@@ -522,6 +522,60 @@ void GameSceen::doSynchronizeThreads()
 //    }
 }
 
+void GameSceen::startNewGame()
+{
+#ifdef Q_OS_ANDROID
+    //### Check if is Tablet or Smartphone
+    isTablet();
+#endif
+    m_gameEngine = new GameEngine(this);
+    setFirstLife(true);
+    setSecLife(true);
+    setThirdLife(true);
+    setShotButtonPressed(false);
+    setNewGame(false);
+
+    setScore(0);
+
+    //### RESET THE VIEW
+    resetView();
+
+    //### SET ALL BUTTONS
+    setAcceptedMouseButtons(Qt::AllButtons);
+
+    //### SET THE FOCUS ON THIS SCENE
+    setFocus(true);
+    m_lastMouseEvent = NULL;
+
+    m_timer_gameloop = new QTimer(this);
+    m_timer_gameloop->setInterval(Spaceinvaders::GameTickCooldownInMillSec); // set game to run at x ticks per second -> one loop every x seconds
+    connect(m_timer_gameloop, &QTimer::timeout,
+            this, &GameSceen::onTimer_GameLoopTimeout, Qt::DirectConnection);
+    m_timer->setInterval(Spaceinvaders::RenderTickCooldownInMillSec); // draw a frame every x ms with timer in base class
+    connect(m_gameEngine, &GameEngine::smallEnemyKilled,this,&GameSceen::onSmallEnemyKilled);
+    connect(m_gameEngine, &GameEngine::playershipHit, this, &GameSceen::onPlayershipHit);
+
+    //### dislay ship hitbox
+    //m_cube1 = new GLCube("c1",QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
+    //m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
+    //m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
+
+    setupGeometry();
+
+    //### entities
+    m_renderer->bind();
+
+    //    m_spaceship->draw(renderer());
+    m_gameEngine->drawEntities(renderer());
+    //m_cube1->draw(renderer());
+    //m_cube2->draw(renderer());
+    //m_cube3->draw(renderer());
+
+    m_renderer->release();
+
+    m_gameEngine->setSoundEngineEnabled(m_effectsOn);
+}
+
 void GameSceen::scoresUp(int scorePoints)
 {
     setScore(score() + scorePoints);
@@ -534,20 +588,22 @@ void GameSceen::onSmallEnemyKilled(int value, QVector3D location)
 
 void GameSceen::onPlayershipHit(int value)
 {
-    if (firstLife())        {
+    if(m_firstLife) {
         setFirstLife(false);
-        return;
-    } else if (secLife())   {
-        setSecLife(false);
-        return;
-    } else if (thirdLife()) {
-        setThirdLife(false);
-        return;
-    } else {
-//        setRunGameLoop(false);
-        qDebug() << "all lifes lost. YOU LOSE!\nbetter luck next time";
+        qDebug() << "GameSceen::onPlayershipHit: Only 2 lifes left";
     }
-    return;
+    else if(m_secLife) {
+        setSecLife(false);
+        qDebug() << "GameSceen::onPlayershipHit: Only 1 life left";
+    }
+    else if(m_thirdLife) {
+        setThirdLife(false);
+        m_gameOver = true;
+        qDebug() << "GameSceen::onPlayershipHit: GAMEOVER";
+        setRunGameLoop(false);
+        m_gameEngine->gameOver();
+    }
+    qDebug() << "playership hit!";
 }
 
 GameEngine *GameSceen::gameEngine() const

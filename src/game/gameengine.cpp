@@ -10,6 +10,8 @@ GameEngine::GameEngine(QObject *parent) : QObject(parent)
     m_glsppaceship->setTextureFile(":/spaceshipTex"); // use alias
     m_explosionSphere = new GLSphere("redSphere",3.0,GLColorRgba::clRed);
 
+    m_soundEngine = new SoundEngine(this);
+
     m_bulletBounding = new TAABB(QVector3D(m_glbulletred->diamenter(),m_glbulletred->length(),m_glbulletred->diamenter()),
                                  QVector3D(-m_glbulletred->diamenter(),-m_glbulletred->length(),-m_glbulletred->diamenter()));
 
@@ -48,6 +50,11 @@ GameEngine::~GameEngine()
 
 }
 
+void GameEngine::gameOver()
+{
+    m_soundEngine->playSound(":/gameover",1.0);
+}
+
 void GameEngine::drawEntities(GLESRenderer *renderer)
 {
     for (int i=0; i < m_bulletContainerRed.size();i++){
@@ -77,7 +84,6 @@ void GameEngine::processEntities()
     //    qDebug() << "GameEngine::processEntities() finished";
 }
 
-
 void GameEngine::spawnRandomEnemies()
 {
 
@@ -98,6 +104,7 @@ void GameEngine::staticCollisionDetection()
     for (int i = 0; i < m_bulletContainerGreen.size(); i++) {
         if (playership()->checkCollision(&m_bulletContainerGreen[i])) {
             gbDelMarks.append(&m_bulletContainerGreen[i]);
+            m_soundEngine->playSound(":/knock",1.0);
             emit playershipHit(1);
         }
     }
@@ -111,7 +118,9 @@ void GameEngine::staticCollisionDetection()
             if (m_enemyConatiner[i].checkCollision(&m_bulletContainerRed[j])) {
                 enDelMarks.append(&m_enemyConatiner[i]);
                 rbDelMarks.append(&m_bulletContainerRed[j]);
-                emit smallEnemyKilled(1,m_enemyConatiner[i].getVirtualCenter());
+                j++;
+                m_soundEngine->playSound(":/smallEnemyExplosion",1.0);
+                emit smallEnemyKilled(10,m_enemyConatiner[i].getVirtualCenter());
             }
         }
     }
@@ -313,6 +322,11 @@ bool GameEngine::deleteEnemy(SmallEnemy e)
     return false;
 }
 
+void GameEngine::setSoundEngineEnabled(bool on)
+{
+    m_soundEngine->setEnabled(on);
+}
+
 GLBullet *GameEngine::glbulletgreen() const
 {
     return m_glbulletgreen;
@@ -343,6 +357,11 @@ QList<SmallEnemy> GameEngine::enemyConatiner()
     return m_enemyConatiner;
 }
 
+void GameEngine::setEffectsOn(bool on)
+{
+    m_soundEngine->setEnabled(on);
+}
+
 QList<Bullet> GameEngine::bulletContainerGreen()
 {
     return m_bulletContainerGreen;
@@ -360,6 +379,7 @@ void GameEngine::shootWithPlayerShip()
         spawnRedBullet(v + QVector3D(2.0,1.0,0.5) , QVector3D(0.0,0.0,1.0), Spaceinvaders::playerBulletSpeed);
         spawnRedBullet(v + QVector3D(-2.0,1.0,0.5) , QVector3D(0.0,0.0,1.0), Spaceinvaders::playerBulletSpeed);
         playership()->shoot();
+        m_soundEngine->playSound(":/laser_blast",0.5);
     }else{
         qDebug() << "cant shoot yet with with , Weapons are on cooldown";
     }
@@ -389,5 +409,3 @@ void GameEngine::spawnEnemy(QVector3D location)
     e.setVirtualCenter(location);
     addEnemy(e);
 }
-
-

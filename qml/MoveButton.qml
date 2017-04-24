@@ -21,7 +21,7 @@ Button {
         background:
             Rectangle {
             id: buttonRect
-            implicitWidth: 120
+            implicitWidth: Screen.pixelDensity * 20
             implicitHeight: Screen.pixelDensity * 10 //### FOR USE IN MOBILE PHONES
             radius: 4
             color: moveButton.pressed ? "green" : "grey";

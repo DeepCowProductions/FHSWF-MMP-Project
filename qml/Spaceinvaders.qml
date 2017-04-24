@@ -17,6 +17,7 @@ GameSceen {
     property alias leftButton: leftButton
     property alias rightButton: rightButton
     property alias shotButton: shotButton
+    property alias pause: gameBar.pause
 
     GameBar {
         id: gameBar
@@ -52,14 +53,14 @@ GameSceen {
         anchors.bottomMargin: 0
         MoveButton {
             id: leftButton
-            text: "Move Left"
+            text: "Left "
         }
         ShotButton {
             id: shotButton
         }
         MoveButton {
             id: rightButton
-            text: "Move Right"
+            text: "Right"
         }
     }
 

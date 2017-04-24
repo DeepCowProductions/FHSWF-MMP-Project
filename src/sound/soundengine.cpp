@@ -32,7 +32,7 @@ bool SoundEngine::loadSound(const QString & fileName){
 /**
   * Load and play soundfile or resource.
   */
-void SoundEngine::playSound(const QString & fileName)
+void SoundEngine::playSound(const QString & fileName,qreal volume)
 {
     if(enabled)
     {
@@ -42,8 +42,10 @@ void SoundEngine::playSound(const QString & fileName)
             if(loadSound(fileName))
                it = m_sounds.find(fileName);
         }
-        if(it != m_sounds.end()) //we have got it
+        if(it != m_sounds.end()) { //we have got it
             it.value()->play();
+        it.value()->setVolume(volume);
+        }
     }
 }
 

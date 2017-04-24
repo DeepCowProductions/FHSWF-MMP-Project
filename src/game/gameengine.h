@@ -7,6 +7,7 @@
 #include "../globjects/glbullet.h"
 #include "../globjects/glspaceship.h"
 #include "../globjects/glsphere.h"
+#include "../sound/soundengine.h"
 #include "definesandconstants.h"
 #include "bullet.h"
 #include "spaceship.h"
@@ -29,6 +30,8 @@ public:
     explicit GameEngine(QObject *parent = 0);
     virtual ~GameEngine();
 
+    void gameOver();
+
     void drawEntities(GLESRenderer *renderer);
     void processEntities();
 
@@ -50,6 +53,8 @@ public:
     void addEnemy(SmallEnemy e);
     bool deleteEnemy(SmallEnemy e);
 
+    void setSoundEngineEnabled(bool on);
+
     GLBullet *glbulletgreen() const;
     void setGlbulletgreen(GLBullet *glbulletgreen);
 
@@ -60,6 +65,8 @@ public:
     Spaceship * playership();
     QList<Bullet> bulletContainerGreen();
     QList<SmallEnemy> enemyConatiner();
+
+    void setEffectsOn(bool on);
 
 signals:
     void smallEnemyKilled (int value, QVector3D location);
@@ -106,7 +113,8 @@ private:
     TAABB * m_bulletBounding;
     TAABB * m_smallEnemyBounding;
 
-
+    SoundEngine * m_soundEngine;
+    bool m_effectsOn;
 };
 
 #endif // GAMEENGINE_H
