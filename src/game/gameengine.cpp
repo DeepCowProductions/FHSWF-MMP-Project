@@ -112,16 +112,12 @@ void GameEngine::staticCollisionDetection()
             emit playershipHit();
         }
     }
-<<<<<<< HEAD
 
     //### enemyships with player bullets (red):
-=======
-    // enemyships with player bullets (red) and playership:
->>>>>>> a78dbea6ef8cca383b785d15e287250a8a0c783a
     for (int i = 0; i < m_enemyConatiner.size(); i++) {
         if (playership()->checkCollision(&m_enemyConatiner[i])) {
             enDelMarks.append(&m_enemyConatiner[i]);
-            emit playershipHit(1);
+            emit playershipHit();
         }
         for (int j = 0; j < m_bulletContainerRed.size(); j++) {
             if (m_enemyConatiner[i].checkCollision(&m_bulletContainerRed[j])) {
@@ -197,7 +193,7 @@ void GameEngine::moveAutomaticEntities()
     }
     for (int i = 0; i < m_enemyConatiner.size(); i++){
         if (m_enemyConatiner[i].getVirtualCenter().z() <= -Spaceinvaders::playFieldLengthBuffer) {
-            emit playershipHit(1);
+            emit playershipHit();
             enDelMarks.append(&m_enemyConatiner[i]);
         } else {
             if (m_enemyMovementState)
