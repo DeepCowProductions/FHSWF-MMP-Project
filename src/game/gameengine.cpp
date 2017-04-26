@@ -7,7 +7,11 @@ GameEngine::GameEngine(QObject *parent) : QObject(parent)
     m_glbulletred = new GLBullet("red bullet",3.0,0.2,GLColorRgba::clRed,"");
     m_glsphere = new GLSphere("placeHolder",3.0);
     m_glsppaceship = new GLSpaceShip("3D Spaceship / PlayersShip");
+#ifdef Q_OS_ANDROID
+    m_glsppaceship->setTextureFile("assets:/textures/spaceship.png"); // use alias
+#else
     m_glsppaceship->setTextureFile(":/spaceshipTex"); // use alias
+#endif
     m_explosionSphere = new GLSphere("redSphere",3.0,GLColorRgba::clRed);
 
     m_soundEngine = new SoundEngine(this);
@@ -96,16 +100,16 @@ void GameEngine::spawnRandomEnemies()
 
 void GameEngine::staticCollisionDetection()
 {
-    // playership with enemy bullets (green):
+    //### playership with enemy bullets (green):
     for (int i = 0; i < m_bulletContainerGreen.size(); i++) {
         if (playership()->checkCollision(&m_bulletContainerGreen[i])) {
             gbDelMarks.append(&m_bulletContainerGreen[i]);
             m_soundEngine->playSound(":/knock",1.0);
-            emit playershipHit(1);
+            emit playershipHit();
         }
     }
 
-    // enemyships with player bullets (red):
+    //### enemyships with player bullets (red):
     for (int i = 0; i < m_enemyConatiner.size(); i++) {
         for (int j = 0; j < m_bulletContainerRed.size(); j++) {
             if (m_enemyConatiner[i].checkCollision(&m_bulletContainerRed[j])) {
@@ -115,6 +119,17 @@ void GameEngine::staticCollisionDetection()
                 m_soundEngine->playSound(":/smallEnemyExplosion",1.0);
                 emit smallEnemyKilled(10,m_enemyConatiner[i].getVirtualCenter());
             }
+        }
+    }
+
+    //### playership with enemies
+    for(int i = 0; i < m_enemyConatiner.size(); i++) {
+        if(playership()->checkCollision(&m_enemyConatiner[i])) {
+            enDelMarks.append(&m_enemyConatiner[i]);
+            emit smallEnemyKilled(10,m_enemyConatiner[i].getVirtualCenter());
+            m_soundEngine->playSound(":/smallEnemyExplosion",1.0);
+            emit playershipHit();
+            m_soundEngine->playSound(":/knock",1.0);
         }
     }
 }

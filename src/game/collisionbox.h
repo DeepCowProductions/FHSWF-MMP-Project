@@ -1,7 +1,9 @@
 #ifndef COLLISIONBOX_H
 #define COLLISIONBOX_H
 
-
+/**
+ * @brief The CollisionBox class was a class for a Collisionbox
+ */
 class CollisionBox
 {
 public:

@@ -4,7 +4,7 @@
 #include <QVector3D>
 
 /**
- * @brief collection of random util functions and
+ * @brief collection of random util functions and constants for the game
  */
 namespace Spaceinvaders {
 
@@ -22,13 +22,18 @@ const static int RenderTickCooldownInMillSec = 33;
 const static QVector3D staticLightDirection = QVector3D(1.0, 1.0, 1.0);
 
 const static float playFieldLength = 110.0;
+#ifdef Q_OS_ANDROID
+const static float playFieldBounds = 5.0;
+const static float playFieldBuffer = 40.0;
+#else
 const static float playFieldBounds = 30.0;
 const static float playFieldBuffer = 22.0;
-const static float laneWidth = 9;
+#endif
+const static float laneWidth = 10;
 const static int   chanceOfEnemySpawningPerLane = 20;
 const static int   enemySpawnCooldownPerLane = 100;
 const static int   enemyShootingCooldownInGameTicks = 100;
-const static int   playerShootingCooldownInGameTicks = 20;
+const static int   playerShootingCooldownInGameTicks = 12.5;
 const static float enemyBulletSpeed = 2.0;
 const static float playerBulletSpeed = 2.0;
 const static float playerShipMovementSpeed = 1.0;

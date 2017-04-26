@@ -31,6 +31,13 @@ ApplicationWindow {
             pausePage.visible = true;
             runGameLoop = false;
         }
+        onGameOverChanged: {
+            if(gameOver) {
+                gameOverPage.visible = true;
+                gameOverPage.endPointsText = qsTr("Your endscore: ") + score;
+            }
+
+        }
     }
 
     //    SignalSpy {
@@ -116,6 +123,25 @@ ApplicationWindow {
             game.visible = false;
             startPage.visible = true;
             pausePage.visible = false;
+            game.newGame = true;
+            runingGame = false;
+        }
+    }
+
+    GameOverPage {
+        id: gameOverPage
+        visible: false
+        neustartButton.onClicked: {
+            game.newGame = true;
+            game.gameOver = false;
+            gameOverPage.visible = false;
+            game.runGameLoop = true;
+        }
+        menuButton.onClicked: {
+            game.visible = false;
+            game.gameOver = false;
+            startPage.visible = true;
+            gameOverPage.visible = false;
             game.newGame = true;
             runingGame = false;
         }

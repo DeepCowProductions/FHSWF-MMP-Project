@@ -35,10 +35,17 @@ void GameEntity::snycForRendering()
 
 bool GameEntity::tryMove(QVector3D direction)
 {
+#ifdef Q_OS_ANDROID
+    QVector3D d = getVirtualCenter() + direction;
+    if ( d.x() < Spaceinvaders::playFieldBounds+10  && d.x() > -Spaceinvaders::playFieldBounds-10 )
+        translate(direction);
+    return true;
+#else
     QVector3D d = getVirtualCenter() + direction;
     if ( d.x() < Spaceinvaders::playFieldBounds  && d.x() > -Spaceinvaders::playFieldBounds )
         translate(direction);
     return true;
+#endif
 }
 
 bool GameEntity::checkCollision(GameEntity *other)

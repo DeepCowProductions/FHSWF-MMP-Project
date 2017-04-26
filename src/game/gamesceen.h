@@ -36,6 +36,7 @@ class GameSceen : public GLItem
 {
     Q_OBJECT
     //### PROPERTIES OF THE SPACEINVADERS. QML FOR INTERACTING
+    Q_PROPERTY(bool gameOver READ gameOver WRITE setGameOver NOTIFY gameOverChanged)
     Q_PROPERTY(bool newGame READ newGame WRITE setNewGame NOTIFY newGameChanged)
     Q_PROPERTY(bool effectsOn READ EffectsOn WRITE setEffectsOn NOTIFY EffectsOnChanged)
     Q_PROPERTY(bool musicOn READ musicOn WRITE setMusicOn NOTIFY musicOnChanged)
@@ -95,6 +96,11 @@ public:
         return m_newGame;
     }
 
+    bool gameOver() const
+    {
+        return m_gameOver;
+    }
+
 public slots:
     /**
      * @brief resetView slot for reseting the view.
@@ -135,6 +141,9 @@ public slots:
     void setShotButtonPressed(bool shotButtonPressed);
     void setIsTablet(bool isTablet);
     void setMusicOn(bool musicOn);
+    void setEffectsOn(bool EffectsOn);
+    void setNewGame(bool newGame);
+    void setGameOver(bool gameOver);
 
     /**
      * @brief scoresUp adds scorePoints to score property.
@@ -154,28 +163,7 @@ public slots:
      * @brief onPlayershipHit supposed to be called when playership gets hit.
      * @param value
      */
-    void onPlayershipHit(int value);
-
-    void setEffectsOn(bool EffectsOn)
-    {
-        if (m_effectsOn == EffectsOn)
-            return;
-
-        m_effectsOn = EffectsOn;
-        m_gameEngine->setEffectsOn(EffectsOn);
-        emit EffectsOnChanged(EffectsOn);
-    }
-
-    void setNewGame(bool newGame)
-    {
-        if (m_newGame == newGame)
-            return;
-
-        m_newGame = newGame;
-        if(newGame)
-            startNewGame();
-        emit newGameChanged(newGame);
-    }
+    void onPlayershipHit();
 
 signals:
 
@@ -191,6 +179,7 @@ signals:
     void musicOnChanged(bool musicOn);
     void EffectsOnChanged(bool EffectsOn);
     void newGameChanged(bool newGame);
+    void gameOverChanged(bool gameOver);
 
 protected:
     //    bool eventFilter(QObject *obj, QEvent *event);

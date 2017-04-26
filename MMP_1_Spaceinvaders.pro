@@ -122,8 +122,8 @@ RESOURCEDIR = /assets
 imagefiles.path = $$RESOURCEDIR/img
 imagefiles.files= img/*
 
-texturefiles.path = $$RESOURCEDIR/texture
-texturefiles.files = texture/*
+texturefiles.path = $$RESOURCEDIR/textures
+texturefiles.files = textures/*
 
 soundfiles.path = $$RESOURCEDIR/sounds
 soundfiles.files = sounds/*

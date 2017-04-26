@@ -12,21 +12,12 @@ GameSceen::GameSceen(QQuickItem *parent)
     //### Check if is Tablet or Smartphone
     isTablet();
 #endif
-
     //### SET SHADERS FOR THIS SCEEN
     m_vertexShaderFilename = ":/shaders/vshader.vsh";
     m_fragmentShaderFilename = ":/shaders/fshader.fsh";
 
     m_skyBoxFragmentShaderFilename = ":/shaders/skyboxfshader.fsh";
     m_skyBoxVertexShaderFilename = ":/shaders/skyboxvshader.vsh";
-
-    setFirstLife(true);
-    setSecLife(true);
-    setThirdLife(true);
-    setShotButtonPressed(false);
-    setNewGame(false);
-
-    setScore(0);
 
     //### SET FLAGS FOR PAINTING
     m_activatePaintBeforeQml = true;
@@ -172,6 +163,13 @@ void GameSceen::resetView()
     m_spaceKeyPressed = false;
     m_leftKeyPressed = false;
     m_rightKeyPressed = false;
+    m_shotButtonPressed = false;
+    setFirstLife(true);
+    setSecLife(true);
+    setThirdLife(true);
+    setScore(0);
+    m_gameOver = false;
+    m_newGame = false;
     m_musicOn = musicOn();
 }
 
@@ -183,13 +181,13 @@ void GameSceen::onTimer_GameLoopTimeout()
 
 void GameSceen::gameLoopTimeout()
 {
-    //### CHECK IF IS LANDSCAPE OR PORTRAIT(Tablet or Smartphone) AND MOVEMENT IF KEY PRESSED
+    //### MOVE IF KEY PRESSED
 #ifdef Q_OS_ANDROID
     if (m_leftKeyPressed) {
-        gameEngine()->playership()->translate(QVector3D(1.0,0.0,0.0));
+        gameEngine()->playership()->tryMove(QVector3D(Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
     if (m_rightKeyPressed) {
-        gameEngine()->playership()->translate(QVector3D(-1.0,0.0,0.0));
+        gameEngine()->playership()->tryMove(QVector3D(-Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
 
     //## for testing shoots everytime it can
@@ -209,12 +207,12 @@ void GameSceen::gameLoopTimeout()
 
     if (m_leftKeyPressed) {
         //### nur zum umschaune  und debuggen
-        m_guiThreadCameraMatrix.rotate(1.0, v_X);
-        //        gameEngine()->playership()->tryMove(QVector3D(Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
+        //m_guiThreadCameraMatrix.rotate(1.0, v_X);
+        gameEngine()->playership()->tryMove(QVector3D(Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
     if (m_rightKeyPressed) {
-        m_guiThreadCameraMatrix.rotate(1.0, v_Y);
-        //        gameEngine()->playership()->tryMove(QVector3D(-Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
+        //m_guiThreadCameraMatrix.rotate(1.0, v_Y);
+        gameEngine()->playership()->tryMove(QVector3D(-Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
 #endif
 
@@ -342,6 +340,36 @@ void GameSceen::setMusicOn(bool musicOn)
     else
         m_gameMusicEngine->stopGameMusic();
     emit musicOnChanged(musicOn);
+}
+
+void GameSceen::setEffectsOn(bool EffectsOn)
+{
+    if (m_effectsOn == EffectsOn)
+        return;
+
+    m_effectsOn = EffectsOn;
+    m_gameEngine->setEffectsOn(EffectsOn);
+    emit EffectsOnChanged(EffectsOn);
+}
+
+void GameSceen::setNewGame(bool newGame)
+{
+    if (m_newGame == newGame)
+        return;
+
+    m_newGame = newGame;
+    if(newGame)
+        startNewGame();
+    emit newGameChanged(newGame);
+}
+
+void GameSceen::setGameOver(bool gameOver)
+{
+    if (m_gameOver == gameOver)
+        return;
+
+    m_gameOver = gameOver;
+    emit gameOverChanged(gameOver);
 }
 
 
@@ -529,14 +557,8 @@ void GameSceen::startNewGame()
     isTablet();
 #endif
     m_gameEngine = new GameEngine(this);
-    setFirstLife(true);
-    setSecLife(true);
-    setThirdLife(true);
-    setShotButtonPressed(false);
-    setNewGame(false);
-
-    setScore(0);
-
+    m_gameEngine->setSoundEngineEnabled(m_effectsOn);
+    setupGeometry();
     //### RESET THE VIEW
     resetView();
 
@@ -560,8 +582,6 @@ void GameSceen::startNewGame()
     //m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
     //m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
 
-    setupGeometry();
-
     //### entities
     m_renderer->bind();
 
@@ -572,8 +592,6 @@ void GameSceen::startNewGame()
     //m_cube3->draw(renderer());
 
     m_renderer->release();
-
-    m_gameEngine->setSoundEngineEnabled(m_effectsOn);
 }
 
 void GameSceen::scoresUp(int scorePoints)
@@ -586,7 +604,7 @@ void GameSceen::onSmallEnemyKilled(int value, QVector3D location)
     scoresUp(value);
 }
 
-void GameSceen::onPlayershipHit(int value)
+void GameSceen::onPlayershipHit()
 {
     if(m_firstLife == true) {
         setFirstLife(false);
@@ -598,9 +616,9 @@ void GameSceen::onPlayershipHit(int value)
     }
     else if(m_thirdLife == true) {
         setThirdLife(false);
-        m_gameOver = true;
         qDebug() << "GameSceen::onPlayershipHit: GAMEOVER";
         setRunGameLoop(false);
+        setGameOver(true);
         m_gameEngine->gameOver();
     }
     qDebug() << "playership hit!";
