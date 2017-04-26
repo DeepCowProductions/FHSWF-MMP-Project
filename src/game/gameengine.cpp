@@ -22,6 +22,10 @@ GameEngine::GameEngine(QObject *parent) : QObject(parent)
     // init starting Entities
     m_playership = new Spaceship(this, m_glsppaceship);
 
+    enDelMarks.clear();
+    gbDelMarks.clear();
+    rbDelMarks.clear();
+
     m_numberOfLanes = ((int)( Spaceinvaders::playFieldBounds * 2 ))/((int)Spaceinvaders::laneWidth);
     for (int i=0; i<m_numberOfLanes; i++){
         SingleShotTimer* timer = new SingleShotTimer();
@@ -90,7 +94,7 @@ void GameEngine::spawnRandomEnemies()
     for (int i = 0; i < m_numberOfLanes; i++) {
         if (m_laneSpawningCooldowns.value(i)->isReadyToShoot())
             if (qrand()%100 < Spaceinvaders::chanceOfEnemySpawningPerLane){
-                int r = (-Spaceinvaders::playFieldBounds) + i * (((int)(Spaceinvaders::playFieldBounds*2))/m_numberOfLanes);
+                float r = (-Spaceinvaders::playFieldBounds) + i * (((int)(Spaceinvaders::playFieldBounds*2))/m_numberOfLanes)+Spaceinvaders::laneOffSet;
                 spawnEnemy(QVector3D(r,0.0,Spaceinvaders::playFieldLength));
                 m_laneSpawningCooldowns.value(i)->shoot();
             }
@@ -108,9 +112,17 @@ void GameEngine::staticCollisionDetection()
             emit playershipHit();
         }
     }
+<<<<<<< HEAD
 
     //### enemyships with player bullets (red):
+=======
+    // enemyships with player bullets (red) and playership:
+>>>>>>> a78dbea6ef8cca383b785d15e287250a8a0c783a
     for (int i = 0; i < m_enemyConatiner.size(); i++) {
+        if (playership()->checkCollision(&m_enemyConatiner[i])) {
+            enDelMarks.append(&m_enemyConatiner[i]);
+            emit playershipHit(1);
+        }
         for (int j = 0; j < m_bulletContainerRed.size(); j++) {
             if (m_enemyConatiner[i].checkCollision(&m_bulletContainerRed[j])) {
                 enDelMarks.append(&m_enemyConatiner[i]);
@@ -158,7 +170,7 @@ void GameEngine::moveAutomaticEntities()
             rbDelMarks.append(&m_bulletContainerRed[i]);
         }
 #else
-        if (m_bulletContainerRed[i].getVirtualCenter().z() > Spaceinvaders::playFieldLength + Spaceinvaders::playFieldBuffer ) {
+        if (m_bulletContainerRed[i].getVirtualCenter().z() > Spaceinvaders::playFieldLength + Spaceinvaders::playFieldLengthBuffer ) {
             //            deleteRedBullet(b); // deleting directly confuses the QList, but still works with some minor errors
             //            rbDelMarks.append(i);
             rbDelMarks.append(&m_bulletContainerRed[i]);
@@ -173,7 +185,7 @@ void GameEngine::moveAutomaticEntities()
             gbDelMarks.append(&m_bulletContainerGreen[i]);
         }
 #else
-        if (m_bulletContainerGreen[i].getVirtualCenter().z() < -Spaceinvaders::playFieldBuffer) {
+        if (m_bulletContainerGreen[i].getVirtualCenter().z() < -Spaceinvaders::playFieldLengthBuffer) {
             gbDelMarks.append(&m_bulletContainerGreen[i]);
         }
 #endif
@@ -184,10 +196,15 @@ void GameEngine::moveAutomaticEntities()
         toggleEnemyMovementDirection();
     }
     for (int i = 0; i < m_enemyConatiner.size(); i++){
-        if (m_enemyMovementState)
-            m_enemyConatiner[i].translate(QVector3D(-Spaceinvaders::enemyMovmentSpeedinX,0.0,-Spaceinvaders::enemyMovmentSpeedinZ));
-        else
-            m_enemyConatiner[i].translate(QVector3D(+Spaceinvaders::enemyMovmentSpeedinX,0.0,-Spaceinvaders::enemyMovmentSpeedinZ));
+        if (m_enemyConatiner[i].getVirtualCenter().z() <= -Spaceinvaders::playFieldLengthBuffer) {
+            emit playershipHit(1);
+            enDelMarks.append(&m_enemyConatiner[i]);
+        } else {
+            if (m_enemyMovementState)
+                m_enemyConatiner[i].translate(QVector3D(-Spaceinvaders::enemyMovmentSpeedinX,0.0,-Spaceinvaders::enemyMovmentSpeedinZ));
+            else
+                m_enemyConatiner[i].translate(QVector3D(+Spaceinvaders::enemyMovmentSpeedinX,0.0,-Spaceinvaders::enemyMovmentSpeedinZ));
+        }
     }
 
 }
@@ -229,11 +246,11 @@ void GameEngine::deleteMarkedEntities()
 
 void GameEngine::shootWithAutomaticEntities()
 {
-    QVector3D d(0.0,0.0,3.0);
+    QVector3D d(0.0,0.0,m_glsphere->getRadius());
     //    qDebug() << "shoooting ai at random";
     for (int i = 0; i < m_enemyConatiner.size(); i++) {
         if (m_enemyConatiner[i].isReadyToShoot()){
-            if (qrand()%10 > 8){
+            if (qrand()%100 < Spaceinvaders::enemyShotingChancePerTick){
                 m_enemyConatiner[i].shoot();
                 spawnGreenBullet(m_enemyConatiner[i].getVirtualCenter()-d,-v_Z,Spaceinvaders::enemyBulletSpeed);
             }

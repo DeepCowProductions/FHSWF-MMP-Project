@@ -21,7 +21,7 @@ const static QVector3D AndroidViewVector = QVector3D(80, 10, 400); // (eyeDistan
 const static QVector3D DesktopViewVector = QVector3D(40, 10, 200); // (eyeDistance,near,far)
 const static QVector3D ViewDirection = -QVector3D(0.0,-0.5,1.0);   // eyePos
 const static int GameTickCooldownInMillSec = 50;
-const static int RenderTickCooldownInMillSec = 33;
+const static int RenderTickCooldownInMillSec = 50;
 const static QVector3D staticLightDirection = QVector3D(1.0, 1.0, 1.0);
 
 const static float playFieldLength = 110.0;
@@ -35,13 +35,14 @@ const static float playFieldBuffer = 22.0;
 const static float laneWidth = 10;
 const static int   chanceOfEnemySpawningPerLane = 20;
 const static int   enemySpawnCooldownPerLane = 100;
+const static int   enemyShotingChancePerTick = 10;
 const static int   enemyShootingCooldownInGameTicks = 100;
 const static int   playerShootingCooldownInGameTicks = 12.5;
 const static float enemyBulletSpeed = 2.0;
 const static float playerBulletSpeed = 2.0;
 const static float playerShipMovementSpeed = 1.0;
 const static int   enemyTicksBeforeChangingDirection = 100;
-const static float enemyMovmentSpeedinX = 0.2;
+const static float enemyMovmentSpeedinX = 0.15;
 const static float enemyMovmentSpeedinZ = 0.2;
 
 /**

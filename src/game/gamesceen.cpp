@@ -448,9 +448,9 @@ void GameSceen::paintUnderQmlScene()
 
     //    m_spaceship->draw(renderer());
     m_gameEngine->drawEntities(renderer());
-    //m_cube1->draw(renderer());
-    //m_cube2->draw(renderer());
-    //m_cube3->draw(renderer());
+//    m_cube1->draw(renderer());
+//    m_cube2->draw(renderer());
+//    m_cube3->draw(renderer());
 
     m_renderer->release();
 
@@ -533,21 +533,21 @@ void GameSceen::doSynchronizeThreads()
     m_cameraTransform = m_guiThreadCameraMatrix;
     gameEngine()->snycEntities();
     
-    if(m_lastMouseEvent && !m_lastMouseEvent->isAccepted()) //last mouse event still pending
-    {
-        switch (m_lastMouseEvent->type()){
-        case QEvent::MouseButtonPress:
-            m_frustum->invalidateSurface();
-            m_mouseRay->setMousePosition(m_lastMouseEvent->pos());
-            break;
-        case QEvent::MouseMove:
-            break;
-        case QEvent::MouseButtonRelease:
-            break;
-        default: qDebug() << "MyGLItem::doSynchronizeThreads(): Unknown mouse event";
-        }
-        m_lastMouseEvent->setAccepted(true);
-    }
+//    if(m_lastMouseEvent && !m_lastMouseEvent->isAccepted()) //last mouse event still pending
+//    {
+//        switch (m_lastMouseEvent->type()){
+//        case QEvent::MouseButtonPress:
+//            m_frustum->invalidateSurface();
+//            m_mouseRay->setMousePosition(m_lastMouseEvent->pos());
+//            break;
+//        case QEvent::MouseMove:
+//            break;
+//        case QEvent::MouseButtonRelease:
+//            break;
+//        default: qDebug() << "MyGLItem::doSynchronizeThreads(): Unknown mouse event";
+//        }
+//        m_lastMouseEvent->setAccepted(true);
+//    }
 }
 
 void GameSceen::startNewGame()
@@ -606,15 +606,15 @@ void GameSceen::onSmallEnemyKilled(int value, QVector3D location)
 
 void GameSceen::onPlayershipHit()
 {
-    if(m_firstLife == true) {
+    if(m_firstLife) {
         setFirstLife(false);
         qDebug() << "GameSceen::onPlayershipHit: Only 2 lifes left";
     }
-    else if(m_secLife == true) {
+    else if(m_secLife) {
         setSecLife(false);
         qDebug() << "GameSceen::onPlayershipHit: Only 1 life left";
     }
-    else if(m_thirdLife == true) {
+    else if(m_thirdLife) {
         setThirdLife(false);
         qDebug() << "GameSceen::onPlayershipHit: GAMEOVER";
         setRunGameLoop(false);
