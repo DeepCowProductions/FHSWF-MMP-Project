@@ -87,6 +87,12 @@ public:
      * @return wether moving was succesfull
      */
     virtual bool tryMove(QVector3D direction);
+
+    /**
+     * @brief checkCollision for checking if collide with other
+     * @param other with which want to check if colliding
+     * @return if a collision was detected
+     */
     virtual bool checkCollision(GameEntity * other);
 
     /**
@@ -99,34 +105,106 @@ public:
     virtual bool performCollDetection_AABBvsSPHERE(GameEntity * other);
     virtual bool performCollDetection_SPHEREvsSPHERE(GameEntity * other);
 
+    /**
+     * @brief getCollisionType getter for the Collisiontype
+     * @return the collisiontype
+     */
     CollisionType getCollisionType() const;
+
+    /**
+     * @brief setCollisionType setter for the collisiontype
+     * @param collisionType which want to set
+     */
     void setCollisionType(const CollisionType &collisionType);
 
+    /**
+     * @brief transformation
+     * @return the transformation matrix
+     */
     QMatrix4x4 transformation() const;
+
+    /**
+     * @brief setTransformation set the transformation matrix
+     * @param transformation the new transformation matrix
+     */
     void setTransformation(const QMatrix4x4 &transformation);
+
+    /**
+     * @brief renderTransformation
+     * @return the renderer transformation matrix
+     */
     QMatrix4x4 renderTransformation() const;
+
+    /**
+     * @brief setRenderTransformation set the render transformation matrix
+     * @param renderTransformation the new render transformation matrix
+     */
     void setRenderTransformation(const QMatrix4x4 &renderTransformation);
 
+    /**
+    * @brief rotate the guiTransformation matrix
+    * @param angle to rotate
+    * @param axsis which want to rotate
+    */
     void rotate(float angle, QVector3D axsis);
+
+    /**
+     * @brief translate the guiTransformation matrix
+     * @param direction which want to translate
+     */
     void translate (QVector3D direction);
+
+    /**
+     * @brief setRotationDirection which direction want to rotate
+     * @param direction which want to rotate
+     */
     void setRotationDirection (QVector3D direction);
+
+    /**
+     * @brief getVirtualCenter
+     * @return the center of the entity
+     */
     QVector3D getVirtualCenter() const;
+
+    /**
+     * @brief setVirtualCenter sets a new center of the entity
+     * @param v new center
+     */
     void setVirtualCenter(const QVector3D v);
 
+    /**
+     * @brief glModel returns the GLBody of the Entity
+     * @return the GLBody
+     */
     GLBody* glModel();
 
+    //### operators
     virtual bool operator ==(GameEntity const& other);
     bool operator !=(GameEntity const& other);
 
     //### no setter on purpose!
     GameEngine *engine() const;
 
+    /**
+    * @brief getBoundingBox
+    * @return the bounding box
+    */
     TAABB *getBoundingBox() const;
+
+    /**
+     * @brief setBoundingBox sets a new bounding box
+     * @param boundingBox which want to set
+     */
     void setBoundingBox(TAABB *boundingBox);
 
 private:
+    //### for logic
     GameEngine * m_engine;
+
+    //### the object
     GLBody * m_glModel;
+
+    //### which collisiontype
     CollisionType m_collisionType;
 
     QMatrix4x4 m_guiTransformation; // owned by gui thread

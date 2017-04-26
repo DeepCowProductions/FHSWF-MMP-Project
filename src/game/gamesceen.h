@@ -64,6 +64,9 @@ public:
      */
     bool isTablet();
 
+    /**
+     * @brief keyCounter for detecting if key pressed
+     */
     int keyCounter =0;
 
     /**
@@ -80,26 +83,71 @@ public:
      */
     bool rightKeyPressed() const {   return m_rightKeyPressed;    }
 
+    /**
+     * @brief firstLife returns if the player have his first life
+     * @return  boolean value
+     */
     bool firstLife() const {   return m_firstLife;    }
-    bool secLife() const {   return m_secLife;    }
-    bool thirdLife() const {   return m_thirdLife;    }
-    int score() const {   return m_score;    }
-    bool runGameLoop() const {  return m_runGameLoop;   }
-    GameEngine *gameEngine() const;
-    bool shotButtonPressed() const;
-    bool musicOn() const    {   return m_musicOn;   }
-    bool EffectsOn() const
-    {
-        return m_effectsOn;
-    }
-    bool newGame() {
-        return m_newGame;
-    }
 
-    bool gameOver() const
-    {
-        return m_gameOver;
-    }
+    /**
+     * @brief secLife returns if the player have his second life
+     * @return  boolean value
+     */
+    bool secLife() const {   return m_secLife;    }
+
+    /**
+     * @brief thirdLife returns if the player have his third life
+     * @return  boolean value
+     */
+    bool thirdLife() const {   return m_thirdLife;    }
+
+    /**
+     * @brief score returns the score of the player
+     * @return int
+     */
+    int score() const {   return m_score;    }
+
+    /**
+     * @brief runGameLoop returns if the gameloop is running
+     * @return boolean value
+     */
+    bool runGameLoop() const {  return m_runGameLoop;   }
+
+    /**
+     * @brief gameEngine returns the GameEngine of the current game
+     * @return  GameEngine
+     */
+    GameEngine *gameEngine() const;
+
+    /**
+     * @brief shotButtonPressed returns if the shotButton was pressed
+     * @return boolean value
+     */
+    bool shotButtonPressed() const;
+
+    /**
+     * @brief musicOn returns if the user has set the music on
+     * @return boolean value
+     */
+    bool musicOn() const    {   return m_musicOn;   }
+
+    /**
+     * @brief EffectsOn returns if the user has set the effects on
+     * @return boolean value
+     */
+    bool EffectsOn() const  {   return m_effectsOn; }
+
+    /**
+     * @brief newGame returns if the a new game is started
+     * @return boolean value
+     */
+    bool newGame() const  {   return m_newGame; }
+
+    /**
+     * @brief gameOver returns if the game is over, by loosing
+     * @return boolean value
+     */
+    bool gameOver() const  {   return m_gameOver; }
 
 public slots:
     /**
@@ -133,27 +181,82 @@ public slots:
      * @param rightKeyPressed bool
      */
     void setRightKeyPressed(bool rightKeyPressed);
+
+    /**
+     * @brief setFirstLife sets the first life of the player on true or false
+     * @param firstLife
+     */
     void setFirstLife(bool firstLife);
+
+    /**
+     * @brief setSecLife sets the second life of the player on true or false
+     * @param secLife
+     */
     void setSecLife(bool secLife);
+
+    /**
+     * @brief setThirdLife sets the third life of the player on true or false
+     * @param thirdLife
+     */
     void setThirdLife(bool thirdLife);
+
+    /**
+     * @brief setScore sets the score of the player
+     * @param score
+     */
     void setScore(int score);
+
+    /**
+     * @brief setRunGameLoop sets if the game has to run
+     * @param runGameLoop
+     */
     void setRunGameLoop(bool runGameLoop);
+
+    /**
+     * @brief setShotButtonPressed if the player has pressed the shot button
+     * @param shotButtonPressed
+     */
     void setShotButtonPressed(bool shotButtonPressed);
+
+    /**
+     * @brief setIsTablet sets if the device is a tablet
+     * @param isTablet
+     */
     void setIsTablet(bool isTablet);
+
+    /**
+     * @brief setMusicOn if the player want to swich music on or off
+     * @param musicOn
+     */
     void setMusicOn(bool musicOn);
+
+    /**
+     * @brief setEffectsOn if the player want to switch sound effects on or off
+     * @param EffectsOn
+     */
     void setEffectsOn(bool EffectsOn);
+
+    /**
+     * @brief setNewGame set if a new game starts
+     * @param newGame
+     */
     void setNewGame(bool newGame);
+
+    /**
+     * @brief setGameOver sets if the game is over
+     * @param gameOver
+     */
     void setGameOver(bool gameOver);
 
     /**
      * @brief scoresUp adds scorePoints to score property.
-     * uses set score in the process.
+     *        uses set score in the process.
      * @param scorePoints
      */
     void scoresUp(int scorePoints);
     /**
      * @brief onSmallEnemyKilled supposed to be called when a smallEnemy is killed by the player,
-     *  adds value to score property.
+     *        adds value to score property.
      * @param value the value of the unit wich was killed.
      * @param location location of kill (currently unused).
      */
@@ -282,18 +385,58 @@ private:
     bool m_spaceKeyPressed;
 
     /**
-     * @brief m_orientation flag for the orentation of the mobile phone
+     * @brief m_isTablet flag if device is tablet or a mobile phone
      */
     bool m_isTablet;
+
+    /**
+     * @brief m_firstLife stores the players first life
+     */
     bool m_firstLife;
+
+    /**
+     * @brief m_secLife stores the players second life
+     */
     bool m_secLife;
+
+    /**
+     * @brief m_thirdLife stores the players third life
+     */
     bool m_thirdLife;
+
+    /**
+     * @brief m_gameOver stores if game is over
+     */
     bool m_gameOver;
+
+    /**
+     * @brief m_score stores the score of the player
+     */
     int m_score;
+
+    /**
+     * @brief m_shotButtonPressed stores if shotButton was pressed
+     */
     bool m_shotButtonPressed;
+
+    /**
+     * @brief m_musicOn stores the value, if music is on
+     */
     bool m_musicOn;
+
+    /**
+     * @brief m_effectsOn stores the value, if sound effects are on
+     */
     bool m_effectsOn;
+
+    /**
+     * @brief m_runGameLoop stores the value, if the game loop is running
+     */
     bool m_runGameLoop;
+
+    /**
+     * @brief m_newGame stores the value if a new game starts
+     */
     bool m_newGame;
 
     //### GLOBAL ROTATION ANGLE
@@ -315,9 +458,12 @@ private:
     GLSkyBox * m_skybox = nullptr;
     GLFrustum * m_frustum = nullptr;
     GLMouseRay * m_mouseRay = nullptr;
+
+    //### For hitbox
     GLCube * m_cube1 = nullptr;
     GLCube * m_cube2 = nullptr;
     GLCube * m_cube3 = nullptr;
+
     //### GameEngine for spaceinvaders
     GameEngine * m_gameEngine = nullptr;
 
@@ -337,7 +483,7 @@ private:
     //Gamemusic
     QGameMusicEngine * m_gameMusicEngine;
 
-    //### lighting ?
+    //### lighting
     bool m_pointLightEnabled = false;
     QVector3D m_lightDirection = QVector3D(1.0, 1.0, 1.0);
     QVector4D m_lightPos = QVector4D(0.0, 10.0, 0.0, 0.0);

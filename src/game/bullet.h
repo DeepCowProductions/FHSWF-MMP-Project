@@ -6,7 +6,10 @@
 
 /**
  * @brief The Bullet class
- * This class is for generating bullets, of Player and Enemy
+ *        This class is for generating bullets, of Player and Enemy
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 class Bullet : public GameEntity
 {

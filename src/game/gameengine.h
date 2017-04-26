@@ -20,8 +20,8 @@
  *
  * @attention A Comment is with ### after // marked and written UPPERCASE.
  *
- * [...]
- *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 class GameEngine : public QObject
 {
@@ -234,6 +234,11 @@ public slots:
      * @param velocity
      */
     void spawnGreenBullet (QVector3D location , QVector3D direction,  double velocity);
+
+    /**
+     * @brief spawnEnemy spawns enemy and add to container
+     * @param location where want to spawn
+     */
     void spawnEnemy(QVector3D location);
 
     //    void onObjectDestroyed(QObject* obj = 0);
@@ -269,6 +274,7 @@ private:
     TAABB * m_bulletBounding;
     TAABB * m_smallEnemyBounding;
 
+    //### SoundEngine for sound effects
     SoundEngine * m_soundEngine;
     bool m_effectsOn;
 };

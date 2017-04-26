@@ -5,6 +5,9 @@
 
 /**
  * @brief collection of random util functions and constants for the game
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 namespace Spaceinvaders {
 
