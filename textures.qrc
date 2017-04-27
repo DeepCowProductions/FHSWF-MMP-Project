@@ -3,6 +3,6 @@
         <file alias="spaceshipTex">textures/spaceship.png</file>
         <file alias="starfield">textures/starfield.png</file>
         <file alias="stars">textures/stars.jpg</file>
-        <file alias="enemy">textures/enemy.png</file>
+        <file alias="enemyTex">textures/enemy.png</file>
     </qresource>
 </RCC>
