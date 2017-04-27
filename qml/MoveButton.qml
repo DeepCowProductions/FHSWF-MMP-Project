@@ -6,9 +6,12 @@ import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 
 
-/**
-  * Own Button for the Movement
-  */
+/*
+ * A Button for moving the players ship in the game
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Button {
     id: moveButton
 

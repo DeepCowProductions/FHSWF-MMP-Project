@@ -9,8 +9,12 @@
 /**
  * @brief The SkySphereRenderer class
  * NOT IN USE!
+ * For ,ore information see GLESRenderer
  *
  * Renderer for the SkySphere.
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 class GLSkySphereRenderer : public GLESRenderer
 {

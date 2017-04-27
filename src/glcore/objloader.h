@@ -15,7 +15,8 @@ using namespace std;
  * @brief The ObjLoader class was the first time we had to try load the wavefront file.
  *        But after a question, mister Roth has told that he had already implemented.
  *
- * @author Kuhmichel() and Grabelus(10044563)
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 class ObjLoader
 {

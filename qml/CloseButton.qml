@@ -6,9 +6,12 @@ import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 
 
-/**
-  * Own Button for starting the game
-  */
+/*
+ * A Button for quiting the application
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Button {
     id: closeButton
     //### SET STYLE OF BUTTON
@@ -49,10 +52,11 @@ Button {
                     ctx.stroke();
 
 
-                    // DRAW A C FOR CLOSE
+                    // DRAW A X FOR CLOSE
 
                 }
             }
+            //### glossy shine (radial)
             RadialGlossy {
 
             }

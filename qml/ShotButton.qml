@@ -5,9 +5,12 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 
-/**
-  * Own Button for shotrmation befor starting the game
-  */
+/*
+ * A button for shooting with the ship
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Button {
     id: shotButton
     //### SET STYLE OF BUTTON

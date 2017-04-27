@@ -1,6 +1,10 @@
 import QtQuick 2.0
-/**
- * Author: Grabelus
+
+/*
+ * A qml file, in which we create a gloss
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 Rectangle {
     id: glossyRect

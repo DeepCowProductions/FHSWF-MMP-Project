@@ -8,6 +8,8 @@
  *
  * #virtual intialize(), bind() and disableAttributeArrays() overwritten
  *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 
 class SkyBoxRenderer : public GLESRenderer

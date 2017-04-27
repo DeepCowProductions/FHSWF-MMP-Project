@@ -4,6 +4,12 @@
 #include "../glcore/glbody.h"
 #include "../game/definesandconstants.h"
 
+/**
+ * @brief The GLBullet class the class for the bullet in the game.
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 class GLBullet : public GLBody
 {
 public:

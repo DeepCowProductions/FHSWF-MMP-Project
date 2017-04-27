@@ -1,6 +1,12 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 
+/*
+ * A page which is showing when the game starts
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Item {
     property alias playButton: playButton
     property alias infoButton: infoButton

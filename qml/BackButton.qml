@@ -9,7 +9,10 @@ import QtGraphicalEffects 1.0
 
 
 /**
-  * Own Button for starting the game
+  * A Button for go back in the game
+  *
+  * @author Kuhmichel(10044128)
+  * @author Grabelus(10044563)
   */
 Button {
     id: backButton
@@ -47,6 +50,7 @@ Button {
                     ctx.stroke();
                 }
             }
+            //### glossy shine (radial)
             RadialGlossy {
 
             }

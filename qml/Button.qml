@@ -3,6 +3,12 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.4
 
+/*
+ * A Button for the menu in the pausepage or gameoverpage
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Button {
     id: button
 

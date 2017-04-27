@@ -3,6 +3,9 @@
 
 #include "../glcore/glbody.h"
 
+/**
+ * @brief The GLCube class the class for a cube
+ */
 class GLCube : public GLBody
 {
 public:

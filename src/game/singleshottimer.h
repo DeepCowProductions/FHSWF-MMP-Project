@@ -2,6 +2,13 @@
 #define SINGLESHOTTIMER_H
 
 
+/**
+ * @brief The SingleShotTimer class is a class for the shoot timer,
+ * in which we say when the entity can shoot.
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 class SingleShotTimer
 {
 public:

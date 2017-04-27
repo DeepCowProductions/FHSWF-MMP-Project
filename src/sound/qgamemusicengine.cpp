@@ -49,7 +49,8 @@ void QGameMusicEngine::playGameMusic()
     if(enabled) {
             if(player->playlist() != NULL)
                 player->play();
-            qDebug() << "QGameMusicEngine::playGameMusic: " << player->errorString();
+            //### for debugging
+            //qDebug() << "QGameMusicEngine::playGameMusic: " << player->errorString();
     }
 }
 

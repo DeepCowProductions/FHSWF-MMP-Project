@@ -1,6 +1,16 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.1
 
+/*
+ * A Page which is show, when the player
+ * has loose the game.
+ * On this page the player can decide, if he want to
+ * quit the application, start a new game or go back
+ * to the main menu
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Item {
     property alias quitButton: quitButton
     property alias neustartButton: neustartButton

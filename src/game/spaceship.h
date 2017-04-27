@@ -6,6 +6,12 @@
 #include "singleshottimer.h"
 #include <QTimer>
 
+/**
+ * @brief The Spaceship class is the class for the players spaceship
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 class Spaceship : public GameEntity, public SingleShotTimer
 {
 public:
@@ -17,6 +23,7 @@ public:
 
 private:
 
+    //### collisionboxes
     TAABB * m_subBoundingBox1;
     TAABB * m_subBoundingBox2;
     TAABB * m_subBoundingBox3;

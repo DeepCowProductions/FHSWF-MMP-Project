@@ -4,6 +4,12 @@
 #include "gameentity.h"
 #include "singleshottimer.h"
 
+/**
+ * @brief The SmallEnemy class a entity class for the enemy of the game.
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 class SmallEnemy : public GameEntity, public SingleShotTimer
 {
 public:

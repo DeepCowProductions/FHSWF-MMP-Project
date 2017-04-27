@@ -1,6 +1,12 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
+/*
+ * A qml file for radial gloss
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Rectangle {
     anchors.centerIn: parent // center in parent
     width: parent.width - parent.border.width

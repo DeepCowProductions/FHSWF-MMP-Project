@@ -8,6 +8,9 @@
 
 /**
  * @brief The QGameMusicEngine class for the gamemusic in Space Invaders
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 class QGameMusicEngine : public QObject
 {
@@ -15,14 +18,23 @@ class QGameMusicEngine : public QObject
 public:
     explicit QGameMusicEngine(QObject *parent = 0);
 
+    /**
+     * @brief startGameMusic is to enable the music
+     * @param newVal true or false
+     */
     void startGameMusic(bool newVal){enabled = newVal;}
+
+    /**
+     * @brief isPlaying is for checking if music is enabled
+     * @return boolean
+     */
     bool isPlaying()const{return enabled;}
 signals:
 
 public slots:
     /**
-     * @brief SoundEngine::loadSound Preload a file, so that it can be played with low latency afterwrds.
-     * @param fileName Must be a .wav file.
+     * @brief loadGameMusic Preload a file, so that it can be played with a QPlayer
+     * @param fileName is the path to the music file
      * @return True on success
      */
     bool loadGameMusic(const QString &fileName);
@@ -49,6 +61,9 @@ public slots:
      */
     bool isPlaying();
 
+    /**
+     * @brief clearPlayList ia for clearing the playlist
+     */
     void clearPlayList();
 
 private:

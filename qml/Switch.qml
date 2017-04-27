@@ -1,5 +1,12 @@
 import QtQuick 2.7
 
+/*
+ * A switch for the Switchslide
+ * which interact on moving the switch
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Item {
      id: toggleswitch
      width: background.width; height: background.height

@@ -9,11 +9,17 @@
 
 /**
  * @brief defines wich collision detection should be used by GameEntity's collision.
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 enum class CollisionType {AABB, SPHERE, AABB_SPHERE};
 
 /**
  * @brief Struct to hold information about a single boundingBox.
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 class  TAABB {
 public:

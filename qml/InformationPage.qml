@@ -1,6 +1,15 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.1
 
+/*
+ * A page in there we have all information of
+ * the game, as like how many points the player
+ * get for killing a enemy.
+ * And also how to control(steering) the game
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Item {
     property alias backButton: backButton
 

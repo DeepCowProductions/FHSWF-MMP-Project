@@ -8,9 +8,12 @@ import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 
 
-/**
-  * Own Button for starting the game
-  */
+/*
+ * A button for going to the settingsPage
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Button {
     id: settingsButton
     //### SET STYLE OF BUTTON

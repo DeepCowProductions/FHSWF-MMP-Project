@@ -5,6 +5,12 @@ import QtQuick.Layouts 1.1
 import Spaceinvaders 1.0
 import QtQuick.Window 2.2
 
+/*
+ * The qml file for the gamesceen class
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 GameSceen {
     id: mainForm
     width: 640

@@ -1,6 +1,13 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 
+/*
+ * A page in which the player can set if he/she want to switch
+ * music on or off, with a custom SwitchSlide
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Item {
     property alias backButton: backButton
     property alias musicOn: switchSlide.on

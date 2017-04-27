@@ -5,6 +5,12 @@ import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import QtTest 1.0
 
+/*
+ * The main.qml where the game is setted up
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 ApplicationWindow {
     visible: true
     width: Screen.width

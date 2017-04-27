@@ -3,6 +3,13 @@
 
 #include "../glcore/glbody.h"
 
+/**
+ * @brief The GLSkyBox class for the space surround the game
+ *        as a box.
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 class GLSkyBox : public GLBody
 {
 public:

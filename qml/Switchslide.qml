@@ -1,5 +1,12 @@
 import QtQuick 2.7
 
+/*
+ * The Switchslide in where we setup the switch
+ * for interacting with the player
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Rectangle {
     color: "grey"
     width: 130; height: 60

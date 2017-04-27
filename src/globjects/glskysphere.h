@@ -10,7 +10,8 @@
  *
  * @attention A Comment is with ### after // marked and written UPPERCASE.
  *
- * @author Kuhmichel() and Grabelus(10044563)
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
  */
 class GLSkySphere : public GLSphere {
 public:

@@ -1,5 +1,12 @@
 import QtQuick 2.7
 
+/*
+ * A bar for the game, in which we have the points,
+ * the life of the player and a pause button
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Rectangle {
     id: gameBarRect
     height: parent.height * 0.05

@@ -1,6 +1,13 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.1
 
+/*
+ * A Page in which the player can choose, after clicking on pause.
+ * If he want start new game, go to main menu or quit the application
+ *
+ * @author Kuhmichel(10044128)
+ * @author Grabelus(10044563)
+ */
 Item {
     property alias backButton: backButton
     property alias quitButton: quitButton
