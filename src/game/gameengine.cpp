@@ -164,7 +164,7 @@ void GameEngine::moveAutomaticEntities()
 
         //### check if bullets is out of bounds
 #ifdef Q_OS_ANDROID
-        if (m_bulletContainerRed[i].getVirtualCenter().z() > Spaceinvaders::playFieldLength + Spaceinvaders::playFieldBuffer) {
+        if (m_bulletContainerRed[i].getVirtualCenter().z() > Spaceinvaders::playFieldLength + Spaceinvaders::playFieldLengthBuffer) {
             //            deleteRedBullet(b); // deleting directly confuses the QList, but still works with some minor errors
             //            rbDelMarks.append(i);
             rbDelMarks.append(&m_bulletContainerRed[i]);
@@ -181,7 +181,7 @@ void GameEngine::moveAutomaticEntities()
     for (int i = 0; i < m_bulletContainerGreen.size(); i++){
         m_bulletContainerGreen[i].translate(v_Y * m_bulletContainerGreen[i].velocity());
 #ifdef Q_OS_ANDROID
-        if (m_bulletContainerGreen[i].getVirtualCenter().z() < -Spaceinvaders::playFieldBuffer ) {
+        if (m_bulletContainerGreen[i].getVirtualCenter().z() < -Spaceinvaders::playFieldLengthBuffer ) {
             gbDelMarks.append(&m_bulletContainerGreen[i]);
         }
 #else
