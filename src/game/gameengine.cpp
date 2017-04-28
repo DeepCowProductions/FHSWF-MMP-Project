@@ -7,6 +7,10 @@ GameEngine::GameEngine(QObject *parent) : QObject(parent)
     m_glbulletred = new GLBullet("red bullet",3.0,0.2,GLColorRgba::clRed,"");
     m_glsphere = new GLSphere("placeHolder",3.0);
     m_glsppaceship = new GLSpaceShip("3D Spaceship / PlayersShip");
+    m_enemy = new GLSpaceShip("Small Enemy");
+    m_enemy->setTextureFile(":/enemyTex");
+    m_enemy->rotateModelPoints(m_enemy->getCenter(),QVector3D(1.0, 0.0, 0.0),45.0);
+
 #ifdef Q_OS_ANDROID
     m_glsppaceship->setTextureFile("assets:/textures/spaceship.png"); // use alias
 #else
@@ -338,6 +342,11 @@ bool GameEngine::deleteEnemy(SmallEnemy e)
     return false;
 }
 
+GLSpaceShip * GameEngine::enemy()
+{
+    return m_enemy;
+}
+
 void GameEngine::setSoundEngineEnabled(bool on)
 {
     m_soundEngine->setEnabled(on);
@@ -420,7 +429,7 @@ void GameEngine::spawnGreenBullet(QVector3D location, QVector3D direction, doubl
 void GameEngine::spawnEnemy(QVector3D location)
 {
     //    qDebug() << "appending SmallEnemy";
-    SmallEnemy e = SmallEnemy(this,m_glsphere);
+    SmallEnemy e = SmallEnemy(this,m_enemy);
     e.setCurrentCooldownTick(Spaceinvaders::enemyShootingCooldownInGameTicks);
     e.setVirtualCenter(location);
     addEnemy(e);

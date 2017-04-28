@@ -131,6 +131,12 @@ public:
     bool deleteEnemy(SmallEnemy e);
 
     /**
+     * @brief enemy returns the enemy
+     * @return GLSpacShip
+     */
+    GLSpaceShip * enemy();
+
+    /**
      * @brief setSoundEngineEnabled sets the SoundEngine enabled
      * @param on true or false
      */
@@ -277,6 +283,8 @@ private:
     //### SoundEngine for sound effects
     SoundEngine * m_soundEngine;
     bool m_effectsOn;
+
+    GLSpaceShip * m_enemy;
 };
 
 #endif // GAMEENGINE_H

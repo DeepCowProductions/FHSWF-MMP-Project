@@ -467,6 +467,7 @@ void GameSceen::setupGeometry()
     //    m_spaceship->loadWavefrontFile(":/spaceship2",NULL,NULL);
     m_gameEngine->playership()->glModel()->loadWavefrontFile(":/spaceship2",NULL,NULL);
     //    qDebug() << "timer is active" << m_timer_gameloop->isActive();
+    m_gameEngine->enemy()->loadWavefrontFile(":/enemy", NULL, NULL);
 }
 
 void GameSceen::setupView(bool clearBuffers)
