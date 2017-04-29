@@ -13,6 +13,8 @@ import QtTest 1.0
  */
 ApplicationWindow {
     visible: true
+    minimumHeight: Screen.height * 0.8
+    minimumWidth: Screen.width * 0.8
     width: Screen.width
     height: Screen.height - 5
     title: qsTr("Space Invaders 3D")

@@ -38,16 +38,11 @@ Item {
         y: parent.height * 0.2
     }
 
-    Column {
-        id: outerColumn
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        RowLayout {
+        ColumnLayout {
             id: buttonRow
-            height: parent.height
+            height: playButton.height * 5
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            ColumnLayout {
+            anchors.bottom: parent.bottom
                 PlayButton {
                     id: playButton
                 }
@@ -60,6 +55,4 @@ Item {
                 CloseButton {
                     id: closeButton
                 }
-            }
         }}
-}
