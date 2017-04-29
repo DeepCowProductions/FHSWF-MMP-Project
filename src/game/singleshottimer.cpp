@@ -35,7 +35,7 @@ void SingleShotTimer::setCurrentCooldownTick(int currentCooldownTick)
     m_currentCooldownTick = currentCooldownTick;
 }
 
-void SingleShotTimer::doCooldownTick()
+void SingleShotTimer::countDown()
 {
     if (getCurrentCooldownTick() > 0)
         setCurrentCooldownTick(getCurrentCooldownTick() - 1);

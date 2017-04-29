@@ -6,7 +6,12 @@
 
 /**
  * @brief The Bullet class
- *        This class is for generating bullets, of Player and Enemy
+ *        This class is for generating bullets, of Player and Enemy.
+ * Bullets have additional information: velocity and direction.
+ * Every game tick bullets are supposed to move "m_velocity" in "m_direction".
+ * m_velocity is speed per frame in double and m_direction is a normalized QVector3D for the direction for the bullet.
+ * Next position should be calcuualted outside of this class as followed:
+ *  nextPos = currentPos + direction*velocity.
  *
  * @author Kuhmichel(10044128)
  * @author Grabelus(10044563)

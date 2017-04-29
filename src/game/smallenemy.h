@@ -6,6 +6,7 @@
 
 /**
  * @brief The SmallEnemy class a entity class for the enemy of the game.
+ * laneId is currnetly unused. This class does currently not implement any new functionallity.
  *
  * @author Kuhmichel(10044128)
  * @author Grabelus(10044563)

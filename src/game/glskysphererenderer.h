@@ -9,7 +9,7 @@
 /**
  * @brief The SkySphereRenderer class
  * NOT IN USE!
- * For ,ore information see GLESRenderer
+ * For more information see GLESRenderer
  *
  * Renderer for the SkySphere.
  *

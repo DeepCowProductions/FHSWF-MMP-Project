@@ -16,9 +16,37 @@
 
 /**
  * @brief The GameEngine class
- *        Controls all major game logic.
+ *        Controls all major game logic and holds/manages GameEnities.
  *
- * @attention A Comment is with ### after // marked and written UPPERCASE.
+ * This class is supposed to be used in conjuction with a class or subclass of type GLItem.
+ *
+ * each loop of the game wich is controlled by a timer outside of this class
+ *  GameEngine::processEntities() gets called and performs the following opeartions in tis order:
+ * @code
+ *   processGameTickCooldowns();
+ *   spawnRandomEnemies();
+ *   moveAutomaticEntities();
+ *   staticCollisionDetection();
+ *   shootWithAutomaticEntities();
+ *   deleteMarkedEntities();
+ * @endcode
+ *  To apply the new transformation Matricies call:
+ * @code
+ *  GameEngine::snycEntities()
+ * @endcode
+ *  After this the next frame can draw the changes of the past GameTick by calling:
+ * @code
+ *  GameEngine::drawEntities(GLESRenderer *renderer)
+ * @endcode
+ *
+ * This class was written to seperate most game logik from the gamesceen item wich gets displayed by the qml gui.
+ * It can be (and is currently) used with two seprerate QTimers for controlling framerate and gameticktate.
+ * (framerate timer is inside GLItem : GLItem::m_timer, timer for ticks is GameSceen: GameSceen::m_timer_gameloop)
+ * When used with the qml sceengraph this stucture is supposed to threadsave in the future, however currently it is not entirly threadsave.
+ *
+ * To make it threadsae in the future, one has to completely encapsulate and controll all access to the members and functions accordingly.
+ * Right now for example, movement of player controlled GameEntities is directly managed by GameSceen and the signals from the gui.
+ * Unfortunetly we do not have the time to implement thoose features right now.
  *
  * @author Kuhmichel(10044128)
  * @author Grabelus(10044563)
@@ -272,6 +300,7 @@ private:
     GLBullet * m_glbulletred;
     GLSpaceShip * m_glsppaceship;
     GLSphere * m_glsphere;
+    GLSpaceShip * m_glenemyspaceship;
 
     // simple not very good objects for effects
     GLSphere * m_explosionSphere;
@@ -284,7 +313,6 @@ private:
     SoundEngine * m_soundEngine;
     bool m_effectsOn;
 
-    GLSpaceShip * m_enemy;
 };
 
 #endif // GAMEENGINE_H

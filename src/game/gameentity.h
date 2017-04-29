@@ -103,12 +103,27 @@ public:
 
     /**
      * @brief performCollDetection_AABBvsAABB
-     * @param other GameEnitity, right hand side in regarts to funktion definition.
+     * @param other GameEnitity, right hand side in regarts to funktion definition/delcaration.
      * @return true if colliding
      */
     virtual bool performCollDetection_AABBvsAABB(GameEntity * other);
+    /**
+     * @brief performCollDetection_SPHEREvsAABB
+     * @param other GameEnitity, right hand side in regarts to funktion definition/delcaration.
+     * @return true if colliding
+     */
     virtual bool performCollDetection_SPHEREvsAABB(GameEntity * other);
+    /**
+     * @brief performCollDetection_AABBvsSPHERE
+     * @param other GameEnitity, right hand side in regarts to funktion definition/delcaration.
+     * @return true if colliding
+     */
     virtual bool performCollDetection_AABBvsSPHERE(GameEntity * other);
+    /**
+     * @brief performCollDetection_SPHEREvsSPHERE
+     * @param other GameEnitity, right hand side in regarts to funktion definition/delcaration.
+     * @return true if colliding
+     */
     virtual bool performCollDetection_SPHEREvsSPHERE(GameEntity * other);
 
     /**

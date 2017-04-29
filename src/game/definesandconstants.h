@@ -4,7 +4,9 @@
 #include <QVector3D>
 
 /**
- * @brief collection of random util functions and constants for the game
+ * @brief collection of random util functions and constants for the game.
+ *  theese constants control the arameter of the game.
+ *  i.e. playing field size, tickrate, speeds, sizes, etc...
  *
  * @author Kuhmichel(10044128)
  * @author Grabelus(10044563)

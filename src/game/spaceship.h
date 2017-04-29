@@ -7,7 +7,8 @@
 #include <QTimer>
 
 /**
- * @brief The Spaceship class is the class for the players spaceship
+ * @brief The Spaceship class is the class for the players spaceship.
+ *  Holds 3 additional BoundingBoxes for collision detection and therefore overwrites some of the collisionDetection functions.
  *
  * @author Kuhmichel(10044128)
  * @author Grabelus(10044563)
