@@ -22,7 +22,6 @@ public:
 private:
     int m_laneID;
 
-
 };
 
 #endif // SMALLENEMY_H

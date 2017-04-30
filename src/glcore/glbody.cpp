@@ -27,14 +27,14 @@ uint GLBody::BINARY_FORMAT_VERSION = 10;
 
 /**Constructor does NOT create the surface.
 */
-void GLBody::setVirtualCenter(QVector3D newCenter)
+QVector3D GLBody::getMaxCoordinate()
 {
-    m_virtualCenter = newCenter;
+    return m_maxCoordinate;
 }
 
-void GLBody::moveVirtual(QVector3D direction)
+QVector3D GLBody::getMinCoordinate()
 {
-    m_virtualCenter += direction;
+    return m_minCoordinate;
 }
 
 GLBody::GLBody(const QString &name, float radius, const GLColorRgba &color, const QString textureFile)
@@ -240,9 +240,6 @@ void GLBody::draw(GLESRenderer * renderer){
     calculateDrawMatrix();
     renderer->pushMvMatrix();
     renderer->addTransformation(m_drawMatrix);
-
-    // [...]
-    renderer->translate(m_virtualCenter);
 
     if(m_firstIndex >= 0 && m_nextIndex > 0)
         glDrawElements(m_drawingMode, m_nextIndex -m_firstIndex,

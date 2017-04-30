@@ -38,10 +38,6 @@ GameSceen::GameSceen(QQuickItem *parent)
     //ShaderDebugger::setEnabled(true);
     
     //### OPTIONAL IF THE OS IS ANDROID OR SOMETHING ELSE
-#ifdef Q_OS_ANDROID
-    m_skybox = new GLSkyBox("MySkyBox",Spaceinvaders::AndroidSkyBoxRadius, GLColorRgba::clWhite);
-    m_skybox->setTextureFile(":/starfield");
-#else
     m_skybox = new GLSkyBox("MySkyBox",Spaceinvaders::DesktopSkyBoxRadius, GLColorRgba::clWhite);
     m_skybox->setTextureFile(":/starfield");
 #endif
@@ -63,7 +59,6 @@ GameSceen::GameSceen(QQuickItem *parent)
     m_gameMusicEngine->loadGameMusic("../FHSWF-MMP-Project/sounds/GameSound.mp3");
 #endif
     //### INIT TIMER
-
     m_timer_gameloop = new QTimer(this);
     m_timer_gameloop->setInterval(Spaceinvaders::GameTickCooldownInMillSec); // set game to run at x ticks per second -> one loop every x seconds
     connect(m_timer_gameloop, &QTimer::timeout,
@@ -73,9 +68,9 @@ GameSceen::GameSceen(QQuickItem *parent)
     connect(m_gameEngine, &GameEngine::playershipHit, this, &GameSceen::onPlayershipHit);
 
     //### dislay ship hitbox
-    //m_cube1 = new GLCube("c1",QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
-    //m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
-    //m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
+    m_cube1 = new GLCube("c1",QVector3D(3.5,0.7,-4.0), QVector3D(-3.5,0.0,-7.0));
+    m_cube2 = new GLCube("c1",QVector3D(1.2,1.0,3.5), QVector3D(-1.2,-0.2,-6.5));
+    m_cube3 = new GLCube("c1",QVector3D(2.5,0.9,2.5), QVector3D(-2.5,0.30,-1.0));
 
 }
 
@@ -182,40 +177,15 @@ void GameSceen::onTimer_GameLoopTimeout()
 void GameSceen::gameLoopTimeout()
 {
     //### MOVE IF KEY PRESSED
-#ifdef Q_OS_ANDROID
-    if (m_leftKeyPressed) {
-        gameEngine()->playership()->tryMove(QVector3D(Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
-    }
-    if (m_rightKeyPressed) {
-        gameEngine()->playership()->tryMove(QVector3D(-Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
-    }
-
-    //## for testing shoots everytime it can
-    /*if (etes){
-        gameEngine()->shootWithPlayerShip();
-        etes = false;
-    }*/
-#else
-    //qDebug() << m_leftKeyPressed;
-
-    //## for testing shoots everytime it can
-    /*if (etes){
-        gameEngine()->shootWithPlayerShip();
-        etes = false;
-    }*/
-
-
     if (m_leftKeyPressed) {
         //### nur zum umschaune  und debuggen
-        //m_guiThreadCameraMatrix.rotate(1.0, v_X);
+//        m_guiThreadCameraMatrix.rotate(1.0, v_X);
         gameEngine()->playership()->tryMove(QVector3D(Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
     if (m_rightKeyPressed) {
-        //m_guiThreadCameraMatrix.rotate(1.0, v_Y);
+//        m_guiThreadCameraMatrix.rotate(1.0, v_Y);
         gameEngine()->playership()->tryMove(QVector3D(-Spaceinvaders::playerShipMovementSpeed,0.0,0.0));
     }
-#endif
-
     //### fehlt noch das controll
     if (m_spaceKeyPressed || m_shotButtonPressed) {
         gameEngine()->shootWithPlayerShip();
@@ -224,8 +194,6 @@ void GameSceen::gameLoopTimeout()
 
     //### move all NPC entities with this call
     gameEngine()->processEntities();
-
-    //### lastly call base class definition for window update
 
 }
 
@@ -446,8 +414,8 @@ void GameSceen::paintUnderQmlScene()
     //### entities
     m_renderer->bind();
 
-    //    m_spaceship->draw(renderer());
     m_gameEngine->drawEntities(renderer());
+    //draw static hitbox
 //    m_cube1->draw(renderer());
 //    m_cube2->draw(renderer());
 //    m_cube3->draw(renderer());
@@ -579,20 +547,20 @@ void GameSceen::startNewGame()
     connect(m_gameEngine, &GameEngine::playershipHit, this, &GameSceen::onPlayershipHit);
 
     //### dislay ship hitbox
-    //m_cube1 = new GLCube("c1",QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
-    //m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
-    //m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
+//    m_cube1 = new GLCube("c1",QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
+//    m_cube2 = new GLCube("c1",QVector3D(1.5,1.5,7.8), QVector3D(-1.5,-1.0,-10.78));
+//    m_cube3 = new GLCube("c1",QVector3D(3.0,1.2,6.2), QVector3D(-3,0.25,0.5));
 
-    //### entities
-    m_renderer->bind();
+//    //### entities
+//    m_renderer->bind();
 
-    //    m_spaceship->draw(renderer());
-    m_gameEngine->drawEntities(renderer());
-    //m_cube1->draw(renderer());
-    //m_cube2->draw(renderer());
-    //m_cube3->draw(renderer());
+//    //    m_spaceship->draw(renderer());
+//    m_gameEngine->drawEntities(renderer());
+//    m_cube1->draw(renderer());
+//    m_cube2->draw(renderer());
+//    m_cube3->draw(renderer());
 
-    m_renderer->release();
+//    m_renderer->release();
 }
 
 void GameSceen::scoresUp(int scorePoints)
@@ -618,9 +586,9 @@ void GameSceen::onPlayershipHit()
     else if(m_thirdLife) {
         setThirdLife(false);
         qDebug() << "GameSceen::onPlayershipHit: GAMEOVER";
-        setRunGameLoop(false);
-        setGameOver(true);
-        m_gameEngine->gameOver();
+//        setRunGameLoop(false);
+//        setGameOver(true);
+//        m_gameEngine->gameOver();
     }
     qDebug() << "playership hit!";
 }

@@ -467,8 +467,6 @@ private:
     //### GameEngine for spaceinvaders
     GameEngine * m_gameEngine = nullptr;
 
-    bool etes = true;
-
     //### file locations for shaders
     QString m_skyBoxFragmentShaderFilename;
     QString m_skyBoxVertexShaderFilename;

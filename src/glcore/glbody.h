@@ -38,13 +38,16 @@
 class GLBody{
     static uint BINARY_FORMAT_VERSION;
 public:
+    /* new addition: getter and setter for min max coords.
+     * - Max Kuhmichel
+     */
+// ====================================
+    QVector3D getMaxCoordinate();
+    QVector3D getMinCoordinate();
+// ====================================
+
     /**Constructor does NOT create the surface.
      */
-
-    void setVirtualCenter(QVector3D newCenter);
-
-    void moveVirtual(QVector3D direction);
-
     GLBody(const QString & name, float radius = 1.0, const GLColorRgba & m_color = GLColorRgba::clBlue, const QString m_textureFile = "");
     /**
       * @brief GLBody Constructor does NOT create the surface.
@@ -444,12 +447,6 @@ protected:
     *        Create frame if m_showFrame is set. Create normals if m_showNormals is set.
     */
     void findMinMaxCoordinates();
-
-
-    /**
-     * @brief m_virtCenter
-     */
-    QVector3D m_virtualCenter;
 
     //### FOR DEBUGGING
     int m_firstNormalPoint;

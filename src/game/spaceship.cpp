@@ -6,9 +6,9 @@ Spaceship::Spaceship(GameEngine *engine, GLSpaceShip * model) : GameEntity(engin
     //backplane
     //middlestrip
     //front       boundings
-    m_subBoundingBox1 = new TAABB(QVector3D(5.8,0.7,-7.0), QVector3D(-5.8,0.0,-12.0));
-    m_subBoundingBox2 = new TAABB(QVector3D(1.5,2.0,7.8), QVector3D(-1.5,-1.0,-10.78));
-    m_subBoundingBox3 = new TAABB(QVector3D(3.0,1.8,6.2), QVector3D(-3,0.0,0.5));
+    m_subBoundingBox1 = new TAABB(QVector3D(3.5,0.7,-4.0), QVector3D(-3.5,0.0,-7.0));
+    m_subBoundingBox2 = new TAABB(QVector3D(1.2,1.0,3.5), QVector3D(-1.2,-0.2,-6.5));
+    m_subBoundingBox3 = new TAABB(QVector3D(2.5,0.9,2.5), QVector3D(-2.5,0.30,-1.0));
 
     setCollisionType(CollisionType::AABB);
     setCooldown(Spaceinvaders::playerShootingCooldownInGameTicks);
