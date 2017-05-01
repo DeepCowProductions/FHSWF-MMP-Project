@@ -25,9 +25,12 @@
  *  QQuickItem used to display our Spaceinvaders game, to be used within qml.
  *
  * This class takes care of some initialisation and primarly the controlls for the game (i.e. user input).
+ * It holds a GameEngine Object wich holds actual game inforamtion.
  *
+ * An additional timer in this class takes care of the gameloop, the timer in the parent class GLItem only controlls framerate.
+ * This class also has an additional Renderer for displaying a skybox (SkyBoxRenderer).
+ * GameEntities are rendered by passing the renderer from GLItem to GameEngine::drawEnitites wich then draws the game objects.
  *
- * @attention A Comment is with ### after // marked.
  *
  * @author Kuhmichel(1004128)
  * @author Grabelus(10044563)
