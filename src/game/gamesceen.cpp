@@ -40,7 +40,6 @@ GameSceen::GameSceen(QQuickItem *parent)
     //### OPTIONAL IF THE OS IS ANDROID OR SOMETHING ELSE
     m_skybox = new GLSkyBox("MySkyBox",Spaceinvaders::DesktopSkyBoxRadius, GLColorRgba::clWhite);
     m_skybox->setTextureFile(":/starfield");
-#endif
     m_lastMouseEvent = NULL;
 
     //### init gameEngine
@@ -586,9 +585,9 @@ void GameSceen::onPlayershipHit()
     else if(m_thirdLife) {
         setThirdLife(false);
         qDebug() << "GameSceen::onPlayershipHit: GAMEOVER";
-//        setRunGameLoop(false);
-//        setGameOver(true);
-//        m_gameEngine->gameOver();
+        setRunGameLoop(false);
+        setGameOver(true);
+        m_gameEngine->gameOver();
     }
     qDebug() << "playership hit!";
 }

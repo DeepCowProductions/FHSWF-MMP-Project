@@ -9,6 +9,10 @@ int main(int argc, char *argv[])
 {
     qDebug() << QDir::current();
 
+
+    QCoreApplication::setOrganizationName("FH-SWF");
+    QCoreApplication::setOrganizationDomain("fh-swf.de");
+    QCoreApplication::setApplicationName("Space Invaders");
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 

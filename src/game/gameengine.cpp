@@ -422,7 +422,7 @@ void GameEngine::spawnEnemy(QVector3D location)
     e.setCurrentCooldownTick(Spaceinvaders::enemyShootingCooldownInGameTicks);
     e.setVirtualCenter(location);
 #ifdef Q_OS_ANDROID
-    b.snycForRendering();
+    e.snycForRendering();
 #endif
     addEnemy(e);
 }

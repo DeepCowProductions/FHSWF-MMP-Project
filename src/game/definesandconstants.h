@@ -28,7 +28,7 @@ const static QVector3D staticLightDirection = QVector3D(1.0, 1.0, 1.0);
 
 const static float playFieldLength = 110.0;
 #ifdef Q_OS_ANDROID
-const static float playFieldBounds = 10.0;
+const static float playFieldBounds = 20.0;
 const static float playFieldLengthBuffer = 10.0;
 #else
 const static float playFieldBounds = 30.0;
