@@ -28,14 +28,16 @@ const static QVector3D staticLightDirection = QVector3D(1.0, 1.0, 1.0);
 
 const static float playFieldLength = 110.0;
 #ifdef Q_OS_ANDROID
-const static float playFieldBounds = 20.0;
+const static float playFieldBounds = 24.0;
 const static float playFieldLengthBuffer = 10.0;
+const static float laneWidth = 6;
+const static float laneOffSet = 3.0;
 #else
 const static float playFieldBounds = 30.0;
 const static float playFieldLengthBuffer = 22.0;
-#endif
 const static float laneWidth = 10;
 const static float laneOffSet = 5.0;
+#endif
 const static int   enemySpawnCooldownPerLane = 100;
 const static int   chanceOfEnemySpawningPerLane = 20;
 const static int   enemyShotingChancePerTick = 10;
